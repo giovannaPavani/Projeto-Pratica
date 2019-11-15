@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="bd.daos.daoFuncionarios"/>
+<fullyQualifiedTypeName name="bd.dbos.dboFuncionario"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Method"/>
+<fullyQualifiedTypeName name="javax.swing.JTextArea"/>
+<fullyQualifiedTypeName name="bd.dbos.dboEntidade"/>
+<fullyQualifiedTypeName name="bd.dbos.dboDoacao"/>
+<fullyQualifiedTypeName name="bd.dbos.Funcionario"/>
+<fullyQualifiedTypeName name="bd.daos.Funcionarios"/>
+<fullyQualifiedTypeName name="bd.dbos.Doacao"/>
+<fullyQualifiedTypeName name="javax.swing.DefaultListModel"/>
+<fullyQualifiedTypeName name="bd.core.MeuResultSet"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+</qualifiedTypeNameHistroy>

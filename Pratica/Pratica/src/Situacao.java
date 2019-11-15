@@ -1,0 +1,4 @@
+public enum Situacao
+{
+    NAVEGANDO, PESQUISANDO, INCLUINDO, EDITANDO, EXCLUINDO
+}
