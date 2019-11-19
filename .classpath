@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Pratica/src"/>
+	<classpathentry kind="src" path="PraticaI/src"/>
+	<classpathentry kind="lib" path="Pratica/Pratica/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="PraticaI/bin/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="Pratica/src/mysql5.jar"/>
+	<classpathentry kind="lib" path="Pratica/src/sqljdbc42.jar"/>
+	<classpathentry kind="output" path="Pratica/Pratica/bin"/>
+</classpath>
