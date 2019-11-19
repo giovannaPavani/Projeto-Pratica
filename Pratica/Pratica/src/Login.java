@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -12,11 +13,15 @@ import bd.daos.*;
 import bd.dbos.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JRadioButton;
 
 public class Login {
 	private JFrame frame;
 	private JTextField txtUsuario;
 	private JTextField txtSenha;
+	JRadioButton rdbEntidade;
+	JRadioButton rdbFuncionario;
+	ButtonGroup btnGrupo;
 	/**
 	 * Launch the application.
 	 */
@@ -51,12 +56,12 @@ public class Login {
 		
 		JLabel lblEmail = new JLabel("Usuario:");
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblEmail.setBounds(48, 75, 57, 30);
+		lblEmail.setBounds(51, 97, 57, 30);
 		frame.getContentPane().add(lblEmail);
 		
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblSenha.setBounds(59, 116, 46, 28);
+		lblSenha.setBounds(62, 138, 46, 28);
 		frame.getContentPane().add(lblSenha);
 		
 		JLabel lblEntrar = new JLabel("LOGIN");
@@ -65,12 +70,12 @@ public class Login {
 		frame.getContentPane().add(lblEntrar);
 		
 		txtUsuario = new JTextField();
-		txtUsuario.setBounds(115, 78, 233, 28);
+		txtUsuario.setBounds(118, 100, 233, 28);
 		frame.getContentPane().add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		txtSenha = new JTextField();
-		txtSenha.setBounds(115, 117, 233, 30);
+		txtSenha.setBounds(118, 139, 233, 30);
 		frame.getContentPane().add(txtSenha);
 		txtSenha.setColumns(10);
 		
@@ -79,41 +84,73 @@ public class Login {
 			public void actionPerformed(ActionEvent arg0) {
 				if(txtUsuario.getText() == "" || txtSenha.getText() == "")
 					JOptionPane.showMessageDialog(null,"Insira os dados antes de se logar!");
+				if(!rdbEntidade.isSelected() && !rdbFuncionario.isSelected())
+					JOptionPane.showMessageDialog(null,"Selecione um tipo de usuário!");
 				else
 				{
 					String usuario = txtUsuario.getText();
 					String senha = txtSenha.getText();
-					try 
+					if(rdbFuncionario.isSelected()) // login usuario
 					{
-						if(Funcionarios.cadastrado(usuario))
+						try 
 						{
-							//int cod = Funcionarios.getCodigo(usuario);
-							//System.out.print(cod+"");
-							Funcionario func = Funcionarios.getFuncionario(usuario);
-							System.out.print(func.getAgencia()+"");
-							if(func.getSenha() == senha && func.getUsuario() == usuario)
+							if(Funcionarios.cadastrado(usuario))
 							{
-								Principal formP = new Principal(12);
-								formP.frame.setVisible(true);
+								Funcionario func = Funcionarios.getFuncionarioByUsuario(usuario);
+								if(func.getSenha().equals(senha) && func.getUsuario().equals(usuario))
+								{
+									System.out.print("senha");
+									Principal formP = new Principal(func.getCodigo());
+									formP.frame.setVisible(true);
+								}
+								else
+								{
+									JOptionPane.showMessageDialog(null,"Senha incorreta!");
+									txtUsuario.setText("");
+									txtSenha.setText("");
+								}
 							}
 							else
-							{
-								JOptionPane.showMessageDialog(null,"Senha incorreta!");
-								txtUsuario.setText("");
-								txtSenha.setText("");
-							}
+								JOptionPane.showMessageDialog(null,"Usuário não cadastrado!");
 						}
-						else
-							JOptionPane.showMessageDialog(null,"11Usuário não cadastrado!");
-						
+						catch(Exception ex)
+						{
+							//JOptionPane.showMessageDialog(null,"Usuário não cadastrado!");
+							ex.printStackTrace();
+							JOptionPane.showMessageDialog(null,ex.getMessage());
+							txtUsuario.setText("");
+							txtSenha.setText("");
+						}
 					}
-					catch(Exception ex)
+					else // login entidade
 					{
-						//JOptionPane.showMessageDialog(null,"Usuário não cadastrado!");
-						ex.printStackTrace();
-						JOptionPane.showMessageDialog(null,ex.getMessage());
-						txtUsuario.setText("");
-						txtSenha.setText("");
+						try 
+						{
+							if(Entidades.cadastrado(usuario))
+							{
+								Entidade ent = Entidades.getEntidadeByUsuario(usuario);
+								if(ent.getSenha().equals(senha) && ent.getUsuario().equals(usuario))
+								{
+									PrincipalEntidade formE = new PrincipalEntidade(ent.getCodigo());
+									formE.setVisible(true);
+								}
+								else
+								{
+									JOptionPane.showMessageDialog(null,"Senha incorreta!");
+									txtUsuario.setText("");
+									txtSenha.setText("");
+								}
+							}
+							else
+								JOptionPane.showMessageDialog(null,"Usuário não cadastrado!");
+						}
+						catch(Exception ex)
+						{
+							ex.printStackTrace();
+							JOptionPane.showMessageDialog(null,ex.getMessage());
+							txtUsuario.setText("");
+							txtSenha.setText("");
+						}
 					}
 				}
 			}
@@ -121,6 +158,20 @@ public class Login {
 		btnEntrar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnEntrar.setBounds(169, 180, 89, 30);
 		frame.getContentPane().add(btnEntrar);
+		
+		rdbEntidade = new JRadioButton("Entidade");
+		rdbEntidade.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		rdbEntidade.setBounds(225, 67, 109, 23);
+		frame.getContentPane().add(rdbEntidade);
+		
+		rdbFuncionario = new JRadioButton("Funcion\u00E1rio");
+		rdbFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		rdbFuncionario.setBounds(75, 67, 109, 23);
+		frame.getContentPane().add(rdbFuncionario);
+		
+		btnGrupo = new javax.swing.ButtonGroup();
+		btnGrupo.add(rdbEntidade);
+		btnGrupo.add(rdbFuncionario);
 	}
 }
 

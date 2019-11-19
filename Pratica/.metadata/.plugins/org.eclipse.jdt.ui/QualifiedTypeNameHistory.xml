@@ -12,4 +12,7 @@
 <fullyQualifiedTypeName name="javax.swing.DefaultListModel"/>
 <fullyQualifiedTypeName name="bd.core.MeuResultSet"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="javax.swing.ButtonGroup"/>
+<fullyQualifiedTypeName name="bd.daos.Entidades"/>
+<fullyQualifiedTypeName name="bd.dbos.Entidade"/>
 </qualifiedTypeNameHistroy>

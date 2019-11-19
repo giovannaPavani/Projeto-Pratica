@@ -7,7 +7,7 @@ import bd.dbos.*;
 
 public class Funcionarios
 {
-    public static boolean cadastrado (int cod) throws Exception
+    public static boolean cadastrado (int CODIGO) throws Exception
     {
         boolean retorno = false;
 
@@ -17,11 +17,11 @@ public class Funcionarios
 
             sql = "SELECT * " +
                   "FROM HFuncionarios " +
-                  "WHERE COD = ?";
+                  "WHERE CODIGO = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
-            BDSQLServer.COMANDO.setInt (1, cod);
+            BDSQLServer.COMANDO.setInt (1, CODIGO);
 
             MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery ();
 
@@ -49,7 +49,7 @@ public class Funcionarios
                   "WHERE USUARIO = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
-            System.out.print(usuario);
+
             BDSQLServer.COMANDO.setString(1, usuario);
 
             MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery ();
@@ -65,7 +65,7 @@ public class Funcionarios
         return retorno;
     }
 
-    public static boolean existe(int codigo) 
+    public static boolean existe(int Codigo) 
     {
         try
         {
@@ -73,10 +73,10 @@ public class Funcionarios
 
             sql = "SELECT * " +
                   "FROM HFUNCIONARIOS " +
-                  "WHERE COD = ?";
+                  "WHERE CODIGO = ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
-            BDSQLServer.COMANDO.setInt(1, codigo);
+            BDSQLServer.COMANDO.setInt(1, Codigo);
             BDSQLServer.COMANDO.executeQuery();
         }
         catch (SQLException erro)
@@ -96,7 +96,7 @@ public class Funcionarios
             String sql;
 
             sql = "INSERT INTO HFUNCIONARIOS " +
-                  "(COD,NOME,CPF,EMAIL,SALARIO,TELEFONE,CARGO,CONTA,AGENCIA,ENDERECO,USUARIO,SENHA) " +
+                  "(CODIGO,NOME,CPF,EMAIL,SALARIO,TELEFONE,CARGO,CONTA,AGENCIA,ENDERECO,USUARIO,SENHA) " +
                   "VALUES " +
                   "(?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -126,9 +126,9 @@ public class Funcionarios
     }
 
 
-    public static void excluir (int cod) throws Exception
+    public static void excluir (int CODIGO) throws Exception
     {
-        if (!cadastrado(cod))
+        if (!cadastrado(CODIGO))
             throw new Exception ("Nao cadastrado");
 
         try
@@ -136,11 +136,11 @@ public class Funcionarios
             String sql;
 
             sql = "DELETE FROM HFuncionarios " +
-                  "WHERE COD=?";
+                  "WHERE CODIGO=?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
-            BDSQLServer.COMANDO.setInt (1, cod);
+            BDSQLServer.COMANDO.setInt (1, CODIGO);
 
             BDSQLServer.COMANDO.executeUpdate ();
             BDSQLServer.COMANDO.commit        ();        }
@@ -163,19 +163,19 @@ public class Funcionarios
             String sql;
 
             sql = "UPDATE HFuncionarios " +
-                  "SET NOME=? " +
-                  "SET CPF=? " +
-                  "SET EMAIL=? " +
-                  "SET SALARIO=? " +
-                  "SET TELEFONE=? " +
-                  "SET CARGO=? " +
-                  "SET CONTA=? " +
-                  "SET AGENCIA=? " +
-                  "SET ENDERECO=? " +
-                  "SET USUARIO=? " +
-                  "SET SENHA=? " +
+                  "SET NOME=? ," +
+                  "CPF=? ," +
+                  "EMAIL=? ," +
+                  "SALARIO=? ," +
+                  "TELEFONE=? ," +
+                  "CARGO=? ," +
+                  "CONTA=? ," +
+                  "AGENCIA=? ," +
+                  "ENDERECO=? ," +
+                  "USUARIO=? ," +
+                  "SENHA=? " +
 
-                  "WHERE COD = ?";
+                  "WHERE CODIGO = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);  
             BDSQLServer.COMANDO.setString (1, funcionario.getNome ());
@@ -200,7 +200,7 @@ public class Funcionarios
         }
     }
 
-    public static Funcionario getFuncionario (int codigo) throws Exception
+    public static Funcionario getFuncionarioByCod (int Codigo) throws Exception
     {
         Funcionario funcionario = null;
 
@@ -210,18 +210,18 @@ public class Funcionarios
 
             sql = "SELECT * " +
                   "FROM HFuncionarios " +
-                  "WHERE COD = ?";
+                  "WHERE CODIGO = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
-            BDSQLServer.COMANDO.setInt (1, codigo);
+            BDSQLServer.COMANDO.setInt (1, Codigo);
 
             MeuResultSet resultado = (MeuResultSet)	    BDSQLServer.COMANDO.executeQuery ();
 
             if (!resultado.first()) //last(), next(), previous(), absolute(), first() --> vai para linha da tabela RESULTANTE DO SELECT//nesse caso é pq NAO tem a 1 linha, ent se faz esse boolean
                 throw new Exception ("Nao cadastrado");
 
-            funcionario = new Funcionario(resultado.getInt("COD"),
+            funcionario = new Funcionario(resultado.getInt("CODIGO"),
                                resultado.getString("NOME"),
                                resultado.getString("CPF"),
                                resultado.getString("EMAIL"),
@@ -242,7 +242,7 @@ public class Funcionarios
         return funcionario;
     }
     
-    public static Funcionario getFuncionario (String usuario) throws Exception
+    public static Funcionario getFuncionarioByUsuario (String usuario) throws Exception
     {
         Funcionario funcionario = null;
 
@@ -257,13 +257,13 @@ public class Funcionarios
             BDSQLServer.COMANDO.prepareStatement (sql);
 
             BDSQLServer.COMANDO.setString (1, usuario);
-            System.out.print(sql);
+
             MeuResultSet resultado = (MeuResultSet)	    BDSQLServer.COMANDO.executeQuery ();
 
             if (!resultado.first()) //last(), next(), previous(), absolute(), first() --> vai para linha da tabela RESULTANTE DO SELECT//nesse caso é pq NAO tem a 1 linha, ent se faz esse boolean
                 throw new Exception ("Nao cadastrado");
 
-            funcionario = new Funcionario(resultado.getInt("COD"),
+            funcionario = new Funcionario(resultado.getInt("CODIGO"),
                                resultado.getString("NOME"),
                                resultado.getString("CPF"),
                                resultado.getString("EMAIL"),
@@ -284,14 +284,14 @@ public class Funcionarios
         return funcionario;
     }
         
-    public static int getCodigo (String usuario) throws Exception
+    public static int getCODIGOigo (String usuario) throws Exception
     {
-    	int cod;
+    	int CODIGO;
         try
         {
             String sql;
 
-            sql = "SELECT COD " +
+            sql = "SELECT CODIGO " +
                   "FROM HFuncionarios " +
                   "WHERE USUARIO = ?";
             BDSQLServer.COMANDO.prepareStatement (sql);
@@ -299,14 +299,14 @@ public class Funcionarios
             BDSQLServer.COMANDO.setString (1, usuario);
 
             MeuResultSet resultado = (MeuResultSet)	BDSQLServer.COMANDO.executeQuery ();
-            cod = resultado.getInt("COD");
+            CODIGO = resultado.getInt("CODIGO");
         }
         catch (SQLException erro)
         {
             throw new Exception ("Erro ao procurar funcionario");
         }
 
-        return cod;
+        return CODIGO;
     }
 
     public static MeuResultSet getFuncionarios () throws Exception

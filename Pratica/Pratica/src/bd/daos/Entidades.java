@@ -35,6 +35,34 @@ public class Entidades
         return retorno;
     }
     
+    public static boolean cadastrado(String usuario) throws Exception
+    {
+        boolean retorno = false;
+
+        try
+        {
+            String sql;
+
+            sql = "SELECT * " +
+                  "FROM ENTIDADES " +
+                  "WHERE USUARIO = ?";
+
+            BDSQLServer.COMANDO.prepareStatement(sql);
+
+            BDSQLServer.COMANDO.setString(1, usuario);
+
+            MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery();
+
+            retorno = resultado.first(); // pode-se usar resultado.last() ou resultado.next() ou resultado.previous() ou resultado.absotule(numeroDaLinha)
+        }
+        catch (SQLException erro)
+        {
+            throw new Exception("Erro ao procurar entidade");
+        }
+
+        return retorno;
+    }
+    
     public static boolean existe(int codigo) 
     {
         try
@@ -208,6 +236,49 @@ public class Entidades
 			       resultado.getInt("VISUALIZACOES"),
 			       resultado.getString("DESCRICAO"),
 			       resultado.getString("SITE"));
+        }
+        catch (SQLException erro)
+        {
+            throw new Exception ("Erro ao procurar entidade");
+        }
+
+        return entidade;
+    }
+    
+    public static Entidade getEntidadeByUsuario(String usuario) throws Exception
+    {
+        Entidade entidade = null;
+
+        try
+        {
+            String sql;
+
+            sql = "SELECT * " +
+                  "FROM ENTIDADES " +
+                  "WHERE USUARIO = ?";
+
+            BDSQLServer.COMANDO.prepareStatement(sql);
+
+            BDSQLServer.COMANDO.setString(1, usuario);
+
+            MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery (); // n é mais para executar update, mas sim uma query (consulta) / ñ é void
+            // uma tabelinha po
+            if (!resultado.first()) // .last()/ .next()/ .previous()/ .absolute(10) --> retornam boolean
+                throw new Exception ("Nao cadastrado");
+
+            entidade = new Entidade(resultado.getInt  ("CODIGO"),
+	                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
+	                               resultado.getString("EMAIL"),
+							       resultado.getString("CNPJ"),
+							       resultado.getString("CONTA"),
+							       resultado.getString("AGENCIA"),
+							       resultado.getString("ENDERECO"),
+							       resultado.getString("USUARIO"),
+							       resultado.getString("SENHA"),
+							       resultado.getString("TELEFONE"),
+							       resultado.getInt("VISUALIZACOES"),
+							       resultado.getString("DESCRICAO"),
+							       resultado.getString("SITE"));
         }
         catch (SQLException erro)
         {

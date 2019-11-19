@@ -170,7 +170,7 @@ public class Funcionario implements Cloneable
         return this.senha;
     }
 	
-	public Funcionario (int cod, String nome,String cpf,String email,float salario,String telefone,String cargo,String conta,String agencia,String endereco,String usuario,String senha) throws Exception
+	public Funcionario (int codigo, String nome,String cpf,String email,float salario,String telefone,String cargo,String conta,String agencia,String endereco,String usuario,String senha) throws Exception
     {
         this.setCodigo (codigo);
         this.setNome   (nome);

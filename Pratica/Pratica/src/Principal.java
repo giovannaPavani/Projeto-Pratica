@@ -1,6 +1,5 @@
 import bd.daos.*;
 import bd.dbos.*;
-
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -19,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.Font;
 
 public class Principal {
 
@@ -27,6 +27,7 @@ public class Principal {
 	private JTextField txtNome;
 	private JTextField txtCPF;
 	private JTextField txtEmail;
+	JButton btnSalvar;
 	//variaveis globais
 	Funcionario funcAtual;
 	boolean alterou = false;
@@ -53,8 +54,8 @@ public class Principal {
 	int codigo;
 	
 	public Principal(int cod) {
-		initialize();
 		codigo = cod;
+		initialize();
 	}
 
 	/**
@@ -63,7 +64,7 @@ public class Principal {
 	private void initialize() {
 		try
 		{
-		  funcAtual = new Funcionario(Funcionarios.getFuncionario(codigo));
+		  funcAtual = new Funcionario(Funcionarios.getFuncionarioByCod(codigo));
 		}
 		catch(Exception ex) {} // n vai dar erro pois o codigo foi eu que passei
 		
@@ -74,16 +75,20 @@ public class Principal {
 				if(alterou)
 				{
 					int choice = JOptionPane.showOptionDialog(null, 
-						      "Deseja sair sem salvar?", 
+						      "Deseja sair e salvar?", 
 						      "Sair", 
-						      JOptionPane.YES_NO_OPTION, 
+						      JOptionPane.YES_NO_CANCEL_OPTION, 
 						      JOptionPane.QUESTION_MESSAGE, 
 						      null, null, null);
 
 						  if (choice == JOptionPane.YES_OPTION)
 						  {
+							  btnSalvar.doClick();
+						  }
+						  else if(choice == JOptionPane.NO_OPTION)
+						  {
 							  System.exit(0);
-						  }	  
+						  }
 				}
 				else
 					System.exit(0);
@@ -172,6 +177,8 @@ public class Principal {
 		lblNome.setSize(50, 50);
 		
 		txtNome = new JTextField();
+		txtNome.setForeground(Color.BLACK);
+		txtNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtNome.setEnabled(false);
 		panel_1.add(txtNome);
 		txtNome.setColumns(10);
@@ -182,6 +189,8 @@ public class Principal {
 		lblCPF.setSize(50,50);
 		
 		txtCPF = new JTextField();
+		txtCPF.setForeground(Color.BLACK);
+		txtCPF.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtCPF.setEnabled(false);
 		panel_1.add(txtCPF);
 		txtCPF.setColumns(10);
@@ -192,6 +201,8 @@ public class Principal {
 		lblEmail.setSize(50,50);
 		
 		txtEmail = new JTextField();
+		txtEmail.setForeground(Color.BLACK);
+		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtEmail.setEnabled(false);
 		panel_1.add(txtEmail);
 		txtEmail.setColumns(10);
@@ -201,6 +212,8 @@ public class Principal {
 		panel_1.add(label);
 		
 		txtTelefone = new JTextField();
+		txtTelefone.setForeground(Color.BLACK);
+		txtTelefone.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTelefone.setEnabled(false);
 		panel_1.add(txtTelefone);
 		txtTelefone.setColumns(10);
@@ -213,25 +226,26 @@ public class Principal {
 				txtEmail.setEnabled(true);
 				txtTelefone.setEnabled(true);
 				txtCPF.setEnabled(true);
+				btnSalvar.setEnabled(true);
 				alterou = true;
 			}
 		});
 		btnAlterar.setForeground(new Color(0, 0, 0));
 		panel_1.add(btnAlterar);
 		
-		JButton btnNewButton = new JButton("Salvar");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(txtNome.getText() == "" ||
-				txtEmail.getText() == "" ||
-				txtTelefone.getText()== "" ||
-				txtCPF.getText()== "")
+				if(txtNome.getText().equals("") ||
+				txtEmail.getText().equals("") ||
+				txtTelefone.getText().equals("") ||
+				txtCPF.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(null,"Não deixe nenhum campo em branco!");
-				txtNome.requestFocus();
-				txtEmail.requestFocus();
-				txtTelefone.requestFocus();
-				txtCPF.requestFocus();
+					txtNome.requestFocus();
+					txtEmail.requestFocus();
+					txtTelefone.requestFocus();
+					txtCPF.requestFocus();
 				}
 				else
 				{
@@ -243,11 +257,17 @@ public class Principal {
 						funcAtual.setTelefone(txtTelefone.getText());
 						Funcionarios.alterar(funcAtual);
 						alterou = false;
+						btnSalvar.setEnabled(false);
+						txtNome.setEnabled(false);
+						txtEmail.setEnabled(false);
+						txtTelefone.setEnabled(false);
+						txtCPF.setEnabled(false);
+						JOptionPane.showMessageDialog(null,"Alteração feita com sucesso!");
 					}
 					catch(Exception ex) {/*fazer*/}
 				}
 			}
 		});
-		panel_1.add(btnNewButton);
+		panel_1.add(btnSalvar);
 	}
 }
