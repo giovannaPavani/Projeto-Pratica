@@ -82,8 +82,8 @@ public class Login {
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(txtUsuario.getText() == "" || txtSenha.getText() == "")
-					JOptionPane.showMessageDialog(null,"Insira os dados antes de se logar!");
+				if(txtUsuario.getText().equals("") || txtSenha.getText().equals(""))
+					JOptionPane.showMessageDialog(null,"Insira os dados para se logar!");
 				if(!rdbEntidade.isSelected() && !rdbFuncionario.isSelected())
 					JOptionPane.showMessageDialog(null,"Selecione um tipo de usuário!");
 				else
@@ -164,7 +164,7 @@ public class Login {
 		rdbEntidade.setBounds(225, 67, 109, 23);
 		frame.getContentPane().add(rdbEntidade);
 		
-		rdbFuncionario = new JRadioButton("Funcion\u00E1rio");
+		rdbFuncionario = new JRadioButton("Funcion\u00E1rio Helpa!");
 		rdbFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rdbFuncionario.setBounds(75, 67, 109, 23);
 		frame.getContentPane().add(rdbFuncionario);
