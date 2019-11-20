@@ -1,15 +1,12 @@
 package views;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import bd.dbos.*;
 import bd.core.MeuResultSet;
 import bd.daos.*;
-
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JButton;
@@ -24,11 +21,14 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import java.awt.GridLayout;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JList;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Array;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
@@ -45,13 +45,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JComboBox;
 
 public class ManutEntidades extends JFrame {
 
 	private JPanel contentPane;
-	boolean alterou = false;     // VER SE TENHO Q USAR SASMERDA
-    int ondeIncluir = 0;        // global --> acessível na classe toda
-    int indice = 0;
 
 	/**
 	 * Launch the application.
@@ -73,7 +71,6 @@ public class ManutEntidades extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-    private int posicaoAtual;
 	private JTextField txtAgencia;
 	private JTextField txtNome;
 	private JTextField txtCodigo;
@@ -90,38 +87,39 @@ public class ManutEntidades extends JFrame {
 	private JButton btnCancelar;
 	private JButton btnSalvar;
 	private JPanel pnlManutencao;
-	private JTextField txtNecessidade;
 	private JTable table;
 	private JTextField txtSite;
-	boolean editando = false;
-	public ManutEntidades() {
+	private JTable tblEntidades;
+	private Situacao situacaoAtual;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JPanel pnlNecessidades;
+	private JComboBox cbxNecessidade;
+	
+	public ManutEntidades() 
+	{
 		initialize();
 	}
 	
 	private void initialize()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 428);
+		setBounds(100, 100, 699, 473);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		// se n tiver nd no banco - if(Entidades.getEntidades())
-		Entidade primeira = null;
-		try
-		{
-		primeira = Entidades.getPrimeiroRegistro();
-		}
-		catch(Exception ex) {} // a tabela nunca estará vazia
-		posicaoAtual = primeira.getCodigo();
-		txtCodigo.setText(posicaoAtual+""); // colocar posicaoAtual
+		situacaoAtual = Situacao.NAVEGANDO;
 		atualizarTela();
+		contentPane.setLayout(null);
 	
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
-		tabbedPane.setBounds(5, 5, 681, 410);
+		tabbedPane.setBounds(5, 5, 681, 429);
 		tabbedPane.setToolTipText("CADASTRO");
 		tabbedPane.setSelectedIndex(0);
 		contentPane.add(tabbedPane);
@@ -172,7 +170,7 @@ public class ManutEntidades extends JFrame {
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyCode()== KeyEvent.VK_ENTER) // apertou enter e ta procurando
 				{
-					if(txtCodigo.getText() != "")
+					if(!txtCodigo.getText().equals(""))
 					{
 						try
 						{
@@ -189,6 +187,8 @@ public class ManutEntidades extends JFrame {
 						}
 						catch(Exception ex) { JOptionPane.showMessageDialog(null,"Não foi possível achar a entidade com esse código!"); }
 					}
+					else
+						JOptionPane.showMessageDialog(null,"Escreva um código válido no campo de código!");
 				}
 			}
 		});
@@ -290,8 +290,9 @@ public class ManutEntidades extends JFrame {
 		btnNovo = new JButton("Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				situacaoAtual = Situacao.INCLUINDO;
 				limparTela();
-				txtCodigo.enable(true);
+				setTxt(true);
 				txtCodigo.grabFocus();
 				btnSalvar.enable(true);
 			}
@@ -301,18 +302,11 @@ public class ManutEntidades extends JFrame {
 		btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {// apertar botao de editar
-				editando = true;
+				situacaoAtual = Situacao.EDITANDO;
 				limparTela();
+				setTxt(true);
 				txtCodigo.setEnabled(false);
-				txtNome.setEnabled(true);
-				txtEmail.setEnabled(true);
-				txtEndereco.setEnabled(true);
-				txtEmail.setEnabled(true);
-				txtConta.setEnabled(true);
-				txtAgencia.setEnabled(true);
-				txtUsuario.setEnabled(true);
-				txtCnpj.setEnabled(true);
-				txtTelefone.setEnabled(true);
+				cbxNecessidades.setEnabled(true);
 			}
 		});
 		menuBar_1.add(btnEditar);
@@ -320,15 +314,17 @@ public class ManutEntidades extends JFrame {
 		btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { // ao clicar no botao de excluir
-				try {
-					Entidades.excluir(Integer.parseInt(txtCodigo.getText()));
+
+					try 
+					{
+						Entidades.excluir(Integer.parseInt(txtCodigo.getText()));
+					}
+					catch(Exception er)
+					{
+						JOptionPane.showMessageDialog(null,"Não foi possível excluir essa entidade!");
+						atualizarTela();
+					}
 				}
-				catch(Exception er)
-				{
-					JOptionPane.showMessageDialog(null,"Não foi possível excluir essa entidade!");
-					atualizarTela();
-				}
-			}
 		});
 		menuBar_1.add(btnExcluir);
 		
@@ -336,6 +332,7 @@ public class ManutEntidades extends JFrame {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				atualizarTela();
+				txtCodigo.setEnabled(false);
 			}
 		});
 		menuBar_1.add(btnCancelar);
@@ -346,61 +343,168 @@ public class ManutEntidades extends JFrame {
 		
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {// ao apertar botao de salvar
-				if(editando)
+		public void actionPerformed(ActionEvent e) {// ao apertar botao de salvar
+			if( !txtCodigo.getText().equals("")  ||
+				!txtNome.getText().equals("")    ||
+				!txtEmail.getText().equals("")   ||
+				!txtCnpj.getText().equals("")    ||
+				!txtEndereco.getText().equals("")||
+				!txtTelefone.getText().equals("")||
+				!txtConta.getText().equals("")   ||
+				!txtAgencia.getText().equals("") ||
+				!txtUsuario.getText().equals(""))
 				{
-					try
-					{
+					try {
 						Entidade entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
 						txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
 						txtEndereco.getText(), txtUsuario.getText(),"", txtTelefone.getText(), 0, "", txtSite.getText());
-						Entidades.alterar(entidade);
+						
+						switch(situacaoAtual)
+						{
+							case EDITANDO:
+							{
+								try
+								{
+									Entidades.alterar(entidade);
+								}
+								catch(Exception ex) 
+								{
+									JOptionPane.showMessageDialog(null,"Não foi possível editar essa entidade!");
+									atualizarTela();
+								}
+							}
+							break;
+							
+							case INCLUINDO:
+							{
+								
+								try
+								{
+									Entidades.incluir(entidade);
+								}
+								catch(Exception ex) 
+								{
+									JOptionPane.showMessageDialog(null,"Não foi possível editar essa entidade!");
+									atualizarTela();
+								}
+							}
+							
+							case NAVEGANDO:
+								setTxt(false);
+						}
 					}
 					catch(Exception ex) 
 					{
-						JOptionPane.showMessageDialog(null,"Não foi possível editar essa entidade!");
-						atualizarTela();
+						JOptionPane.showMessageDialog(null,"Entidade inválida. Alteração cancelada!");
 					}
-					editando = false;
+					atualizarTela();
 				}
+				else
+					JOptionPane.showMessageDialog(null,"Não deixe campos em branco! Alteração cancelada!");
+				situacaoAtual = Situacao.NAVEGANDO;
 			}
 		});
 		menuBar_1.add(btnSalvar);
 		
-		txtNecessidade = new JTextField();
-		txtNecessidade.setBounds(475, 69, 179, 240);
-		pnlManutencao.add(txtNecessidade);
-		txtNecessidade.setColumns(10);
-		
 		JLabel lblNecessidades = new JLabel("Necessidades:");
 		lblNecessidades.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNecessidades.setBounds(475, 40, 131, 32);
+		lblNecessidades.setBounds(468, 43, 131, 32);
 		pnlManutencao.add(lblNecessidades);
 		
 		JLabel lblSite = new JLabel("Site:");
 		lblSite.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSite.setBounds(305, 320, 69, 32);
+		lblSite.setBounds(47, 357, 32, 32);
 		pnlManutencao.add(lblSite);
 		
 		txtSite = new JTextField();
 		txtSite.setText((String) null);
 		txtSite.setEnabled(false);
 		txtSite.setColumns(10);
-		txtSite.setBounds(347, 320, 179, 30);
+		txtSite.setBounds(89, 360, 367, 30);
 		pnlManutencao.add(txtSite);
+		
+		cbxNecessidade = new JComboBox();
+		cbxNecessidade.setEnabled(false);
+		cbxNecessidade.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for (Component c : pnlNecessidades.getComponents()) 
+				{
+					if (c instanceof JTextField) 
+				    { 
+						((JTextField)c).setVisible(false);
+				    }
+				}
+				
+				int qtd = Integer.parseInt(cbxNecessidade.getSelectedItem().toString());
+				int x = 0;
+				
+				for (Component c : pnlNecessidades.getComponents()) {
+					if(x<qtd)
+					if (c instanceof JTextField) 
+				    { 
+						((JTextField)c).setVisible(true);
+						x++;
+				    }
+				}
+			}
+		});
+		cbxNecessidade.setBounds(466, 72, 41, 30);
+		pnlManutencao.add(cbxNecessidade);
+		
+		JLabel lblItems = new JLabel("Item(s)");
+		lblItems.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblItems.setBounds(517, 69, 131, 32);
+		pnlManutencao.add(lblItems);
+		
+		pnlNecessidades = new JPanel();
+		pnlNecessidades.setBounds(466, 110, 191, 211);
+		pnlManutencao.add(pnlNecessidades);
+		pnlNecessidades.setLayout(new GridLayout(5, 1, 0, 0));
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		pnlNecessidades.add(textField);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		pnlNecessidades.add(textField_1);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		pnlNecessidades.add(textField_2);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		pnlNecessidades.add(textField_3);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		pnlNecessidades.add(textField_4);
+		
+		
 		//lstNecessidade.setModel(model);
 		//lstNecessidade.setListData(vetor); // vetor = pegar as coisas que identidade de codigo x precisa
 		
 		JPanel pnlConsulta = new JPanel();
-		tabbedPane.addTab("Consulta", null, pnlConsulta, null);
+		tabbedPane.addTab("Relatório", null, pnlConsulta, null);
 		pnlConsulta.setLayout(null);
+		
+		tblEntidades = new JTable();
+		tblEntidades.setBounds(10, 362, 656, -332);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 676, 21);
+		pnlConsulta.add(menuBar);
+		
+		JLabel lblAquiTemosTodas = new JLabel("Aqui, temos todas as entidades cadastradas ranqueadas pela quantidade de doa\u00E7\u00F5es para elas feitas");
+		menuBar.add(lblAquiTemosTodas);
 		
 		pnlConsulta.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent e) {
 				DefaultTableModel model = null;
 				try {
-					MeuResultSet dados = Entidades.getEntidades();
+					MeuResultSet dados = Entidades.getEntidadesVisu();
 					 model = new DefaultTableModel(new Object[][] {},
 					new String[] {
 						"C\u00F3digo", "Nome", "Email", "CNPJ", "Telefone", "Conta", "Ag\u00EAncia", "Endere\u00E7o", "Usu\u00E1rio", "Visualiza\u00E7\u00F5es", "Descri\u00E7ao", "Site"
@@ -421,39 +525,85 @@ public class ManutEntidades extends JFrame {
 							linha[9]= entidade.getVisualizacoes();
 							linha[10]= entidade.getDescricao();
 							linha[11]= entidade.getSite();
+							linha[11]= entidade.getImagem();
 							
 							model.addRow(linha);
 						}
 					}
-					 catch(Exception ex) {System.out.print(ex.getMessage());}
+					catch(Exception ex) {System.out.print(ex.getMessage());}
 				
-				table = new JTable();
-				table.setModel(model);
-				table.setBounds(678, 369, -679, -370);
-				pnlConsulta.add(table);
+				tblEntidades.setModel(model);
+				pnlConsulta.add(tblEntidades);
 			}
 		});
 	}
 	
 	private void atualizarTela() {
-		//if(!asEntidades.estaVazio()) // yo no sei se ta certa essa logica pro maligno
-		Entidade aEntidade;
+		Entidade aEntidade = null;
 		try 
 		{
 			aEntidade = Entidades.getEntidadeByCod(Integer.parseInt(txtCodigo.getText()));
-			txtNome.setText(aEntidade.getNome());
-			txtEmail.setText(aEntidade.getEmail());
-			txtCnpj.setText(aEntidade.getCnpj());
-			txtEndereco.setText(aEntidade.getEndereco());
-			txtTelefone.setText(aEntidade.getTelefone());
-			txtConta.setText(aEntidade.getConta());
-			txtAgencia.setText(aEntidade.getAgencia());
-			txtUsuario.setText(aEntidade.getUsuario());
 		}
 		catch(Exception ex) 
 		{
-			// fzr catch
+			try 
+			{
+				aEntidade = Entidades.getPrimeiroRegistro();
+			} 
+			catch (Exception e) {} // nunca vai dar erro pois a tabela nunca estará vazia 
 		}
+		txtNome.setText(aEntidade.getNome());
+		txtEmail.setText(aEntidade.getEmail());
+		txtCnpj.setText(aEntidade.getCnpj());
+		txtEndereco.setText(aEntidade.getEndereco());
+		txtTelefone.setText(aEntidade.getTelefone());
+		txtConta.setText(aEntidade.getConta());
+		txtAgencia.setText(aEntidade.getAgencia());
+		txtUsuario.setText(aEntidade.getUsuario());
+		// exibir necessidades
+
+		try {
+			
+			for (Component c : pnlNecessidades.getComponents()) 
+			{
+				if (c instanceof JTextField) 
+			    { 
+					((JTextField)c).setVisible(false);
+			    }
+			}
+			
+			MeuResultSet result = Entidades.getNecessidades(aEntidade.getCodigo());
+			result.last();
+			int qtd = result.getRow();
+
+			int x = 0;
+			for (Component c : pnlNecessidades.getComponents()) {
+				if(x<qtd)
+				if (c instanceof JTextField) 
+			    { 
+					((JTextField)c).setVisible(true);
+					x++;
+			    }
+			}
+			
+			result.first();
+			for (Component c : pnlNecessidades.getComponents()) {
+			    if (c instanceof JTextField) 
+			    { 
+			    	try 
+			    	{
+			    		((JTextField)c).setText(result.getObject("Produto").toString());
+			    		result.next();
+			    	}
+			    	catch(Exception ex)
+			    	{
+			    		((JTextField)c).setText("");
+			    	}
+			    }
+			}
+		}
+		catch(Exception ex)
+		{} // n vai dar erro pois o codigo foi passado por mim
 	}
 	
 	private void limparTela() 
@@ -467,5 +617,19 @@ public class ManutEntidades extends JFrame {
 		txtConta.setText("");
 		txtAgencia.setText("");
 		txtUsuario.setText("");
+	}
+	
+	private void setTxt(boolean modo)
+	{
+		txtCodigo.setEnabled(modo);
+		txtNome.setEnabled(modo);
+		txtEmail.setEnabled(modo);
+		txtEndereco.setEnabled(modo);
+		txtEmail.setEnabled(modo);
+		txtConta.setEnabled(modo);
+		txtAgencia.setEnabled(modo);
+		txtUsuario.setEnabled(modo);
+		txtCnpj.setEnabled(modo);
+		txtTelefone.setEnabled(modo);
 	}
 }

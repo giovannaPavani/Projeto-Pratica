@@ -114,7 +114,7 @@ public class PrincipalFunc extends JFrame {
 				formME.setVisible(true);
 			}
 		});
-		frame.setBounds(100, 100, 482, 341);
+		frame.setBounds(100, 100, 485, 361);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -146,12 +146,12 @@ public class PrincipalFunc extends JFrame {
 			}
 		});
 		btnAlterar.setForeground(Color.BLACK);
-		btnAlterar.setBounds(96, 224, 85, 32);
+		btnAlterar.setBounds(100, 229, 85, 32);
 		frame.getContentPane().add(btnAlterar);
 		
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.setEnabled(false);
-		btnSalvar.setBounds(286, 224, 85, 32);
+		btnSalvar.setBounds(290, 229, 85, 32);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(txtNome.getText().equals("") ||
@@ -176,7 +176,10 @@ public class PrincipalFunc extends JFrame {
 						alterou = false;
 						JOptionPane.showMessageDialog(null,"Alteração feita com sucesso!");
 					}
-					catch(Exception ex) {/*fazer*/}
+					catch(Exception ex) 
+					{
+						JOptionPane.showMessageDialog(null,ex.getMessage() + "Alteração cancelada");
+					}
 				}
 				btnSalvar.setEnabled(false);
 				txtNome.setEnabled(false);
@@ -191,11 +194,16 @@ public class PrincipalFunc extends JFrame {
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtEmail.setText(funcAtual.getEmail());
-				txtNome.setText(funcAtual.getNome());
-				txtEndereco.setText(funcAtual.getEndereco());
-				txtUsuario.setText(funcAtual.getUsuario());
-				txtTelefone.setText(funcAtual.getTelefone());
+				try
+				{
+				txtEmail.setText(Funcionarios.getFuncionarioByCod(codigo).getEmail());
+				txtNome.setText(Funcionarios.getFuncionarioByCod(codigo).getNome());
+				txtEndereco.setText(Funcionarios.getFuncionarioByCod(codigo).getEndereco());
+				txtUsuario.setText(Funcionarios.getFuncionarioByCod(codigo).getUsuario());
+				txtTelefone.setText(Funcionarios.getFuncionarioByCod(codigo).getTelefone());
+				}
+				catch(Exception ex)
+				{} // n vai dar erro pq fui eu quem passei o codigo
 				btnSalvar.setEnabled(false);
 				txtNome.setEnabled(false);
 				txtEmail.setEnabled(false);
@@ -205,7 +213,7 @@ public class PrincipalFunc extends JFrame {
 			}
 		});
 		btnCancelar.setForeground(Color.BLACK);
-		btnCancelar.setBounds(191, 224, 85, 32);
+		btnCancelar.setBounds(195, 229, 85, 32);
 		frame.getContentPane().add(btnCancelar);
 		
 		txtNome = new JTextField();
@@ -262,67 +270,14 @@ public class PrincipalFunc extends JFrame {
 		lblHelpa.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblHelpa.setBounds(159, 21, 190, 37);
 		frame.getContentPane().add(lblHelpa);
-		/*JMenu menManutencao;
+		JMenu menManutencao;
 		menManutencao = new JMenu("MANUTEN\u00C7\u00C3O");
-		menManutencao.setBounds(55, 270, 131, 22);
+		menManutencao.setBounds(53, 289, 131, 22);
 		frame.getContentPane().add(menManutencao);
 		menManutencao.setHorizontalAlignment(SwingConstants.CENTER);
-		*/
-		JMenuBar menuBar = new JMenuBar();
-		JMenu ManutMenu = new JMenu("MANUTENÇÃO");
-        JMenu RelatMenu = new JMenu("CONSULTAS");
-        menuBar.add(ManutMenu);
-        menuBar.add(RelatMenu);
-        
-        JMenuItem ManutFunc = new JMenuItem("Funcionários");
-        ManutFunc.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// abrir form de manutencao de funcionarios
-			}
-		});
-        JMenuItem ManutEnt = new JMenuItem("Entidades");
-        ManutEnt.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// abrir form de manutencao de entidades
-			}
-		});
-        JMenuItem ManutDoa = new JMenuItem("Doadores");
-        ManutDoa.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// abrir form de manutencao de doadores
-			}
-		});
-        
-        JMenuItem RelatEnt = new JMenuItem("Entidades");
-        RelatEnt.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// abrir form de relatorio de entidades
-			}
-		});
-        JMenuItem RelatDoa = new JMenuItem("Doadores");
-        RelatDoa.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// abrir form de relatorio de entidades
-			}
-		});
-         
-        ManutMenu.add(ManutFunc);
-        ManutMenu.add(ManutEnt);
-        ManutMenu.add(ManutDoa);
-        
-        RelatMenu.add(RelatEnt);
-        RelatMenu.add(RelatDoa);
-        
-        
-        menuBar.setBounds(100, 260, 200, 40);
-        frame.getContentPane().add(menuBar);
+		
 
-		/*JMenuItem miManutEntidades = new JMenuItem("ENTIDADES");
+		JMenuItem miManutEntidades = new JMenuItem("ENTIDADES");
 		miManutEntidades.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -336,14 +291,14 @@ public class PrincipalFunc extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// ABRIR FORM DE MANUTENÇÃO DE FUNCIONÁRIOS
-				ManutFuncs formMF = new ManutFuncs();
-				formMF.setVisible(true);
+				//ManutFuncs formMF = new ManutFuncs();
+				//formMF.setVisible(true);
 			}
 		});
 		menManutencao.add(miManutFuncs);
 		
 		JMenu menConsultas = new JMenu("CONSULTAS");
-		menConsultas.setBounds(273, 270, 131, 22);
+		menConsultas.setBounds(271, 289, 131, 22);
 		frame.getContentPane().add(menConsultas);
 		
 		JMenuItem miConsuEntidades = new JMenuItem("ENTIDADES");
@@ -351,8 +306,8 @@ public class PrincipalFunc extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// ABRIR P/ CONSULTA ENTIDADES
-				ConsultaEntidades formCE = new ConsultaEntidades();
-				formCE.setVisible(true);
+				//ConsultaEntidades formCE = new ConsultaEntidades();
+				//formCE.setVisible(true);
 			}
 		});
 		menConsultas.add(miConsuEntidades);
@@ -362,8 +317,8 @@ public class PrincipalFunc extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// ABRIR P/ CONSULTA DOAD
-				ConsultaDoadores formCD = new ConsultaDoadores();
-				formCD.setVisible(true);
+				//ConsultaDoadores formCD = new ConsultaDoadores();
+				//formCD.setVisible(true);
 			}
 		});
 		menConsultas.add(miConsuDoadores);
@@ -373,11 +328,11 @@ public class PrincipalFunc extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			// ABRIR FORM P/ CONSULTA FUNCIONÁRIOS
-				ConsultaFuncs formCF = new ConsultaFuncs();
-				formCF.setVisible(true);
+				//ConsultaFuncs formCF = new ConsultaFuncs();
+				//formCF.setVisible(true);
 			}
 		});
-		menConsultas.add(miConsuFuncs);*/
+		menConsultas.add(miConsuFuncs);
 		
 		JLabel lblNewLabel = new JLabel("HELPA!");
 		lblNewLabel.setBounds(216, 11, 46, 14);

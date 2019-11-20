@@ -371,9 +371,9 @@ public class Entidades
         return entidade;
     }
     
-    public static Array getNecessidades(int codigo) throws Exception
+    public static MeuResultSet getNecessidades(int codigo) throws Exception
     {
-        Array necessidades = null; // qq é array meu pai?????
+    	MeuResultSet resultado = null;
 
         try
         {
@@ -385,19 +385,17 @@ public class Entidades
 
             BDSQLServer.COMANDO.setInt(1, codigo);
 
-            MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery (); // n é mais para executar update, mas sim uma query (consulta) / ñ é void
+            resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery (); // n é mais para executar update, mas sim uma query (consulta) / ñ é void
 
             if (!resultado.first()) // .last()/ .next()/ .previous()/ .absolute(10) --> retornam boolean
                 throw new Exception ("Nao cadastrado");
-            necessidades = resultado.getArray(0);
-
         }
         catch (SQLException erro)
         {
             throw new Exception ("Erro ao procurar necessidades da entidade");
         }
 
-        return necessidades;
+        return resultado;
     }
 
     public static MeuResultSet getEntidades() throws Exception
@@ -410,6 +408,29 @@ public class Entidades
 
             sql = "SELECT * " +
                   "FROM HENTIDADES";
+
+            BDSQLServer.COMANDO.prepareStatement (sql);
+
+            resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery ();
+        }
+        catch (SQLException erro)
+        {
+            throw new Exception ("Erro ao recuperar entidades");
+        }
+
+        return resultado;
+    }
+    
+    public static MeuResultSet getEntidadesVisu() throws Exception
+    {
+        MeuResultSet resultado = null;
+
+        try
+        {
+            String sql;
+
+            sql = "SELECT * " +
+                  "FROM HENTIDADES ORDER BY VISUALIZACOES";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 

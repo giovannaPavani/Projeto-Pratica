@@ -1,8 +1,6 @@
 package views;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
-import java.awt.EventQueue;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
@@ -13,8 +11,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import bd.daos.*;
 import bd.dbos.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import javax.swing.JRadioButton;
 
 public class Login {
@@ -119,7 +115,6 @@ public class Login {
 						}
 						catch(Exception ex)
 						{
-							//JOptionPane.showMessageDialog(null,"Usuário não cadastrado!");
 							ex.printStackTrace();
 							JOptionPane.showMessageDialog(null,ex.getMessage());
 							txtUsuario.setText("");

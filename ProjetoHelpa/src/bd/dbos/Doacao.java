@@ -6,6 +6,7 @@ public class Doacao implements Cloneable, Comparable<Doacao>
 	private int codigo;
     private int codEntidade;
     private int codPessoa;
+    private String produto;
     private Date data = new Date();
 
   public void setCodigo (int cod) throws Exception
@@ -39,6 +40,19 @@ public class Doacao implements Cloneable, Comparable<Doacao>
 
       this.data = dat;
   } 
+  
+  public void setProduto (String prod) throws Exception
+  {
+      if (prod == null || prod.equals(""))
+          throw new Exception ("Data invalida");
+
+      this.produto = prod;
+  } 
+  
+  public String getProduto ()
+  {
+         return this.produto;
+  }
 
  public int getCodigo ()
  {
