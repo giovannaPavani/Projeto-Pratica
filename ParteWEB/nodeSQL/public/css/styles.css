@@ -140,31 +140,29 @@ display: inline;
 	text-transform: uppercase;
 	
 }
-
-
 #cabecalho {
-	height: 80vh;
-	background-size:cover;
-	display: inline;
-	background-repeat: no-repeat;
-	backface-visibility: hidden;
-	animation: animacao 60s linear infinite 0s;
-	animation-timing-function: ease-in-out; 
-	float: left;
-	width: 100%;
-	background-position: center center;
-	background-attachment: fixed;
+height: 80vh;
+background-size:cover;
+display: inline;
+background-repeat: no-repeat;
+backface-visibility: hidden;
+animation: animacao 60s linear infinite 0s;
+animation-timing-function: ease-in-out; 
+float: left;
+width: 100%;
+background-position: center center;
+background-attachment: fixed;
 }
 
 @keyframes animacao{
 	0%{
-		background-image: url('../images/fundos/2.jpg'); /*OK*/
+		background-image: url('../images/fundos/2.jpg'); 
 	}
 	10%{
-		background-image: url('../images/fundos/1.jpeg'); /*OK*/
+		background-image: url('../images/fundos/1.jpeg'); 
 	}
 	20%{
-		background-image: url('../images/fundos/3.jpg'); /*OK*/
+		background-image: url('../images/fundos/3.jpg'); 
 	}
 	30%{
 		background-image: url('../images/fundos/4.jpg');
@@ -190,6 +188,7 @@ display: inline;
 	100%{
 		background-image: url('../images/fundos/5.jpg');
 	}
+
 }
 
 #lista{
