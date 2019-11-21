@@ -1,0 +1,405 @@
+<%- contentFor('body') %>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+<link type="text/css" href="css/swiper.min">
+
+
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+
+
+<nav class="menu">
+	<ul>
+		<li><a href="#entidades">Entidades</a></li>
+		<li><a href="#download">Download</a></li>
+		<li><a href="#saiba-mais">Saiba Mais</a></li>
+		<li><a href="#contato">Contato</a></li>
+		<%if(informacoesSobreLogado[0].nome != ""){%>
+		<li><a id="conta" href="/usuario">Conta</a></li>
+		<%}%>
+	</ul>
+</nav>
+<!--CABECALHO-->
+
+
+
+	<header id="cabecalho">
+
+		<div class="cabecalho-overlay">
+			<div class="container">
+				<div class="cabecalho-area">
+
+					<div class="logo-area">
+					<a class="logo" id="logoo" href="#"><img src="images/logo.png" alt="logo img"></a>
+					</div>
+
+
+					<div class="cabecalho-destaque-area">
+						<%if(informacoesSobreLogado[0].nome == ""){%>
+		<p id="estaCadastrado">Clique <a href="login">aqui </a> para se logar, caso já tenha uma conta.</p>
+		<%}%>
+						<%if(informacoesSobreLogado[0].nome != ""){%>
+		<p id="estaCadastrado">Olá, <%=informacoesSobreLogado[0].nome%></p>
+		<%}%>	
+						</div>
+
+						<div class="cabecalho-destaque-content">
+							<h1>Bem-Vindo ao <span>Helpa!</span></h1>
+							<%if(informacoesSobreLogado[0].nome == ""){%>
+		<div id="botoesdoarinscrever">
+			<h4>Doador: inscreva-se ou entre!</h4>
+			<a class="botaodoar" href="/cadastro"><span>Inscrever</span></a>
+			<a class="botaodoar" href="/login"><span>Entrar</span></a>
+		</div>
+		<%}%>	
+							<%if(informacoesSobreLogado[0].nome != ""){%>
+		<div id="botoesdoarinscrever">
+			<h4>Clique aqui para deslogar!</h4>
+			<a class="botaodoar" href="/sair"><span>Inscrever</span></a>
+		</div>
+		<%}%>	
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</header>
+
+
+	<div id="tudoo">
+			<h2 id="tituloEntidades2">---------</h2><br>
+		
+<!-- Entidades -->
+ <section id="entidades">
+		<h2 id="tituloEntidades">Entidades</h2><br>
+		<h5 id="textoEntidades">Aqui exibiremos algumas entidades que voce pode doar. <br>1- Tenha responsabilidade, não clique em doar se você não for entragar a doação;</h5>
+
+	
+		<input type="text" id="busca" name="pesquisa" style="width: 1000px;margin-left:205px;border-radius: 3px;height: 32px;padding-left:15px;border:1px solid rgba(255, 117, 117, 0.575);" placeholder="Ex: APAE, arroz, Recanto dos Velhinhos, blusa de frio, etc" >
+		<button id="btn-pesquisa" >Buscar</button>  <button id="btn-mostraTudo">Mostrar tudo</button>  
+	
+	 <div style="overflow-x:auto">  
+			<table id="tabelasss">
+					<tr id="linhaEntis" class="mg">
+					
+							<%for(var i=0;i<lista.length;i++) {%>
+
+		<td class="itemTabela">
+
+			<div class="card" style="width: 32rem;">
+				<img class="card-img-top" src="<%=lista[i].linkImagem%>" height="240px" width="320px"
+					alt="Imagem de capa do card">
+				<div class="card-body">
+					<h5 class="card-title" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+						aria-controls="collapse"><%=lista[i].nome%></h5>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item" widht="50px">
+							<%=lista[i].descricao%>
+						<li id="listaDoacoesNecessarias"><strong>doações NECESSáRIAS:</strong></li>
+						<%for(var ind = 0; ind < listaDoacoes.length;ind++){%>
+						<%if(listaDoacoes[ind].codigo == lista[i].codigo) {%>
+						<li id="listaDoacoesNecessarias">
+							<label><%=listaDoacoes[ind].produto %></label>
+						</li> <%}%>
+											  </li>
+												<%if(ind == listaDoacoes.length -1){%>
+						<li class="list-group-item"><%=lista[i].endereco%></li>
+					</ul>
+
+
+					<form action="/" method="post">
+						<div class="card-body">
+							<label>Digite aqui o que você irá doar:</label>
+							<input type="text" name="doacao" required>
+							<br><br>
+							<label>Digite a quantidade:</label>
+							<input type="text" id="qtddoacao" name="quantidade" required>
+						</div>
+						<div class="card-body">
+							<%if(informacoesSobreLogado[0].nome != ""){%>
+							<input type="submit" onclick="DoacaoSucesso();" name="submit" style="margin-right: 50px; "
+								class="btn btn-primary" value="Doar">
+							<%}%>
+											<%if(informacoesSobreLogado[0].nome == ""){%>
+							<input type="button" onclick="SemLogin();" name="" style="margin-right: 50px; "
+								class="btn btn-primary" value="Doar">
+							<%}%>
+												<input type="hidden" value="<%=lista[i].codigo%>" id="invisivel" name="codDaEntidade">
+					</form>
+					<a href="http://<%=lista[i].site%>" class="card-link">Saiba +</a>
+				</div>
+			</div>
+			</div>
+		</td>
+		<%}%>
+							<%}%>
+		<%}%>	
+			
+							</tr>
+					</table>
+				
+	 </div>
+
+	
+	
+		</section> 
+
+		
+    <div class="modal">
+        <div>
+            <h4 style="color:white; text-align:center;">LEIA COM ATENÇÃO!<BR> Apenas os itens da entidade que você clicou em "DOAR" serão computados, caso queira doar para mais de uma entidade clique no botão "DOAR" de cada uma delas. Lembre-se de que a entidade estará recebendo as suas informações e da doação, então não doe antes da certeza que irá entregar!</h4>
+				</div>
+    </div>
+
+		<!-- Download -->
+		<section id="download">
+				<div class="download-area">
+							
+								<h2 id="tituloapp">Baixe o Aplicativo</h2>
+								<p>Voce é uma entisdade e quer receber doacoes? Baixe o aplicativo e se inscreva!</p>		
+					<a class="download-desktop" href="#" download=""><span>DOWNLOAD</span></a>
+				</div>
+			</div>
+		</section>
+	
+
+		<!--SAIBA MAIS     (BOOTSTRAP)-->
+		<section id="saiba-mais">
+			<div class="container">
+						<div class="saiba-mais-area">
+							<div class="titulo-area">
+								<h2 class="titulo">Saiba Mais</h2>
+							</div>
+							<div class="saiba-mais-content">
+								<div class="panel-group" id="accordion">
+							        <div class="panel panel-default">
+							          <div class="panel-heading">
+							            <h4 class="panel-title">
+							              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true">
+							              O que é o Helpa?
+							              </a>
+							            </h4>
+							          </div>
+							          <div id="collapseOne" class="panel-collapse collapse in">
+							            <div class="panel-body">
+											Helpa é uma plataforma feita para ajudar as entidades a receberem doações mais facilmente
+							            </div>
+							          </div>
+							        </div>
+
+							        <div class="panel panel-default">
+							          <div class="panel-heading">
+							            <h4 class="panel-title">
+							              <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+							           </span> Como posso doar?
+							              </a>
+							            </h4>
+							          </div>
+							          <div id="collapseTwo" class="panel-collapse collapse">
+							            <div class="panel-body">
+							             Voce podera se inscrever no site e doar para qualquer entidade presente no catalogo
+							            </div>
+							          </div>
+							        </div>
+
+							        <div class="panel panel-default">
+							          <div class="panel-heading">
+							            <h4 class="panel-title">
+							              <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+							              Quem são os desenvolvedores?
+							              </a>
+							            </h4>
+							          </div>
+							          <div id="collapseThree" class="panel-collapse collapse">
+							            <div class="panel-body">
+							             Maria Luiza e Giovanna.
+							            </div>
+							          </div>
+							        </div>
+
+							        <div class="panel panel-default">
+							          <div class="panel-heading">
+							            <h4 class="panel-title">
+							              <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+							                O site é seguro?
+							              </a>
+							            </h4>
+							          </div>
+							          <div id="collapseFour" class="panel-collapse collapse">
+							            <div class="panel-body">
+							             Sim, todas as entidades são verificadas antes de entrar no catalogo.
+							            </div>
+							          </div>
+							        </div>
+
+							        <div class="panel panel-default">
+							          <div class="panel-heading">
+							            <h4 class="panel-title">
+							              <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+							                Quanto eu tenho que doar?
+							              </a>
+							            </h4>
+							          </div>
+							          <div id="collapseFive" class="panel-collapse collapse">
+							            <div class="panel-body">
+							              Voce pode doar o quanto quiser e puder.
+							            </div>
+							          </div>
+							        </div>
+
+
+							    </div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End FAQ -->
+
+
+		<!-- CONTATO -->
+		<section id="contato">
+			<div class="container">
+				<div class="contato-area">
+					<div class="titulo-area">
+								<h2>Contato</h2>
+					</div>
+					<div class="contato">
+								<form class="form-contato">
+												<div class="inputs">                
+												<input type="text" class="form-control"  placeholder="Nome" id="name" name="name"> <!--classe form-control pertence ao bootstrap-->
+												</div>
+
+												  <div class="inputs">                
+												<input type="email" class="form-control"  placeholder="Email" id="email" name="email">
+												  </div>  
+
+												     <div class="inputs">
+												<textarea class="form-control"  placeholder="Mensagem" id="mensagem" name="mensage"></textarea>
+													 </div>
+													 <br>
+												<button type="submit"><span>ENVIAR</span></button>
+								 </form>
+				     </div>
+				</div>
+			</div>		
+		</section>
+		<footer id="rodape">
+			<div class="container">
+					<div class="rodape-area">
+							<p>&copy; Copyright Helpa!. Nenhum Direito Reservado.</p>
+							<p>Celular para contato: (19) 999000206</p>
+					</div>
+			</div>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>	
+
+
+  $("#btn-mostraTudo").click(function () {
+	document.location.reload(true);
+});
+
+
+	$(document).ready(function () {
+		var escrito = $("#estaCadastrado").text;
+		if (escrito == "Clique aqui para se logar, caso já tenha uma conta.")
+			$("#conta").css("visibility", "hidden");
+	});
+
+	function SemLogin() {
+		alert("você não está logado, favor logar!");
+	}
+
+	function DoacaoSucesso() {
+		if($("#qtddoacao").val() != "")
+		alert("doacao feita com sucesso!");
+	}
+
+
+	function Aparecer() {
+		$('.modal').fadeIn("500");
+		$('.modal').css("display", "block");
+		setTimeout(function () {
+			Fechar();
+		}, 4000);
+	}
+
+	function Fechar() {
+		$('.modal').fadeOut("500");
+
+		setTimeout(function () {
+			$('.modal').css("display", "none");
+		}, 500)
+	}
+
+	$("#btn-pesquisa").click(function () {
+
+		$("#btn-pesquisa").click(function () {
+			var desc = $('#busca').val();
+			var url = "http://localhost:3000/pesquisar/" + desc + "";
+
+			$.getJSON(url, function (result) {
+				var infos = result;
+				var out = "";
+
+				for (var i = 0; i < infos.length; i++)
+				 {
+					out += `<td class="itemTabela">
+								<div class="card" style="width: 32rem;">
+									<img class="card-img-top" src="`+ infos[i].linkImg+ `" height="240px" width="320px" alt="Imagem de capa do card">
+							<div class="card-body">
+								<h5 class="card-title" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapse">`+ infos[i].nome + `</h5>
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item" widht="50px"> 
+										`+ infos[i].descri + `
+									<li id="listaDoacoesNecessarias"><strong>doações NECESSáRIAS:</strong></li>`;
+
+					var str = infos[i].doacoesNesc;
+  					var res = str.split(",");
+					  for (var ind = 1; ind < res.length; ind++) {
+						  out += `	<li id="listaDoacoesNecessarias"> <label>` + res[ind] + `</label></li>`;
+					}			
+																								
+			     	out +=		   `</li >
+									<li class="list-group-item">`+infos[i].ender+`</li>
+								</ul >
+							<form action="/" method="post">
+								<div class="card-body">
+									<label>Digite aqui o que você irá doar:</label>
+									<input type="text" name="doacao">
+									<br>
+									<label>Digite a quantidade:</label>
+									<input type="text" name="quantidade" onclick="Aparecer()">
+								</div>
+									<div class="card-body">`
+										var escrito = $("#estaCadastrado").text;
+									if (escrito == "Clique aqui para se logar, caso já tenha uma conta.")
+										{
+										out+= 		
+									`<input type="submit" onclick="DoacaoSucesso();" name="submit" style="margin-right: 50px;" class="btn btn-primary" value="Doar">`
+										}
+										if(escrito != "Clique aqui para se logar, caso já tenha uma conta.")
+										{
+											out+=
+										`<input type="button" onclick="SemLogin();" name="" style="margin-right: 50px; " class="btn btn-primary" value="Doar">`
+										}
+								out+= `
+									<input type="hidden" value="`+infos[i].codE+`" id="invisivel" name="codDaEntidade">
+								</form>
+									<a href="http://`+infos[i].site+`" class="card-link">Saiba +</a>
+								</div>
+							</div>
+						</div>
+					</td>`;
+				 }
+
+		$("#linhaEntis").html(out);
+							});
+    
+						});
+					});
+</script>
