@@ -180,8 +180,8 @@ public class Entidades
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
-            BDSQLServer.COMANDO.setInt    (1, entidade.getCodigo());
-            BDSQLServer.COMANDO.setString (2, entidade.getNome());
+            BDSQLServer.COMANDO.setInt        (1, entidade.getCodigo());
+            BDSQLServer.COMANDO.setString     (2, entidade.getNome());
 		    BDSQLServer.COMANDO.setString     (3, entidade.getEmail());
 		    BDSQLServer.COMANDO.setString     (4, entidade.getCnpj());
 		    BDSQLServer.COMANDO.setString     (5, entidade.getConta());
@@ -201,6 +201,40 @@ public class Entidades
             throw new Exception("Erro ao atualizar dados de entidade");
         }
     }
+    
+    public static void alterarNecessidades(int cod, String[] produtos) throws Exception
+    {
+        if (cod <= 0)
+            throw new Exception ("Codigo inválido");
+
+        if (!cadastrado(cod))
+            throw new Exception("Nao cadastrada");
+
+        try
+        {
+            String sql = "delete from HDoacoesNecessarias where codEntidade = ? ";
+            BDSQLServer.COMANDO.setInt           (1, cod);
+            BDSQLServer.COMANDO.prepareStatement (sql);
+            BDSQLServer.COMANDO.executeUpdate    ();
+            BDSQLServer.COMANDO.commit           ();
+            
+            sql="";
+            for(int i =0; i < produtos.length; i++)
+            {
+            	sql = "insert into HDoacaoesNecessarias values(?, ?)";
+            	BDSQLServer.COMANDO.setInt    (1, cod);
+                BDSQLServer.COMANDO.setString (2, produtos[i]);
+                BDSQLServer.COMANDO.prepareStatement (sql);
+                BDSQLServer.COMANDO.executeUpdate();
+                BDSQLServer.COMANDO.commit       ();
+            }
+        }
+        catch (SQLException erro)
+        {
+            throw new Exception("Erro ao atualizar dados de entidade");
+        }
+    }
+    
 
     public static Entidade getEntidadeByCod(int codigo) throws Exception
     {
@@ -383,7 +417,7 @@ public class Entidades
         {
             String sql;
 
-            sql = "selectNecessidades_sp = ?";
+            sql = "selectNecessidades_sp ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
 
