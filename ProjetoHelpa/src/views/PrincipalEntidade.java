@@ -302,6 +302,18 @@ public class PrincipalEntidade extends JFrame {
 						try
 						{
 							Entidades.alterar(entidade);
+							int qtd = Integer.parseInt(cbxNecessidades.getSelectedItem().toString());
+							String produtos[] = new String[qtd];
+							int x = 0;
+							for (Component c : pnlNecessidades.getComponents()) 
+							{
+								if (c instanceof JTextField) 
+							    {
+									if(x < qtd)
+										produtos[x] = ((JTextField)c).getText();
+							    }
+							}
+							Entidades.alterarNecessidades(entidade.getCodigo(), produtos);
 							// + alterar necessidades --> asNecessidades.alterar(bla)
 						}
 						catch(Exception ex) 

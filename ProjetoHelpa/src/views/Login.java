@@ -99,7 +99,6 @@ public class Login {
 								Funcionario func = Funcionarios.getFuncionarioByUsuario(usuario);
 								if(func.getSenha().equals(senha) && func.getUsuario().equals(usuario))
 								{
-									System.out.print("senha");
 									PrincipalFunc formPF = new PrincipalFunc(func.getCodigo());
 									formPF.setVisible(true);
 								}
