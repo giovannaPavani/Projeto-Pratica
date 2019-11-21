@@ -12,12 +12,6 @@ class PessoaDao {
         })
     }
 
-    buscarPorEmail(email,callback) {
-        this._db.query("select * from HPessoas where email = '" + email + "'", (err, recordset) => { 
-            callback(err, recordset); 
-        }) 
-    } 
-
     listaDeDoacoesFeitas(callback) {
         this._db.query("select p.nome as 'nomePessoa',d.produto,d.quantidade, e.nome, e.endereco,d.entregue from HDoacoes d, HPessoas p, HEntidades e where p.email = '"+this.emailLogado+"' and p.codigo = d.codPessoa and d.codEntidade = e.codigo", function (err, recordset) {
             callback(err, recordset);

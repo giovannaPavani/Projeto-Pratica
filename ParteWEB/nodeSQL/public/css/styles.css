@@ -19,7 +19,7 @@ body {
 
 #estaCadastrado{
 	color:white;
-	font-size: 4em;
+	font-size: 2em;
 	float:right;
 	margin-left:10px;
 }
@@ -253,6 +253,7 @@ background-attachment: fixed;
 	color: #fff;
 	font-weight: 300;
 	margin-bottom: 15px;
+	text-align:center;
 }
 
 .cabecalho-destaque-content h1 span {
@@ -586,7 +587,7 @@ text-align: center;
 @media (max-width: 1199px) {
 
 	.cabecalho-destaque-content {
-		margin-top: 120px;
+		margin-top: 100px;
 	}
 	
 }

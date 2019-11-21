@@ -1,11 +1,12 @@
 var PessoaDao = require('../app/pessoa-dao');
+var EntidadeDao = require('../app/entidade-dao');
 var conexao = require('../config/custom-mssql');
 const session = require('express-session');
 
 var emailLogado = "vazio";
-var codLogado;
-var senhaLogada;
 var pessoaDao = new PessoaDao(conexao, emailLogado);
+
+var sess;
 
 function execSQL(sql, resposta) {
     global.conexao.request()
@@ -16,42 +17,58 @@ function execSQL(sql, resposta) {
 
 module.exports = (app) => {
 
-        app.post('/', function (req, res) {
-            const doacao = req.body.doacao;
-            const entidade = req.body.codDaEntidade;
-            const qtd = req.body.quantidade;
-           conexao.query(`select codigo from HPessoas where email='${emailLogado}'`, (err, result) => {
-              codLogado = result.recordset[0].codigo;
+    app.post('/', function (req, res) {
+
+        const doacao = req.body.doacao;
+        const entidade = req.body.codDaEntidade;
+        const qtd = req.body.quantidade;
+
+        conexao.query(`select codigo from HPessoas where email='${emailLogado}'`, (err, result) => {
+            var codLogado = result.recordset[0].codigo;
             execSQL(`Insert into HDoacoes values (${codLogado},'${doacao}',${entidade},GETUTCDATE(),'N','${qtd}')`, res);
         });
+
         execSQL(`UPDATE HPessoas set qtdDoacoesFeitas=qtdDoacoesFeitas+1 where email = '${emailLogado}'`, res);
         execSQL(`UPDATE HEntidades set visualizacoes=visualizacoes+1 where codigo = '${entidade}'`, res);
+
         res.redirect('/#entidades');
     });
 
 
     app.get('/', function (req, res) {
+
+        sess = req.session;
+        sess.email;
+        sess.senha;
+        sess.codigo;
+
         pessoaDao.lista(function (erro, resultados) {
             pessoaDao.listaDoacoes(function (erro, resultados2) {
-                pessoaDao.informacoesSobreLogado(function(erro, resultados3){
+                pessoaDao.informacoesSobreLogado(function (erro, resultados3) {
                     res.render('paginas/home', {
                         lista: resultados["recordset"],
                         listaDoacoes: resultados2["recordset"],
                         informacoesSobreLogado: resultados3["recordset"]
-                })
+                    })
                 })
             });
-
         });
     });
 
     app.get('/cadastro', function (req, resp) {
-        resp.render("paginas/cadastro");
+        if (typeof sess.email == "undefined") {
+
+            resp.render("paginas/cadastro");
+        }
+        else {
+            resp.redirect("/#");
+        }
+
     });
 
-    app.get('/pesquisar/:busc', function (req,resp){
+    app.get('/pesquisar/:busc', function (req, resp) {
         var busc = req.params.busc;
-        execSQL("Busca_sp '"+busc+"'",resp);
+        execSQL("Busca_sp '" + busc + "'", resp);
     });
 
     app.post('/cadastro', function (req, resp) {
@@ -73,39 +90,82 @@ module.exports = (app) => {
     });
 
     app.get('/login', function (req, resp) {
-        resp.render("paginas/login");
+        sess = req.session;
+        if (typeof sess.email == "undefined") {
+            resp.render("paginas/login");
+        }
+        else {
+            resp.redirect("/");
+        }
     });
 
-     app.post('/login', function (req, resp) {
-         var email = req.body.email.substring(0, 50);
-         var senha = req.body.senha.substring(0, 15);
-                     senhaLogada = senha;
-                     emailLogado = email;
-            pessoaDao = new PessoaDao(conexao, emailLogado);
-                  pessoaDao.lista(function (erro, resultados) {
+    app.post('/login', function (req, resp) {
+        sess = req.session;
+
+         emailLogado = req.body.email.substring(0, 50);
+        var senhaLocal = req.body.senha.substring(0, 15);
+
+        pessoaDao = new PessoaDao(conexao, emailLogado);
+        pessoaDao.buscarPorEmail(emailLogado, function (erro, resultados) {
+
+            if (erro){
+                console.log("erro no login");
+            }          
+            else if (resultados.recordset.length != 0 && resultados.recordset[0].senha == senhaLocal) {
+                sess.email = emailLogado;
+                sess.senha = senhaLocal;
+                emailLogado = sess.email;
+
+                pessoaDao.lista(function (erro, resultados) {
                     pessoaDao.listaDoacoes(function (erro, resultados2) {
-                        pessoaDao.informacoesSobreLogado(function(erro, resultados3){
+                        pessoaDao.informacoesSobreLogado(function (erro, resultados3) {
                             resp.render('paginas/home', {
                                 lista: resultados["recordset"],
                                 listaDoacoes: resultados2["recordset"],
                                 informacoesSobreLogado: resultados3["recordset"]
+                            })
                         })
                     });
                 });
-                });
-     });
+            }
+            else {
+                resp.redirect('/login');
+            }
+        });
+    });
 
-     app.get('/usuario', function (req, resp) {
+    app.get('/sair',(req,res) => {
+        req.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        }
+            emailLogado = "vazio";
+            pessoaDao = new PessoaDao(conexao, emailLogado);
+            pessoaDao.lista(function (erro, resultados) {
+                pessoaDao.listaDoacoes(function (erro, resultados2) {
+                    pessoaDao.informacoesSobreLogado(function (erro, resultados3) {
+                        res.render('paginas/home', {
+                            lista: resultados["recordset"],
+                            listaDoacoes: resultados2["recordset"],
+                            informacoesSobreLogado: resultados3["recordset"]
+                        })
+                    })
+                });
+            });     
+        });
+    });
+
+    app.get('/usuario', function (req, resp) {
         pessoaDao = new PessoaDao(conexao, emailLogado);
         pessoaDao.listaDeDoacoesFeitas(function (erro, resultados) {
-            pessoaDao.informacoesSobreLogado(function(erro, resultados2){
-            console.log(resultados);
-                  resp.render('paginas/usuario', { 
-                      listaDeDoacoesFeitas: resultados["recordset"],
-                      informacoesSobreLogado: resultados2["recordset"]
-                    });
+            pessoaDao.informacoesSobreLogado(function (erro, resultados2) {
+                console.log(resultados);
+                resp.render('paginas/usuario', {
+                    listaDeDoacoesFeitas: resultados["recordset"],
+                    informacoesSobreLogado: resultados2["recordset"]
                 });
-            });  
+            });
         });
-           
+    });
+
 }
