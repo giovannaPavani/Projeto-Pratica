@@ -94,7 +94,7 @@ public class Entidades
             String sql;
 
             sql = "INSERT INTO HENTIDADES " +
-                  "(CODIGO, NOME, CPNJ, ENDERECO, EMAIL, TELEFONE, CONTA, AGENCIA,USUARIO, SENHA, VISUALIZACOES, SITE, IMAGEM) " +
+                  "(CODIGO, NOME, CPNJ, ENDERECO, EMAIL, TELEFONE, CONTA, AGENCIA,USUARIO, SENHA, VISUALIZACOES, SITE, LINKIMAGEM) " +
                   "VALUES " +
                   "(?,?,?,?,?,?,?,?,?,?,?)"; // guarda o lugar para dps a gnt colocar uma variavel
 
@@ -136,17 +136,22 @@ public class Entidades
         {
             String sql;
 
+            sql = "DELETE FROM HDOACOESNECESSARIAS WHERE CODENTIDADE = ?";
+            BDSQLServer.COMANDO.prepareStatement(sql);
+            BDSQLServer.COMANDO.setInt(1, codigo);
+            BDSQLServer.COMANDO.executeUpdate();
+            
             sql = "DELETE FROM HENTIDADES " +
                   "WHERE CODIGO=?";
-
             BDSQLServer.COMANDO.prepareStatement(sql);
-
             BDSQLServer.COMANDO.setInt(1, codigo);
-
             BDSQLServer.COMANDO.executeUpdate();
-            BDSQLServer.COMANDO.commit       ();        }
+            
+            BDSQLServer.COMANDO.commit();        
+        }
         catch (SQLException erro)
         {
+        	BDSQLServer.COMANDO.rollback();
             throw new Exception("Erro ao excluir entidade");
         }
     }
@@ -176,6 +181,7 @@ public class Entidades
                   "SET VISUALIZACOES= ?" +
                   "SET SITE= ?"+
                   "SET DESCRICAO= ?" +
+                  "SET LINKIMAGEM= ?" +
                   "WHERE CODIGO = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
@@ -192,6 +198,7 @@ public class Entidades
 		    BDSQLServer.COMANDO.setInt        (10, entidade.getVisualizacoes());
 		    BDSQLServer.COMANDO.setString     (11, entidade.getSite());
 		    BDSQLServer.COMANDO.setString     (12, entidade.getDescricao());
+		    BDSQLServer.COMANDO.setString     (13, entidade.getImagem());
 
             BDSQLServer.COMANDO.executeUpdate();
             BDSQLServer.COMANDO.commit       ();
@@ -216,7 +223,6 @@ public class Entidades
             BDSQLServer.COMANDO.setInt           (1, cod);
             BDSQLServer.COMANDO.prepareStatement (sql);
             BDSQLServer.COMANDO.executeUpdate    ();
-            BDSQLServer.COMANDO.commit           ();
             
             sql="";
             for(int i =0; i < produtos.length; i++)
@@ -226,11 +232,41 @@ public class Entidades
                 BDSQLServer.COMANDO.setString (2, produtos[i]);
                 BDSQLServer.COMANDO.prepareStatement (sql);
                 BDSQLServer.COMANDO.executeUpdate();
-                BDSQLServer.COMANDO.commit       ();
+                
             }
+            BDSQLServer.COMANDO.commit       ();
         }
         catch (SQLException erro)
         {
+        	BDSQLServer.COMANDO.rollback();
+            throw new Exception("Erro ao atualizar dados de entidade");
+        }
+    }
+    
+    public static void inserirNecessidades(int cod, String[] produtos) throws Exception
+    {
+        if (cod <= 0)
+            throw new Exception ("Codigo inválido");
+
+        if (!cadastrado(cod))
+            throw new Exception("Nao cadastrada");
+
+        try
+        {
+            String sql;
+            for(int i =0; i < produtos.length; i++)
+            {
+            	sql = "insert into HDoacaoesNecessarias values(?, ?)";
+            	BDSQLServer.COMANDO.setInt    (1, cod);
+                BDSQLServer.COMANDO.setString (2, produtos[i]);
+                BDSQLServer.COMANDO.prepareStatement (sql);
+                BDSQLServer.COMANDO.executeUpdate();
+            }
+            BDSQLServer.COMANDO.commit       ();
+        }
+        catch (SQLException erro)
+        {
+        	BDSQLServer.COMANDO.rollback();
             throw new Exception("Erro ao atualizar dados de entidade");
         }
     }
@@ -270,7 +306,7 @@ public class Entidades
 							       resultado.getInt("VISUALIZACOES"),
 							       resultado.getString("DESCRICAO"),
 							       resultado.getString("SITE"),
-							       resultado.getString("IMAGEM"));
+							       resultado.getString("LINKIMAGEM"));
         }
         catch (SQLException erro)
         {
@@ -311,7 +347,7 @@ public class Entidades
 							       resultado.getInt("VISUALIZACOES"),
 							       resultado.getString("DESCRICAO"),
 							       resultado.getString("SITE"),
-							       resultado.getString("IMAGEM"));
+							       resultado.getString("LINKIMAGEM"));
         }
         catch (SQLException erro)
         {
@@ -352,10 +388,10 @@ public class Entidades
 							       resultado.getString("USUARIO"),
 							       resultado.getString("SENHA"),
 							       resultado.getString("TELEFONE"),
-							       resultado.getInt("VISUALIZACOES"),
+							       resultado.getInt   ("VISUALIZACOES"),
 							       resultado.getString("DESCRICAO"),
 							       resultado.getString("SITE"),
-							       resultado.getString("IMAGEM"));
+							       resultado.getString("LINKIMAGEM"));
         }
         catch (SQLException erro)
         {
@@ -399,7 +435,7 @@ public class Entidades
 							       resultado.getInt("VISUALIZACOES"),
 							       resultado.getString("DESCRICAO"),
 							       resultado.getString("SITE"),
-							       resultado.getString("IMAGEM"));
+							       resultado.getString("LINKIMAGEM"));
         }
         catch (SQLException erro)
         {
@@ -480,5 +516,34 @@ public class Entidades
         }
 
         return resultado;
+    }
+    
+    public static MeuResultSet getDoacoes(int cod) throws Exception
+    {
+    	if (cod <= 0)
+            throw new Exception ("Codigo inválido");
+
+        if (!cadastrado(cod))
+            throw new Exception("Nao cadastrada");
+        
+    	MeuResultSet resultado = null;
+    	try
+        {
+            String sql;
+
+            sql = "select produto, data, entregue, quantidade from HDoacoes where codEntidade = ?";
+            BDSQLServer.COMANDO.setInt(1, cod);
+
+            BDSQLServer.COMANDO.prepareStatement (sql);
+
+            resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery ();
+        }
+        catch (SQLException erro)
+        {
+            throw new Exception ("Erro ao recuperar doações");
+        }
+
+        return resultado;
+    	
     }
 }

@@ -23,7 +23,7 @@ public class PrincipalFunc extends JFrame {
 	
 	private JFrame frame;
 	private JPanel contentPane;
-	Funcionario funcAtual;
+	Funcionario funcionarioLog;
 	boolean alterou = false;
 
 	/**
@@ -65,7 +65,7 @@ public class PrincipalFunc extends JFrame {
 	private void initialize() {
 		try
 		{
-		  funcAtual = new Funcionario(Funcionarios.getFuncionarioByCod(codigo));
+		  funcionarioLog = new Funcionario(Funcionarios.getFuncionarioByCod(codigo));
 		}
 		catch(Exception ex) {} // n vai dar erro pois o codigo foi eu que passei
 		
@@ -156,12 +156,12 @@ public class PrincipalFunc extends JFrame {
 				{
 					try
 					{
-						funcAtual.setEndereco(txtEndereco.getText());
-						funcAtual.setUsuario(txtUsuario.getText());
-						funcAtual.setEmail(txtEmail.getText());
-						funcAtual.setNome(txtNome.getText());
-						funcAtual.setTelefone(txtTelefone.getText());
-						Funcionarios.alterar(funcAtual);
+						funcionarioLog.setEndereco(txtEndereco.getText());
+						funcionarioLog.setUsuario(txtUsuario.getText());
+						funcionarioLog.setEmail(txtEmail.getText());
+						funcionarioLog.setNome(txtNome.getText());
+						funcionarioLog.setTelefone(txtTelefone.getText());
+						Funcionarios.alterar(funcionarioLog);
 						alterou = false;
 						JOptionPane.showMessageDialog(null,"Alteração feita com sucesso!");
 					}
@@ -210,21 +210,21 @@ public class PrincipalFunc extends JFrame {
 		txtNome.setBounds(119, 62, 298, 23);
 		frame.getContentPane().add(txtNome);
 		txtNome.setColumns(10);
-		txtNome.setText(funcAtual.getNome());
+		txtNome.setText(funcionarioLog.getNome());
 		
 		txtEmail = new JTextField();
 		txtEmail.setEnabled(false);
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(119, 129, 298, 23);
 		frame.getContentPane().add(txtEmail);
-		txtEmail.setText(funcAtual.getEmail());
+		txtEmail.setText(funcionarioLog.getEmail());
 		
 		txtTelefone = new JTextField();
 		txtTelefone.setEnabled(false);
 		txtTelefone.setColumns(10);
 		txtTelefone.setBounds(119, 95, 298, 23);
 		frame.getContentPane().add(txtTelefone);
-		txtTelefone.setText(funcAtual.getTelefone());
+		txtTelefone.setText(funcionarioLog.getTelefone());
 		
 		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
 		lblEndereo.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -236,7 +236,7 @@ public class PrincipalFunc extends JFrame {
 		txtEndereco.setColumns(10);
 		txtEndereco.setBounds(119, 161, 298, 23);
 		frame.getContentPane().add(txtEndereco);
-		txtEndereco.setText(funcAtual.getEndereco());
+		txtEndereco.setText(funcionarioLog.getEndereco());
 		
 		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
 		lblUsurio.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -248,9 +248,15 @@ public class PrincipalFunc extends JFrame {
 		txtUsuario.setColumns(10);
 		txtUsuario.setBounds(119, 194, 200, 23);
 		frame.getContentPane().add(txtUsuario);
-		txtUsuario.setText(funcAtual.getUsuario());
+		txtUsuario.setText(funcionarioLog.getUsuario());
 		
 		JButton btnTrocarSenha = new JButton("Trocar senha");
+		btnTrocarSenha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TrocarSenha formTS = new TrocarSenha(funcionarioLog);
+				formTS.setVisible(true);
+			}
+		});
 		btnTrocarSenha.setForeground(Color.BLACK);
 		btnTrocarSenha.setBounds(322, 189, 95, 32);
 		frame.getContentPane().add(btnTrocarSenha);

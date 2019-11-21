@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import bd.core.MeuResultSet;
 import bd.daos.Entidades;
@@ -27,6 +28,7 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
 
 public class PrincipalEntidade extends JFrame {
 	
@@ -53,6 +55,7 @@ public class PrincipalEntidade extends JFrame {
 	private JTextField txtNec5;
 	private JComboBox<Integer> cbxNecessidades;
 	private JPanel pnlNecessidades;
+	private JTable tblRelatorio;
 
 	/**
 	 * Launch the application.
@@ -96,7 +99,7 @@ public class PrincipalEntidade extends JFrame {
 		contentPane.setLayout(null);
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setToolTipText("");
-		//tabbedPane.setSelectedIndex(0);
+		tabbedPane.setSelectedIndex(0); // ver se dá erro
 		tabbedPane.setBounds(0, 0, 561, 383);
 		contentPane.add(tabbedPane);
 		
@@ -207,36 +210,35 @@ public class PrincipalEntidade extends JFrame {
 		btnSalvarInt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if( !txtCodigo.getText().equals("")  ||
-						!txtNome.getText().equals("")    ||
-						!txtEmail.getText().equals("")   ||
-						!txtCnpj.getText().equals("")    ||
-						!txtEndereco.getText().equals("")||
-						!txtTelefone.getText().equals("")||
-						!txtConta.getText().equals("")   ||
-						!txtAgencia.getText().equals("") ||
-						!txtUsuario.getText().equals("") ||
-						!txtNec1.getText().equals("")    )
-						{
-							try {
-								Entidade entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
-								txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
-								txtEndereco.getText(), txtUsuario.getText(),"", txtTelefone.getText(), 0, "", txtSite.getText(), "");
-								try
-								{
-									Entidades.alterar(entidade);
-								}
-								catch(Exception ex) 
-								{
-									throw new Exception();
-								}
+					!txtNome.getText().equals("")    ||
+					!txtEmail.getText().equals("")   ||
+					!txtCnpj.getText().equals("")    ||
+					!txtEndereco.getText().equals("")||
+					!txtTelefone.getText().equals("")||
+					!txtConta.getText().equals("")   ||
+					!txtAgencia.getText().equals("") ||
+					!txtUsuario.getText().equals("")  )
+					{
+						try {
+							Entidade entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
+									txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
+									txtEndereco.getText(), txtUsuario.getText(),entidadeLog.getSenha(), txtTelefone.getText(),
+									entidadeLog.getVisualizacoes(), entidadeLog.getDescricao(), txtSite.getText(), entidadeLog.getImagem());
+							try
+							{
+								Entidades.alterar(entidade);
 							}
 							catch(Exception ex) 
 							{
-								JOptionPane.showMessageDialog(null,"Informações inseridas inválidas. Alteração cancelada!");
+								throw new Exception();
 							}
-							atualizarTela();
-							cbxNecessidades.setEnabled(false);
 						}
+						catch(Exception ex) 
+						{
+							JOptionPane.showMessageDialog(null,"Informações inseridas inválidas. Alteração cancelada!");
+						}
+						atualizarTela();
+					}
 			}
 		});
 		btnSalvarInt.setFont(UIManager.getFont("ToolTip.font"));
@@ -263,7 +265,8 @@ public class PrincipalEntidade extends JFrame {
 		JButton btnTrocarSenha = new JButton("Trocar Senha");
 		btnTrocarSenha.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// abrir form de trocar senha
+				TrocarSenha formTS = new TrocarSenha(entidadeLog);
+				formTS.setVisible(true);
 			}
 		});
 		btnTrocarSenha.setFont(UIManager.getFont("ToolTip.font"));
@@ -291,30 +294,43 @@ public class PrincipalEntidade extends JFrame {
 		JButton btnSalvarPub = new JButton("Salvar");
 		btnSalvarPub.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if( !txtFoto.getText().equals("")  ||
-					!txtSite.getText().equals("")    ||
-					!txtDescricao.getText().equals(""))
+				if( !txtFoto.getText().equals("")     ||
+					!txtSite.getText().equals("")     ||
+					!txtDescricao.getText().equals("")||
+					!txtNec1.getText().equals(""))
 				{
-					try { // passar parametros direito
+					try { 
 						Entidade entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
 						txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
 						txtEndereco.getText(), txtUsuario.getText(),"", txtTelefone.getText(), 0, "", txtSite.getText(), "");
 						try
 						{
 							Entidades.alterar(entidade);
+							
 							int qtd = Integer.parseInt(cbxNecessidades.getSelectedItem().toString());
-							String produtos[] = new String[qtd];
+							String txts[] = new String[5];
 							int x = 0;
 							for (Component c : pnlNecessidades.getComponents()) 
 							{
 								if (c instanceof JTextField) 
 							    {
-									if(x < qtd)
-										produtos[x] = ((JTextField)c).getText();
+									txts[x] = ((JTextField)c).getText();
+									x++;
 							    }
 							}
+							
+							qtd=0;
+							for(int i = 0; i<5; i++)
+								if(!txts[i].equals(""))
+									qtd++;
+								else
+									break;
+							
+							String produtos[] = new String[qtd];
+							for(int i = 0; i<qtd; i++)
+								produtos[i] = txts[i];
+							
 							Entidades.alterarNecessidades(entidade.getCodigo(), produtos);
-							// + alterar necessidades --> asNecessidades.alterar(bla)
 						}
 						catch(Exception ex) 
 						{
@@ -325,11 +341,12 @@ public class PrincipalEntidade extends JFrame {
 					{
 						JOptionPane.showMessageDialog(null,"Informações inseridas inválidas. Alteração cancelada!");
 					}
-					atualizarTela();
-					cbxNecessidades.setEnabled(false);
+					
 				}
 				else
 					JOptionPane.showMessageDialog(null,"Não deixe campos em branco! Alteração cancelada!");
+				atualizarTela();
+				cbxNecessidades.setEnabled(false);
 			}
 		});
 		menuBar_1.add(btnSalvarPub);
@@ -390,22 +407,27 @@ public class PrincipalEntidade extends JFrame {
 		pnlNecessidades.setLayout(new GridLayout(5, 1, 0, 0));
 		
 		txtNec1 = new JTextField();
+		txtNec1.setEnabled(false);
 		txtNec1.setColumns(10);
 		pnlNecessidades.add(txtNec1);
 		
 		txtNec2 = new JTextField();
+		txtNec2.setEnabled(false);
 		txtNec2.setColumns(10);
 		pnlNecessidades.add(txtNec2);
 		
 		txtNec3 = new JTextField();
+		txtNec3.setEnabled(false);
 		txtNec3.setColumns(10);
 		pnlNecessidades.add(txtNec3);
 		
 		txtNec4 = new JTextField();
+		txtNec4.setEnabled(false);
 		txtNec4.setColumns(10);
 		pnlNecessidades.add(txtNec4);
 		
 		txtNec5 = new JTextField();
+		txtNec5.setEnabled(false);
 		txtNec5.setColumns(10);
 		pnlNecessidades.add(txtNec5);
 		
@@ -431,6 +453,7 @@ public class PrincipalEntidade extends JFrame {
 					if (c instanceof JTextField) 
 				    { 
 						((JTextField)c).setVisible(true);
+						((JTextField)c).setEnabled(true);
 						x++;
 				    }
 				}
@@ -445,8 +468,46 @@ public class PrincipalEntidade extends JFrame {
 		label.setBounds(434, 86, 131, 32);
 		pnlInfoPub.add(label);
 		
-		//JImagePanel img = new JImagePanel(entidadeLog.getImagem());
-	}
+		JPanel pnlRelatorio = new JPanel();
+		pnlRelatorio.setLayout(null);
+		tabbedPane.addTab("New tab", null, pnlRelatorio, null);
+		
+		JMenuBar menuBar_2 = new JMenuBar();
+		menuBar_2.setBounds(0, 0, 676, 21);
+		pnlRelatorio.add(menuBar_2);
+		
+		tblRelatorio = new JTable();
+		tblRelatorio.setBounds(10, 342, 536, -312);
+		pnlRelatorio.add(tblRelatorio);
+		DefaultTableModel model = null;
+		try 
+		{
+			MeuResultSet dados = Entidades.getDoacoes(entidadeLog.getCodigo());
+			 model = new DefaultTableModel(new Object[][] {},
+			new String[] {
+				"Produto", "Quantidade", "Data", "Entregue?"
+			});
+			 dados.last();
+			 int qtd = dados.getRow();
+			 dados.first();
+			for(int i =0; i<qtd ; i++)
+			{
+				Object[] linha = new Object[4];
+				linha[0]= dados.getObject("PRODUTO");
+				linha[0]= dados.getObject("QUANTIDADE");
+				linha[0]= dados.getObject("DATA");
+				linha[0]= dados.getObject("ENTREGUE");
+				dados.next();
+				model.addRow(linha);
+			}
+		}
+		catch(Exception ex) 
+		{
+			System.out.print(ex.getMessage());}
+		}
+		//tblRelatorio.setModel(model);         EXCUSE ME
+		//pnlRelatorio.add(tblRelatorio);	
+
 	private void limparTela()
 	{
 		txtCodigo.setText("");

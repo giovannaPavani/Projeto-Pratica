@@ -176,5 +176,4 @@ public class Login {
 		lblHelpa.setBounds(72, 86, 72, 23);
 		frame.getContentPane().add(lblHelpa);
 	}
-
 }
