@@ -455,31 +455,31 @@ public class ManutEntidades extends JFrame {
 			});
 			for(int i =0; dados.next(); i++)
 			{
-				Entidade entidade = Entidades.getEntidadeById(i);
-				Object[] linha = new Object[12];
-				linha[0]= entidade.getCodigo();
-				linha[1]= entidade.getNome();
-				linha[2]= entidade.getEmail();
-				linha[3]= entidade.getCnpj();
-				linha[4]= entidade.getTelefone();
-				linha[5]= entidade.getConta();
-				linha[6]= entidade.getAgencia();
-				linha[7]= entidade.getEndereco();
-				linha[8]= entidade.getUsuario();
-				linha[9]= entidade.getVisualizacoes();
-				linha[10]= entidade.getDescricao();
-				linha[11]= entidade.getSite();
-				linha[11]= entidade.getImagem();
+				Object[] linha = new Object[13];
+				linha[0]= dados.getObject("codigo");
+				linha[1]= dados.getObject("nome");
+				linha[2]= dados.getObject("email");
+				linha[3]= dados.getObject("cpnj");
+				linha[4]= dados.getObject("Telefone");
+				linha[5]= dados.getObject("Conta");
+				linha[6]= dados.getObject("Agencia");
+				linha[7]= dados.getObject("Endereco");
+				linha[8]= dados.getObject("Usuario");
+				linha[9]= dados.getObject("Visualizacoes");
+				linha[10]= dados.getObject("Descricao");
+				linha[11]= dados.getObject("Site");
+				linha[11]= dados.getObject("Imagem");
 				
 				model.addRow(linha);
 			}
 		}
 		catch(Exception ex) 
 		{
-			System.out.print(ex.getMessage());}
+			System.out.print(ex.getMessage());
 		}
-		//tblEntidades.setModel(model);    EXCUSE ME
-		//pnlConsulta.add(tblEntidades);	
+		tblEntidades.setModel(model);   
+		pnlConsulta.add(tblEntidades);	
+	}
 		
 		private void atualizarTela() 
 		{

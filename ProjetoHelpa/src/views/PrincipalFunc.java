@@ -125,11 +125,8 @@ public class PrincipalFunc extends JFrame {
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				txtNome.setEnabled(true);
-				txtEmail.setEnabled(true);
-				txtTelefone.setEnabled(true);
-				txtEndereco.setEnabled(true);
-				txtUsuario.setEnabled(true);
+				setTxts(true);
+				
 				btnSalvar.setEnabled(true);
 				alterou = true;
 			}
@@ -170,12 +167,7 @@ public class PrincipalFunc extends JFrame {
 						JOptionPane.showMessageDialog(null,ex.getMessage() + "Alteração cancelada");
 					}
 				}
-				btnSalvar.setEnabled(false);
-				txtNome.setEnabled(false);
-				txtEmail.setEnabled(false);
-				txtTelefone.setEnabled(false);
-				txtEndereco.setEnabled(false);
-				txtUsuario.setEnabled(false);
+				setTxts(false);
 			}
 		});
 		frame.getContentPane().add(btnSalvar);
@@ -193,12 +185,7 @@ public class PrincipalFunc extends JFrame {
 				}
 				catch(Exception ex)
 				{} // n vai dar erro pq fui eu quem passei o codigo
-				btnSalvar.setEnabled(false);
-				txtNome.setEnabled(false);
-				txtEmail.setEnabled(false);
-				txtTelefone.setEnabled(false);
-				txtEndereco.setEnabled(false);
-				txtUsuario.setEnabled(false);
+				setTxts(false);
 			}
 		});
 		btnCancelar.setForeground(Color.BLACK);
@@ -276,6 +263,9 @@ public class PrincipalFunc extends JFrame {
 		miManutEntidades.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// manunetncao ENTIDADES
+				ManutEntidades formME = new ManutEntidades();
+				formME.setVisible(true);
 			}
 		});
 		menManutencao.add(miManutEntidades);
@@ -286,11 +276,14 @@ public class PrincipalFunc extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// ABRIR FORM DE MANUTENÇÃO DE FUNCIONÁRIOS
-				//ManutFuncs formMF = new ManutFuncs();
+				//ManutFunciona formMF = new ManutFuncs();
 				//formMF.setVisible(true);
 			}
 		});
 		menManutencao.add(miManutFuncs);
+		
+		JMenuItem miManutDoadores = new JMenuItem("DOADORES");
+		menManutencao.add(miManutDoadores);
 		
 		JMenu menConsultas = new JMenu("CONSULTAS");
 		menConsultas.setBounds(271, 289, 131, 22);
@@ -332,5 +325,14 @@ public class PrincipalFunc extends JFrame {
 		JLabel lblNewLabel = new JLabel("HELPA!");
 		lblNewLabel.setBounds(216, 11, 46, 14);
 		frame.getContentPane().add(lblNewLabel);
+	}
+	
+	private void setTxts(boolean modo)
+	{
+		txtNome.setEnabled(modo); 
+		txtEmail.setEnabled(modo);
+		txtTelefone.setEnabled(modo);
+		txtEndereco.setEnabled(modo);
+		txtUsuario.setEnabled(modo);
 	}
 }
