@@ -1,0 +1,679 @@
+body,
+html {
+	overflow-x:hidden;
+}
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 15px;
+	letter-spacing: 0.5px;
+	line-height: 1.5;
+	color: #1c1b1b;
+}
+
+#estaCadastrado{
+	color:white;
+	font-size: 20px;
+	float:right;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+}
+
+ul li {
+	list-style: disc;
+	font-size: 17px;
+	line-height: 1.59;
+}
+
+a { 
+	text-decoration: none;
+	color: #2f2f2f;  
+}
+
+a:hover,
+a:focus {
+	outline: none;
+	text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 700;
+	margin-top: 0;
+}
+
+
+h1 {
+	font-size: 38px;
+}
+
+h2 {  
+	font-size: 32px; 
+	line-height: 1.13; 
+}
+
+h3 {  
+	font-size: 26px;  
+}
+
+h4 {  
+	font-size: 22px;  
+}
+
+h5 {  
+	font-size: 20px;  
+}
+
+h6 {  
+	font-size: 18px;  
+}
+
+img {
+	border: none;
+	max-width: 100%;
+}
+
+button {
+	padding: 5px 15px;
+	border-radius: 5px;
+
+}
+
+p{
+	font-size: 19px;
+}
+
+#tabela {
+	position:relative;
+}
+#mu-apps-screenshot{
+display: inline;
+}
+
+
+/*--------------------*/
+/* CABECALHO */
+/*--------------------*/
+
+.menu{
+ position:hidden;
+ z-index: initial;
+ width: 100%;
+}
+
+
+.menu ul{
+	background-color: rgb(202, 70, 70);
+}
+.menu ul li {
+	list-style: none;
+	display: inline;
+	
+}
+
+
+.menu ul li a {
+	color: #fff;
+	display: inline-block;
+	font-size: 28px;
+	font-weight: 700;
+	text-align: center;
+	padding: 15px;
+	text-transform: uppercase;
+	
+}
+
+
+#cabecalho {
+
+	height: 100vh;
+	background-size:cover;
+	display: inline;
+	background-repeat: no-repeat;
+	backface-visibility: hidden;
+	animation: animacao 60s linear infinite 0s;
+	animation-timing-function: ease-in-out; 
+	float: left;
+	width: 100%;
+	background-position: center center;
+	background-attachment: fixed;
+}
+
+@keyframes animacao{
+	0%{
+		background-image: url('../images/fundos/desenho.jpg');
+	}
+	10%{
+		background-image: url('../images/fundos/desenho2.jpg');
+	}
+	20%{
+		background-image: url('../images/fundos/desenho3.jpg');
+	}
+	30%{
+		background-image: url('../images/fundos/desenho.jpg');
+	}
+	40%{
+		background-image: url('../images/fundos/desenho2.jpg');
+	}
+	50%{
+		background-image: url('../images/fundos/desenho3.jpg');
+	}
+	60%{
+		background-image: url('../images/fundos/desenho.jpg');
+	}
+	70%{
+		background-image: url('../images/fundos/desenho2.jpg');
+	}
+	80%{
+		background-image: url('../images/fundos/desenho3.jpg');
+	}
+	90%{
+		background-image: url('../images/fundos/desenho.jpg');
+	}
+	100%{
+		background-image: url('../images/fundos/desenho2.jpg');
+	}
+	
+}
+
+#lista{
+	display: inline;
+	width: 30%;
+}
+
+.cabecalho-overlay {
+	display: inline;
+	float: left;
+	width: 100%;
+}
+
+.logo-area {
+	display: inline;
+	float: left;
+	width: 100%;
+}
+
+.logo {
+
+	color: #fff;
+	font-size: 45px;
+	display: inline-block;
+	font-weight: 700;
+	margin-top: 30px;
+	margin-bottom: 0px;
+}
+
+.logo:hover,
+.logo:focus {
+	color: #fff;
+}
+
+#logoo{
+	width: 400px;
+	height: 180px;
+}
+ /*mu-menu */
+ 
+
+.mu-menu-btn:hover,
+.mu-menu-btn:focus {
+	border: 2px solid #fff;
+}
+
+.cabecalho-destaque-area {
+	display: inline;
+	float: left;
+	padding: 50px 0;
+	width: 100%;
+}
+
+.cabecalho-destaque-content {
+	display: inline;
+	float: right;
+}
+
+.cabecalho-destaque-content h1 {
+	font-size: 45px;
+	color: #fff;
+	font-weight: 300;
+	margin-bottom: 15px;
+}
+
+.cabecalho-destaque-content h1 span {
+	font-weight: 700;
+}
+
+.cabecalho-destaque-content p{
+	color: #fff;
+}
+
+#botoesdoarinscrever {
+	display: inline;
+	margin-top: 50px;
+	width: 100%;
+}
+
+#botoesdoarinscrever h4 {
+	color: #fff;
+	margin-left: 85px;
+	font-size: 18px;
+	font-weight: 300;
+	margin-bottom: 20px;
+
+}
+
+
+.botaodoar{
+	border: 2px solid #fff;
+    border-radius: 50px;
+    color: #fff;
+    display: inline-block;
+    margin: 10 118px;
+    padding: 11px 22px;
+    text-transform: uppercase;
+    -webkit-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.botaodoar:hover,
+.botaodoar:focus
+{
+	background-color: #ffffff;
+}
+
+.botaodoar i
+ {
+	display: block;
+    float: left;
+    font-size: 20px;
+    line-height: 24px;
+    margin-right: 10px;
+}
+
+.botaodoar span {
+	display: block;
+	float: left;
+	line-height: 24px;
+}
+
+
+
+.titulo-area {
+	display: inline;
+	float: left;
+	text-align: center;
+	padding: 0 120px;
+	width: 100%;
+}
+
+.titulo {
+	color: #1c1b1b;
+	margin-bottom: 15px;
+	padding: 0;
+	z-index: 1;
+}
+
+.titulo-geral {
+	border-radius: 50%;
+	height: 8px;
+	width: 8px;
+	display: inline-block;
+	margin-bottom: 20px;
+}
+
+/*--------------------*/
+/* ENTIDADES */
+/*--------------------*/
+#listaDoacoesNecessarias{
+	text-transform: uppercase;
+	font-size: 15px;
+	text-align: center;
+	list-style: none;
+	margin:5px;
+}
+
+#tituloEntidades {
+
+   color: rgb(255, 156, 156);
+   text-align:center;
+}
+
+#tituloEntidades2 {
+   color: rgba(255, 156, 156, 0);
+   text-align:center;
+}
+
+#textoEntidades
+{
+	margin-top: 10px;
+   color: black;
+   text-align: center;
+}
+
+.entidades-area {
+	display: inline;
+	float: left;
+	padding: 100px 0;
+	width: 100%;
+}
+
+
+/*--------------------*/
+/* DOWNLOAD */
+/*--------------------*/
+.modal {
+	padding: 15px;
+	width: 500px;
+	background-color: rgba(0, 0, 0, 0.8);
+	border-radius: 5px;
+	font-size: 2em;
+	display: none;
+	position: absolute;
+	left: 35%;
+	top: 190%;
+}
+
+#download {
+	background-position: center;
+	background-size: cover;
+	background-attachment: fixed;
+	display: inline;
+	float: left;
+	width: 100%;
+	background: rgba(255, 156, 156, 0.9);
+}
+
+.itemTabela {
+	margin-left: 50px;
+	top: 0;
+	padding: 0;
+	border: 50px solid rgba(0, 0, 0, 0);
+	vertical-align: top;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+::-webkit-scrollbar {
+	width: 15px;
+	height: 15px;
+    background: rgba(244, 244, 244, 0);
+}
+::-webkit-scrollbar-thumb {
+    background: #dad7d7;
+}
+.download-area {
+	display: inline;
+	float: left;
+	padding: 150px 0;
+	width: 100%;
+	color: #fff;
+	text-align: center;
+}
+
+#tituloapp
+ {
+	color: #fff;
+	text-align: center;
+}
+.list-group-item:hover{
+	z-index: 0;
+
+}
+.download-desktop {
+	float: left;
+	width: 100%;
+	text-align: center;
+	margin-top: 50px;
+	color:white;
+	font-size: 40px;
+}
+
+/*--------------------*/
+/* SAIBA MAIS */
+/*--------------------*/
+
+#saiba-mais {
+	background-color: #f8f8f8;
+	display: inline;
+	float: left;
+	width: 100%;
+}
+
+.saiba-mais-area {
+	display: inline;
+	float: left;
+	padding: 150px 0;
+	width: 100%;
+}
+
+.saiba-mais-content {
+	display: inline;
+	float: left;
+	width: 100%;
+	text-align: center;
+	padding: 0 150px;
+	margin-top: 50px;
+}
+
+.saiba-mais-content .panel-default {
+	border-color: #fff;
+	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.06);
+}
+
+.saiba-mais-content .panel-default > .panel-heading {
+	color: rgb(24, 24, 24);
+	background-color: #fff;
+	border-color: #ddd;
+	padding: 0;
+
+}
+.card{
+	z-index: 0;
+	width: 100px;
+	padding-top:0px;
+}
+.saiba-mais-content .panel-default > .panel-heading + .panel-collapse > .panel-body {
+	text-align: left;
+}
+
+.slider {
+	width: 100%;
+	height: 300px;
+	display: flex;
+	overflow-x: auto;
+  }
+  .slide {
+	width: 100%;
+	flex-shrink: 0;
+	height: 100%;
+  }
+
+.saiba-mais-content .panel-title {
+	text-align: left;
+}
+
+.saiba-mais-content .panel-title a {
+	display: block;
+	padding: 12px 15px;
+	-webkit-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	transition: all 0.5s;
+}
+
+
+/*--------------------*/
+/* CONTATO */
+/*--------------------*/
+
+#contato {
+	background-color:rgba(255, 156, 156, 0.9);
+	display: inline;
+	float: left;
+	width: 100%;
+}
+
+.contato-area{
+	display: inline;
+	float: left;
+	padding: 100px 0;
+	width: 100%;
+}
+
+
+.contato {
+	display: inline;
+	float: left;
+	width: 100%;
+	margin-top: 10px;
+	padding-left: 15px;
+}
+
+.form-contato .inputs input {
+	background: transparent;
+	border-radius: 10px;
+	color: rgb(0, 0, 0);
+	font-size: 15px;
+	border: 1px solid rgb(53, 53, 53);
+	height: 45px;
+	margin-bottom: 24px;
+}
+
+.form-contato .inputs textarea {
+	background: transparent;
+	border: 1px solid rgb(53, 53, 53);
+	border-radius: 10px;
+	font-size: 18px;
+	height: 190px;
+}
+
+/*--------------------*/
+/* RODAPE */
+/*--------------------*/
+
+#rodape {
+	background-color: #f8f8f8;
+	display: inline;
+	float: left;
+	width: 100%;
+}
+.rodape-area{
+	display: inline;
+	float: left;
+	padding: 30px 0;
+	text-align: center;
+	width: 100%;
+}
+
+/*--------------------*/
+/* COISAS RESPONSIVAS */
+/*--------------------*/
+
+@media (max-width: 1199px) {
+
+	.cabecalho-destaque-content {
+		margin-top: 120px;
+	}
+	
+}
+
+@media (max-width: 991px) {	
+
+	.cabecalho-destaque-content {
+		margin-top: 35px;
+	}
+	.titulo-area {
+		padding: 0 50px;
+	}
+	.saiba-mais-content {
+		padding: 0;
+	}
+	.contato {
+		margin-top: 50px;
+	}
+	.menu ul li {
+		right: 5%;
+	}		
+}
+
+@media (max-width: 767px) {
+
+	.cabecalho-destaque-content h1 {
+		font-size: 35px;
+	}
+
+	.botoesdoarinscrever {
+		margin-top: 20px;
+	}
+
+	.download-botao {
+		margin-bottom: 10px;
+	} 
+
+
+	.logo {
+		margin-top: 25px;
+	}
+
+	.logo img {
+		width: 200px;
+	}
+		
+		
+}
+
+
+@media (max-width: 640px){
+
+	.cabecalho-destaque-img,
+	.cabecalho-destaque-content {
+		width: 100%;
+	}
+
+	.mu-menu ul li a {
+		font-size: 20px;
+		font-weight: 300;
+		line-height: 1;
+	}
+
+	.titulo-area {
+		padding: 0;
+	}
+			
+
+}
+
+
+@media (max-width: 480px) {
+
+	.logo img {
+		width: 150px;
+	}
+
+	.mu-menu-close-btn {
+		right: 5%;
+		top: 30px;
+	}
+				
+}
+
+
+@media (max-width: 360px){
+	h2 {
+		font-size: 25px;
+	}
+}
+
+	
+
+
+
