@@ -1,10 +1,19 @@
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:15%">
+    <h3 class="w3-bar-item">ÁREA DOADOR</h3>
+    <a href="#" id="consultabtn" class="w3-bar-item w3-button">Consulta de Doações</a>
+    <a href="#" id="editarbtn" class="w3-bar-item w3-button">Editar Infos</a>
+    <a href="/" id="homebtn" class="w3-bar-item w3-button">Home</a>
+  </div>
+
+<div id="consulta" style="display:block;">
 <div class="jumbotron text-center">
         <h3>Nome usuário: <%=informacoesSobreLogado[0].nome%></h3>
         <h1>Listagem Doações </h1>
     <br>
-        <table class="table table-hover">
+        <table class="table table-hover" style="border: solid rgb(255, 255, 255); border-radius: 23em; ">
             <thead>
             <tr>
                 <th>Produto</th>
@@ -13,22 +22,129 @@
                 <th>Endereço</th>
                 <th>Entregue?</th>
             </tr>
+            <br>
             </thead>
             <tbody>
+              <p id="qtdLinhas" style="display:none;"><%=listaDeDoacoesFeitas.length%></p>
             <%for(var i=0;i<listaDeDoacoesFeitas.length;i++) {%>
             <tr>
                 <td><%=listaDeDoacoesFeitas[i].produto%></td>
                 <td><%=listaDeDoacoesFeitas[i].quantidade%></td>
                 <td><%=listaDeDoacoesFeitas[i].nome%></td>
                 <td><%=listaDeDoacoesFeitas[i].endereco%></td>
-                <td><%=listaDeDoacoesFeitas[i].entregue%></td>
+                <td class=<%=listaDeDoacoesFeitas[i].entregue%>><%=listaDeDoacoesFeitas[i].entregue%></td>
             </tr>
             <%}%>	
             </tbody>
         </table>
     </div>
+  </div>
+
+  <div id="editarInfos"  style="display: none;">
+      <form id="cadastro" method="post" action="http://localhost:3000/usuario">
+        <div class="form-row">
+          
+        </div>
+        <div class="form-group">
+                <label for="inputName">Nome Completo</label>
+                <input name="nome" type="text" class="form-control" id="inputName" placeholder="Nome" required>
+              </div>
+        <div class="form-group">
+          <label for="inputAddress">Endereço</label>
+          <input type="text" name="endereco" class="form-control" id="inputAddress" placeholder="Ex: Rua Miosótis, 500 - Jardim Santa Cláudia" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputCity">Cidade</label>
+            <input type="text" name="cidade" class="form-control" id="inputCity" placeholder="Cidade" required>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputState">Estado</label>
+            <select name="uf" id="inputState" class="form-control">
+              <option selected value="AC">Acre – AC</option>
+              <option value="AP">AP - Amapá</option>
+              <option value="AM">AM - Amazonas</option>
+              <option value="BA">BA - Bahia</option>
+              <option value="CE">CE - Ceará</option>
+              <option value="DF">DF - Distrito Federal</option>
+              <option value="ES">ES - Espírito Santo</option>
+              <option value="GO">GO - Goiás</option>
+              <option value="MA">MA - Maranhão</option>
+              <option value="MT">MT - Mato Grosso</option>
+              <option value="MS">MS - Mato Grosso do Sul</option>
+              <option value="MG">MG - Minas Gerais</option>
+              <option value="PA">PA - Pará</option>
+              <option value="PB">PB - Paraíba</option>
+              <option value="PR">PR - Paraná</option>
+              <option value="PE">PE - Pernambuco</option>
+              <option value="PI">PI - Piauí</option>
+              <option value="RR">RR - Roraima</option>
+              <option value="RO">RO - Rondônia</option>
+              <option value="RJ">RJ - Rio de Janeiro</option>
+              <option value="RN">RN - Rio Grande do Norte</option>
+              <option value="RS">RS - Rio Grande do Sul</option>
+              <option value="SC">SC - Santa Catarina</option>
+              <option value="SP">SP - São Paulo</option>
+              <option value="SE">SE - Sergipe</option>
+              <option value="TO">TO - Tocantins</option>
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="inputZip">Celular</label>
+            <input type="text" name="telefone" class="form-control" id="inputCel" value="" placeholder="Ex: (19) 91234-5678" required>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+                <label id="inputEmail4" for="inputEmail4">Email</label>
+                <input type="email" name="email" class="form-control" id="inputEmail4" placeholder="Email" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label id="inputPassword4" for="inputPassword4">Senha</label>
+                <input type="password" name="senha" class="form-control" id="inputPassword4" placeholder="Senha" required>
+              </div>
+        <input type="submit" name="submit" class="btn btn-primary" value="Enviar">
+        <br>
+        <p>Já é cadastrado?<a href = "/login"> Entre por aqui</a></p>
+      </form>
+    <div>
     <style>
-    
+
+.S{
+  background-color: rgba(10, 223, 10, 0.486);
+}
+.N{
+  background-color: rgba(190, 20, 20, 0.5);
+}
+
+#cad{
+  width: 300px;
+  height: 30px;
+  margin-left: 1200px;
+  position:absolute;
+}
+
+#editarInfos{
+  position:absolute;
+  margin-left:300px;
+}
+#consulta{
+  position:absolute;
+  margin-left:500px;
+}
+       #cadastro{
+         margin-left: 420px;
+         width:600px;
+       }
+       #inputCel{
+         width: 170px;
+       }
+       #inputName{
+        width: 685px;
+       }
+       #inputAddress{
+        width: 685px;
+       }
+     
     .jumbotron{
 background-color: rgba(255, 156, 156, 0);
 padding-top:0px;
@@ -72,3 +188,17 @@ padding-top:0px;
                }
   
         </style>
+        <script>
+
+$("#consultabtn").click(function () {
+  $('#consulta').show();
+  $('#editarInfos').hide();
+});
+
+
+$("#editarbtn").click(function () {
+  $('#consulta').hide();
+  $('#editarInfos').show();
+});
+
+          </script>

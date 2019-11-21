@@ -1,3 +1,9 @@
+#btn-pesquisa,#btn-mostraTudo{
+	border: none;
+	background-color: rgba(255, 138, 138);
+	color:white;
+}
+
 body,
 html {
 	overflow-x:hidden;
@@ -13,8 +19,9 @@ body {
 
 #estaCadastrado{
 	color:white;
-	font-size: 20px;
+	font-size: 4em;
 	float:right;
+	margin-left:10px;
 }
 
 ul {
@@ -107,11 +114,14 @@ display: inline;
  position:hidden;
  z-index: initial;
  width: 100%;
+ border-bottom:solid white 2px;
 }
 
 
 .menu ul{
-	background-color: rgb(202, 70, 70);
+	/* background-image: linear-gradient(to right, rgba(253, 80, 80, 0.788),rgba(255, 138, 138, 0.685)); */
+	background-image: linear-gradient(to right, rgb(255, 82, 120), rgb(255, 176, 176));
+	text-align: center;
 }
 .menu ul li {
 	list-style: none;
@@ -133,8 +143,7 @@ display: inline;
 
 
 #cabecalho {
-
-	height: 100vh;
+	height: 80vh;
 	background-size:cover;
 	display: inline;
 	background-repeat: no-repeat;
@@ -149,39 +158,38 @@ display: inline;
 
 @keyframes animacao{
 	0%{
-		background-image: url('../images/fundos/desenho.jpg');
+		background-image: url('../images/fundos/2.jpg'); /*OK*/
 	}
 	10%{
-		background-image: url('../images/fundos/desenho2.jpg');
+		background-image: url('../images/fundos/1.jpeg'); /*OK*/
 	}
 	20%{
-		background-image: url('../images/fundos/desenho3.jpg');
+		background-image: url('../images/fundos/3.jpg'); /*OK*/
 	}
 	30%{
-		background-image: url('../images/fundos/desenho.jpg');
+		background-image: url('../images/fundos/4.jpg');
 	}
 	40%{
-		background-image: url('../images/fundos/desenho2.jpg');
+		background-image: url('../images/fundos/5.jpg');
 	}
 	50%{
-		background-image: url('../images/fundos/desenho3.jpg');
+		background-image: url('../images/fundos/6.jpg');
 	}
 	60%{
-		background-image: url('../images/fundos/desenho.jpg');
+		background-image: url('../images/fundos/2.jpg');
 	}
 	70%{
-		background-image: url('../images/fundos/desenho2.jpg');
+		background-image: url('../images/fundos/1.jpeg');
 	}
 	80%{
-		background-image: url('../images/fundos/desenho3.jpg');
+		background-image: url('../images/fundos/3.jpg');
 	}
 	90%{
-		background-image: url('../images/fundos/desenho.jpg');
+		background-image: url('../images/fundos/4.jpg');
 	}
 	100%{
-		background-image: url('../images/fundos/desenho2.jpg');
+		background-image: url('../images/fundos/5.jpg');
 	}
-	
 }
 
 #lista{
@@ -231,7 +239,8 @@ display: inline;
 .cabecalho-destaque-area {
 	display: inline;
 	float: left;
-	padding: 50px 0;
+	padding-top: 50px;
+	padding-bottom: 10px;
 	width: 100%;
 }
 
@@ -263,11 +272,10 @@ display: inline;
 
 #botoesdoarinscrever h4 {
 	color: #fff;
-	margin-left: 85px;
 	font-size: 18px;
 	font-weight: 300;
 	margin-bottom: 20px;
-
+text-align: center;
 }
 
 
@@ -276,11 +284,9 @@ display: inline;
     border-radius: 50px;
     color: #fff;
     display: inline-block;
-    margin: 10 118px;
+    margin: 9 150px;
     padding: 11px 22px;
     text-transform: uppercase;
-    -webkit-transition: all 0.5s;
-    -o-transition: all 0.5s;
     transition: all 0.5s;
 }
 

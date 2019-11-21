@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="css/styles.css">
 <link type="text/css" href="css/swiper.min">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
 
@@ -79,8 +79,8 @@
 		<h5 id="textoEntidades">Aqui exibiremos algumas entidades que voce pode doar. <br>1- Tenha responsabilidade, não clique em doar se você não for entragar a doação;</h5>
 
 	
-		<input type="text" id="busca" name="pesquisa">
-		<button id="btn-pesquisa">Buscar</button>  
+		<input type="text" id="busca" name="pesquisa" style="width: 1000px;margin-left:205px;border-radius: 3px;height: 32px;padding-left:15px;border:1px solid rgba(255, 117, 117, 0.575);" placeholder="Ex: APAE, arroz, Recanto dos Velhinhos, blusa de frio, etc" >
+		<button id="btn-pesquisa" >Buscar</button>  <button id="btn-mostraTudo">Mostrar tudo</button>  
 	
 	 <div style="overflow-x:auto">  
 			<table id="tabelasss">
@@ -114,10 +114,10 @@
 					<form action="/" method="post">
 						<div class="card-body">
 							<label>Digite aqui o que você irá doar:</label>
-							<input type="text" name="doacao">
+							<input type="text" name="doacao" required>
 							<br><br>
 							<label>Digite a quantidade:</label>
-							<input type="text" name="quantidade" onclick="Aparecer()">
+							<input type="text" id="qtddoacao" name="quantidade" required>
 						</div>
 						<div class="card-body">
 							<%if(informacoesSobreLogado[0].nome != ""){%>
@@ -298,6 +298,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>	
 
+
+  $("#btn-mostraTudo").click(function () {
+	document.location.reload(true);
+});
+
+
 	$(document).ready(function () {
 		var escrito = $("#estaCadastrado").text;
 		if (escrito == "Clique aqui para se logar, caso já tenha uma conta.")
@@ -309,6 +315,7 @@
 	}
 
 	function DoacaoSucesso() {
+		if($("#qtddoacao").val() != "")
 		alert("doacao feita com sucesso!");
 	}
 
@@ -329,7 +336,7 @@
 		}, 500)
 	}
 
-
+	$("#btn-pesquisa").click(function () {
 
 		$("#btn-pesquisa").click(function () {
 			var desc = $('#busca').val();
@@ -394,4 +401,5 @@
 							});
     
 						});
+					});
 </script>
