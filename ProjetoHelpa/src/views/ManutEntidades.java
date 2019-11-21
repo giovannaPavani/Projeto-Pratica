@@ -91,13 +91,13 @@ public class ManutEntidades extends JFrame {
 	private JTextField txtSite;
 	private JTable tblEntidades;
 	private Situacao situacaoAtual;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField txtNcsd1;
+	private JTextField txtNcsd2;
+	private JTextField txtNcsd3;
+	private JTextField txtNcsd4;
+	private JTextField txtNcsd5;
 	private JPanel pnlNecessidades;
-	private JComboBox cbxNecessidade;
+	private JComboBox cbxNecessidades;
 	
 	public ManutEntidades() 
 	{
@@ -352,12 +352,13 @@ public class ManutEntidades extends JFrame {
 				!txtTelefone.getText().equals("")||
 				!txtConta.getText().equals("")   ||
 				!txtAgencia.getText().equals("") ||
-				!txtUsuario.getText().equals(""))
+				!txtUsuario.getText().equals("") ||
+				!txtNcsd1.getText().equals("")    )
 				{
 					try {
 						Entidade entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
 						txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
-						txtEndereco.getText(), txtUsuario.getText(),"", txtTelefone.getText(), 0, "", txtSite.getText());
+						txtEndereco.getText(), txtUsuario.getText(),"", txtTelefone.getText(), 0, "", txtSite.getText(), "");
 						
 						switch(situacaoAtual)
 						{
@@ -366,6 +367,7 @@ public class ManutEntidades extends JFrame {
 								try
 								{
 									Entidades.alterar(entidade);
+									// + alterar necessidades --> asNecessidades.alterar(bla)
 								}
 								catch(Exception ex) 
 								{
@@ -381,6 +383,7 @@ public class ManutEntidades extends JFrame {
 								try
 								{
 									Entidades.incluir(entidade);
+									// + add necessidades --> asNecessidades.add\(bla)
 								}
 								catch(Exception ex) 
 								{
@@ -388,7 +391,7 @@ public class ManutEntidades extends JFrame {
 									atualizarTela();
 								}
 							}
-							
+
 							case NAVEGANDO:
 								setTxt(false);
 						}
@@ -402,6 +405,7 @@ public class ManutEntidades extends JFrame {
 				else
 					JOptionPane.showMessageDialog(null,"Não deixe campos em branco! Alteração cancelada!");
 				situacaoAtual = Situacao.NAVEGANDO;
+				cbxNecessidades.setEnabled(false);
 			}
 		});
 		menuBar_1.add(btnSalvar);
@@ -423,9 +427,9 @@ public class ManutEntidades extends JFrame {
 		txtSite.setBounds(89, 360, 367, 30);
 		pnlManutencao.add(txtSite);
 		
-		cbxNecessidade = new JComboBox();
-		cbxNecessidade.setEnabled(false);
-		cbxNecessidade.addActionListener(new ActionListener() {
+		cbxNecessidades = new JComboBox();
+		cbxNecessidades.setEnabled(false);
+		cbxNecessidades.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				for (Component c : pnlNecessidades.getComponents()) 
 				{
@@ -435,7 +439,7 @@ public class ManutEntidades extends JFrame {
 				    }
 				}
 				
-				int qtd = Integer.parseInt(cbxNecessidade.getSelectedItem().toString());
+				int qtd = Integer.parseInt(cbxNecessidades.getSelectedItem().toString());
 				int x = 0;
 				
 				for (Component c : pnlNecessidades.getComponents()) {
@@ -448,8 +452,8 @@ public class ManutEntidades extends JFrame {
 				}
 			}
 		});
-		cbxNecessidade.setBounds(466, 72, 41, 30);
-		pnlManutencao.add(cbxNecessidade);
+		cbxNecessidades.setBounds(466, 72, 41, 30);
+		pnlManutencao.add(cbxNecessidades);
 		
 		JLabel lblItems = new JLabel("Item(s)");
 		lblItems.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -461,26 +465,25 @@ public class ManutEntidades extends JFrame {
 		pnlManutencao.add(pnlNecessidades);
 		pnlNecessidades.setLayout(new GridLayout(5, 1, 0, 0));
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		pnlNecessidades.add(textField);
+		txtNcsd1 = new JTextField();
+		txtNcsd1.setColumns(10);
+		pnlNecessidades.add(txtNcsd1);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		pnlNecessidades.add(textField_1);
+		txtNcsd2 = new JTextField();
+		txtNcsd2.setColumns(10);
+		pnlNecessidades.add(txtNcsd2);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		pnlNecessidades.add(textField_2);
+		txtNcsd3 = new JTextField();
+		txtNcsd3.setColumns(10);
+		pnlNecessidades.add(txtNcsd3);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		pnlNecessidades.add(textField_3);
+		txtNcsd4 = new JTextField();
+		txtNcsd4.setColumns(10);
+		pnlNecessidades.add(txtNcsd4);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		pnlNecessidades.add(textField_4);
-		
+		txtNcsd5 = new JTextField();
+		txtNcsd5.setColumns(10);
+		pnlNecessidades.add(txtNcsd5);
 		
 		//lstNecessidade.setModel(model);
 		//lstNecessidade.setListData(vetor); // vetor = pegar as coisas que identidade de codigo x precisa
@@ -501,7 +504,7 @@ public class ManutEntidades extends JFrame {
 		
 		pnlConsulta.addComponentListener(new ComponentAdapter() {
 			@Override
-			public void componentShown(ComponentEvent e) {
+			public void componentShown(ComponentEvent e) { // ou mostra tudo por ordem de visualizacao, ou faz 2 q mostra só cod da entidade e nome por visualizacao e outro q mostra os produtos mais necessitados
 				DefaultTableModel model = null;
 				try {
 					MeuResultSet dados = Entidades.getEntidadesVisu();
@@ -560,8 +563,8 @@ public class ManutEntidades extends JFrame {
 		txtConta.setText(aEntidade.getConta());
 		txtAgencia.setText(aEntidade.getAgencia());
 		txtUsuario.setText(aEntidade.getUsuario());
+		
 		// exibir necessidades
-
 		try {
 			
 			for (Component c : pnlNecessidades.getComponents()) 

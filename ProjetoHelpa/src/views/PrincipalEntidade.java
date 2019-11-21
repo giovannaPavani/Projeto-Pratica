@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import bd.core.MeuResultSet;
 import bd.daos.Entidades;
 import bd.dbos.Entidade;
 import java.awt.GridLayout;
@@ -11,32 +13,46 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+
 import java.awt.Insets;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.util.Vector;
+import java.awt.event.ActionEvent;
 
 public class PrincipalEntidade extends JFrame {
 	
 	private JPanel contentPane;
 	private int codigo;
-	Entidade entiAtual;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_2;
-	private JTextField textField_5;
-	private JTextField textField_11;
-	private JTextField textField_10;
-	private JTextField textField_12;
-	private JTextField textField_13;
+	Entidade entidadeLog;
+	private JTextField txtAgencia;
+	private JTextField txtCodigo;
+	private JTextField txtCnpj;
+	private JTextField txtNome;
+	private JTextField txtEmail;
+	private JTextField txtEndereco;
+	private JTextField txtTelefone;
+	private JTextField txtCpnj;
+	private JTextField txtConta;
+	private JTextField txtSite;
+	private JTextField txtFoto;
+	private JTextField txtDescricao;
+	private JTextField txtUsuario;
+	private JTextField txtNec1;
+	private JTextField txtNec2;
+	private JTextField txtNec3;
+	private JTextField txtNec4;
+	private JTextField txtNec5;
+	private JComboBox<Integer> cbxNecessidades;
+	private JPanel pnlNecessidades;
 
 	/**
 	 * Launch the application.
@@ -67,169 +83,192 @@ public class PrincipalEntidade extends JFrame {
 	{
 		try
 		{
-		  entiAtual = new Entidade(Entidades.getEntidadeByCod(codigo));
+		  entidadeLog = new Entidade(Entidades.getEntidadeByCod(codigo));
 		}
 		catch(Exception ex) {} // n vai dar erro pois o codigo foi eu que passei
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 578, 446);
+		setBounds(100, 100, 577, 419);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		contentPane.setLayout(null);
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setToolTipText("");
 		//tabbedPane.setSelectedIndex(0);
-		tabbedPane.setBounds(0, 0, 562, 408);
+		tabbedPane.setBounds(0, 0, 561, 383);
 		contentPane.add(tabbedPane);
 		
 		JPanel pnlInfoInt = new JPanel();
 		pnlInfoInt.setLayout(null);
 		tabbedPane.addTab("Informa\u00E7\u00F5es Internas", null, pnlInfoInt, null);
 		
-		textField = new JTextField();
-		textField.setText((String) null);
-		textField.setEnabled(false);
-		textField.setColumns(10);
-		textField.setBounds(348, 201, 72, 30);
-		pnlInfoInt.add(textField);
+		txtAgencia = new JTextField();
+		txtAgencia.setText((String) null);
+		txtAgencia.setEnabled(false);
+		txtAgencia.setColumns(10);
+		txtAgencia.setBounds(348, 208, 72, 30);
+		pnlInfoInt.add(txtAgencia);
 		
 		JLabel label_1 = new JLabel("Nome:");
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_1.setBounds(31, 43, 48, 32);
+		label_1.setBounds(31, 50, 48, 32);
 		pnlInfoInt.add(label_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setText((String) null);
-		textField_1.setEnabled(false);
-		textField_1.setColumns(10);
-		textField_1.setBounds(88, 45, 400, 30);
-		pnlInfoInt.add(textField_1);
+		txtCodigo = new JTextField();
+		txtCodigo.setText((String) null);
+		txtCodigo.setEnabled(false);
+		txtCodigo.setColumns(10);
+		txtCodigo.setBounds(88, 52, 400, 30);
+		pnlInfoInt.add(txtCodigo);
 		
 		JLabel label_2 = new JLabel("CNPJ:");
 		label_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_2.setBounds(36, 86, 43, 32);
+		label_2.setBounds(36, 93, 43, 32);
 		pnlInfoInt.add(label_2);
 		
 		JLabel label_3 = new JLabel("E-mail:");
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_3.setBounds(31, 121, 51, 32);
+		label_3.setBounds(31, 128, 51, 32);
 		pnlInfoInt.add(label_3);
 		
 		JLabel lblTelefone = new JLabel("Telefone: ");
 		lblTelefone.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblTelefone.setBounds(272, 86, 72, 32);
+		lblTelefone.setBounds(272, 93, 72, 32);
 		pnlInfoInt.add(lblTelefone);
 		
 		JLabel label_5 = new JLabel("Ag\u00EAncia:");
 		label_5.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_5.setBounds(279, 201, 69, 32);
+		label_5.setBounds(279, 208, 69, 32);
 		pnlInfoInt.add(label_5);
 		
 		JLabel label_7 = new JLabel("Endere\u00E7o:");
 		label_7.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_7.setBounds(10, 161, 72, 32);
+		label_7.setBounds(10, 168, 72, 32);
 		pnlInfoInt.add(label_7);
 		
 		JLabel label_8 = new JLabel("Conta:");
 		label_8.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_8.setBounds(30, 201, 48, 32);
+		label_8.setBounds(30, 208, 48, 32);
 		pnlInfoInt.add(label_8);
 		
-		textField_3 = new JTextField();
-		textField_3.setText((String) null);
-		textField_3.setEnabled(false);
-		textField_3.setColumns(10);
-		textField_3.setBounds(88, 124, 400, 30);
-		pnlInfoInt.add(textField_3);
+		txtEmail = new JTextField();
+		txtEmail.setText((String) null);
+		txtEmail.setEnabled(false);
+		txtEmail.setColumns(10);
+		txtEmail.setBounds(88, 131, 400, 30);
+		pnlInfoInt.add(txtEmail);
 		
-		textField_4 = new JTextField();
-		textField_4.setText((String) null);
-		textField_4.setEnabled(false);
-		textField_4.setColumns(10);
-		textField_4.setBounds(88, 163, 400, 30);
-		pnlInfoInt.add(textField_4);
+		txtEndereco = new JTextField();
+		txtEndereco.setText((String) null);
+		txtEndereco.setEnabled(false);
+		txtEndereco.setColumns(10);
+		txtEndereco.setBounds(88, 170, 400, 30);
+		pnlInfoInt.add(txtEndereco);
 		
-		textField_6 = new JTextField();
-		textField_6.setText((String) null);
-		textField_6.setEnabled(false);
-		textField_6.setColumns(10);
-		textField_6.setBounds(343, 87, 179, 30);
-		pnlInfoInt.add(textField_6);
+		txtTelefone = new JTextField();
+		txtTelefone.setText((String) null);
+		txtTelefone.setEnabled(false);
+		txtTelefone.setColumns(10);
+		txtTelefone.setBounds(343, 94, 179, 30);
+		pnlInfoInt.add(txtTelefone);
 		
-		textField_7 = new JTextField();
-		textField_7.setText((String) null);
-		textField_7.setEnabled(false);
-		textField_7.setColumns(10);
-		textField_7.setBounds(88, 86, 179, 30);
-		pnlInfoInt.add(textField_7);
+		txtCpnj = new JTextField();
+		txtCpnj.setText((String) null);
+		txtCpnj.setEnabled(false);
+		txtCpnj.setColumns(10);
+		txtCpnj.setBounds(88, 93, 179, 30);
+		pnlInfoInt.add(txtCpnj);
 		
-		textField_8 = new JTextField();
-		textField_8.setText((String) null);
-		textField_8.setEnabled(false);
-		textField_8.setColumns(10);
-		textField_8.setBounds(88, 204, 179, 30);
-		pnlInfoInt.add(textField_8);
+		txtConta = new JTextField();
+		txtConta.setText((String) null);
+		txtConta.setEnabled(false);
+		txtConta.setColumns(10);
+		txtConta.setBounds(88, 211, 179, 30);
+		pnlInfoInt.add(txtConta);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setMargin(new Insets(10, 1, 1, 1));
 		menuBar.setBounds(0, 0, 676, 32);
 		pnlInfoInt.add(menuBar);
 		
-		JButton btnAlterar = new JButton("ALTERAR");
-		btnAlterar.setFont(UIManager.getFont("ToolTip.font"));
-		menuBar.add(btnAlterar);
+		JButton btnAlterarInt = new JButton("ALTERAR");
+		btnAlterarInt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setTxtInt(true);
+				txtCodigo.setEnabled(false);
+			}
+		});
+		btnAlterarInt.setFont(UIManager.getFont("ToolTip.font"));
+		menuBar.add(btnAlterarInt);
 		
-		JButton btnSalvar = new JButton("SALVAR");
-		btnSalvar.setFont(UIManager.getFont("ToolTip.font"));
-		menuBar.add(btnSalvar);
-		
-		JLabel lblCasoQueiraAlterar = new JLabel("   Caso queira alterar algo, clique no bot\u00E3o [Alterar] e, ap\u00F3s digitar, clique em [Salvar]!");
-		lblCasoQueiraAlterar.setForeground(Color.GRAY);
-		menuBar.add(lblCasoQueiraAlterar);
+		JButton btnSalvarInt = new JButton("SALVAR");
+		btnSalvarInt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if( !txtCodigo.getText().equals("")  ||
+						!txtNome.getText().equals("")    ||
+						!txtEmail.getText().equals("")   ||
+						!txtCnpj.getText().equals("")    ||
+						!txtEndereco.getText().equals("")||
+						!txtTelefone.getText().equals("")||
+						!txtConta.getText().equals("")   ||
+						!txtAgencia.getText().equals("") ||
+						!txtUsuario.getText().equals("") ||
+						!txtNec1.getText().equals("")    )
+						{
+							try {
+								Entidade entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
+								txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
+								txtEndereco.getText(), txtUsuario.getText(),"", txtTelefone.getText(), 0, "", txtSite.getText(), "");
+								try
+								{
+									Entidades.alterar(entidade);
+								}
+								catch(Exception ex) 
+								{
+									throw new Exception();
+								}
+							}
+							catch(Exception ex) 
+							{
+								JOptionPane.showMessageDialog(null,"Informações inseridas inválidas. Alteração cancelada!");
+							}
+							atualizarTela();
+							cbxNecessidades.setEnabled(false);
+						}
+			}
+		});
+		btnSalvarInt.setFont(UIManager.getFont("ToolTip.font"));
+		menuBar.add(btnSalvarInt);
 		
 		JLabel lblEssasInformaesApenas = new JLabel("Essas informa\u00E7\u00F5es apenas n\u00F3s da Helpa! e voc\u00EA, dono da Entidade, t\u00EAm acesso! ");
-		lblEssasInformaesApenas.setForeground(SystemColor.inactiveCaptionText);
+		lblEssasInformaesApenas.setForeground(Color.GRAY);
 		lblEssasInformaesApenas.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblEssasInformaesApenas.setBounds(21, 348, 556, 32);
+		lblEssasInformaesApenas.setBounds(30, 321, 556, 32);
 		pnlInfoInt.add(lblEssasInformaesApenas);
 		
 		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
 		lblUsurio.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblUsurio.setBounds(138, 242, 66, 32);
+		lblUsurio.setBounds(16, 249, 66, 32);
 		pnlInfoInt.add(lblUsurio);
 		
-		textField_10 = new JTextField();
-		textField_10.setText((String) null);
-		textField_10.setEnabled(false);
-		textField_10.setColumns(10);
-		textField_10.setBounds(210, 245, 179, 30);
-		pnlInfoInt.add(textField_10);
+		txtUsuario = new JTextField();
+		txtUsuario.setText((String) null);
+		txtUsuario.setEnabled(false);
+		txtUsuario.setColumns(10);
+		txtUsuario.setBounds(88, 252, 179, 30);
+		pnlInfoInt.add(txtUsuario);
 		
-		JLabel lblSenha = new JLabel("Senha:");
-		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSenha.setBounds(138, 281, 66, 32);
-		pnlInfoInt.add(lblSenha);
-		
-		textField_12 = new JTextField();
-		textField_12.setText((String) null);
-		textField_12.setEnabled(false);
-		textField_12.setColumns(10);
-		textField_12.setBounds(210, 284, 179, 30);
-		pnlInfoInt.add(textField_12);
-		
-		textField_13 = new JTextField();
-		textField_13.setText((String) null);
-		textField_13.setEnabled(false);
-		textField_13.setColumns(10);
-		textField_13.setBounds(210, 319, 179, 30);
-		pnlInfoInt.add(textField_13);
-		
-		JLabel lblConfirmarSenha = new JLabel("Confirmar Senha:");
-		lblConfirmarSenha.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblConfirmarSenha.setBounds(77, 316, 127, 32);
-		pnlInfoInt.add(lblConfirmarSenha);
+		JButton btnTrocarSenha = new JButton("Trocar Senha");
+		btnTrocarSenha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// abrir form de trocar senha
+			}
+		});
+		btnTrocarSenha.setFont(UIManager.getFont("ToolTip.font"));
+		btnTrocarSenha.setBounds(289, 249, 107, 39);
+		pnlInfoInt.add(btnTrocarSenha);
 		
 		JPanel pnlInfoPub = new JPanel();
 		pnlInfoPub.setLayout(null);
@@ -240,33 +279,64 @@ public class PrincipalEntidade extends JFrame {
 		menuBar_1.setBounds(0, 0, 566, 32);
 		pnlInfoPub.add(menuBar_1);
 		
-		JButton btnNewButton = new JButton("Alterar");
-		menuBar_1.add(btnNewButton);
+		JButton btnAlterarPub = new JButton("Alterar");
+		btnAlterarPub.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setTxtPub(true);
+				cbxNecessidades.setEnabled(true);
+			}
+		});
+		menuBar_1.add(btnAlterarPub);
 		
-		JButton btnNewButton_1 = new JButton("Salvar");
-		menuBar_1.add(btnNewButton_1);
+		JButton btnSalvarPub = new JButton("Salvar");
+		btnSalvarPub.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if( !txtFoto.getText().equals("")  ||
+					!txtSite.getText().equals("")    ||
+					!txtDescricao.getText().equals(""))
+				{
+					try { // passar parametros direito
+						Entidade entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
+						txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
+						txtEndereco.getText(), txtUsuario.getText(),"", txtTelefone.getText(), 0, "", txtSite.getText(), "");
+						try
+						{
+							Entidades.alterar(entidade);
+							// + alterar necessidades --> asNecessidades.alterar(bla)
+						}
+						catch(Exception ex) 
+						{
+							throw new Exception();
+						}
+					}
+					catch(Exception ex) 
+					{
+						JOptionPane.showMessageDialog(null,"Informações inseridas inválidas. Alteração cancelada!");
+					}
+					atualizarTela();
+					cbxNecessidades.setEnabled(false);
+				}
+				else
+					JOptionPane.showMessageDialog(null,"Não deixe campos em branco! Alteração cancelada!");
+			}
+		});
+		menuBar_1.add(btnSalvarPub);
 		
 		JLabel label_9 = new JLabel("   Caso queira alterar algo, clique no bot\u00E3o [Alterar] e, ap\u00F3s digitar, clique em [Salvar]!");
 		label_9.setForeground(Color.GRAY);
 		menuBar_1.add(label_9);
 		
 		JLabel lblSuasNecessidades = new JLabel("Necessidades");
-		lblSuasNecessidades.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSuasNecessidades.setBounds(408, 86, 158, 32);
+		lblSuasNecessidades.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblSuasNecessidades.setBounds(388, 54, 158, 32);
 		pnlInfoPub.add(lblSuasNecessidades);
 		
-		textField_9 = new JTextField();
-		textField_9.setEnabled(false);
-		textField_9.setColumns(10);
-		textField_9.setBounds(373, 112, 173, 257);
-		pnlInfoPub.add(textField_9);
-		
-		textField_2 = new JTextField();
-		textField_2.setText((String) null);
-		textField_2.setEnabled(false);
-		textField_2.setColumns(10);
-		textField_2.setBounds(10, 57, 353, 30);
-		pnlInfoPub.add(textField_2);
+		txtSite = new JTextField();
+		txtSite.setText((String) null);
+		txtSite.setEnabled(false);
+		txtSite.setColumns(10);
+		txtSite.setBounds(10, 57, 338, 30);
+		pnlInfoPub.add(txtSite);
 		
 		JLabel label_4 = new JLabel("Site:");
 		label_4.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -278,12 +348,12 @@ public class PrincipalEntidade extends JFrame {
 		label_6.setBounds(10, 86, 69, 32);
 		pnlInfoPub.add(label_6);
 		
-		textField_5 = new JTextField();
-		textField_5.setText((String) null);
-		textField_5.setEnabled(false);
-		textField_5.setColumns(10);
-		textField_5.setBounds(10, 112, 353, 30);
-		pnlInfoPub.add(textField_5);
+		txtFoto = new JTextField();
+		txtFoto.setText((String) null);
+		txtFoto.setEnabled(false);
+		txtFoto.setColumns(10);
+		txtFoto.setBounds(10, 112, 338, 30);
+		pnlInfoPub.add(txtFoto);
 		
 		JLabel lblinsiraOLink = new JLabel("(Insira o link da imagem. Ex: http://recanto(...).jpg)");
 		lblinsiraOLink.setForeground(Color.GRAY);
@@ -291,17 +361,166 @@ public class PrincipalEntidade extends JFrame {
 		lblinsiraOLink.setBounds(10, 136, 296, 32);
 		pnlInfoPub.add(lblinsiraOLink);
 		
-		textField_11 = new JTextField();
-		textField_11.setEnabled(false);
-		textField_11.setBounds(10, 186, 353, 183);
-		pnlInfoPub.add(textField_11);
-		textField_11.setColumns(10);
+		txtDescricao = new JTextField();
+		txtDescricao.setEnabled(false);
+		txtDescricao.setBounds(10, 186, 338, 158);
+		pnlInfoPub.add(txtDescricao);
+		txtDescricao.setColumns(10);
 		
 		JLabel lblDescrio = new JLabel("Descri\u00E7\u00E3o:");
 		lblDescrio.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblDescrio.setBounds(10, 161, 101, 32);
 		pnlInfoPub.add(lblDescrio);
 		
-		//JImagePanel img = new JImagePanel(entiAtual.getImagem());
+		pnlNecessidades = new JPanel();
+		pnlNecessidades.setBounds(358, 120, 191, 224);
+		pnlInfoPub.add(pnlNecessidades);
+		pnlNecessidades.setLayout(new GridLayout(5, 1, 0, 0));
+		
+		txtNec1 = new JTextField();
+		txtNec1.setColumns(10);
+		pnlNecessidades.add(txtNec1);
+		
+		txtNec2 = new JTextField();
+		txtNec2.setColumns(10);
+		pnlNecessidades.add(txtNec2);
+		
+		txtNec3 = new JTextField();
+		txtNec3.setColumns(10);
+		pnlNecessidades.add(txtNec3);
+		
+		txtNec4 = new JTextField();
+		txtNec4.setColumns(10);
+		pnlNecessidades.add(txtNec4);
+		
+		txtNec5 = new JTextField();
+		txtNec5.setColumns(10);
+		pnlNecessidades.add(txtNec5);
+		
+		Vector<Integer> vetor = new Vector<Integer>();
+		for(int i = 1; i<=5; i++)
+			vetor.add(i);
+		cbxNecessidades = new JComboBox<Integer>(vetor);
+		cbxNecessidades.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (Component c : pnlNecessidades.getComponents()) 
+				{
+					if (c instanceof JTextField) 
+				    { 
+						((JTextField)c).setVisible(false);
+				    }
+				}
+				
+				int qtd = Integer.parseInt(cbxNecessidades.getSelectedItem().toString());
+				int x = 0;
+				
+				for (Component c : pnlNecessidades.getComponents()) {
+					if(x<qtd)
+					if (c instanceof JTextField) 
+				    { 
+						((JTextField)c).setVisible(true);
+						x++;
+				    }
+				}
+			}
+		});
+		cbxNecessidades.setEnabled(false);
+		cbxNecessidades.setBounds(388, 86, 41, 32);
+		pnlInfoPub.add(cbxNecessidades);
+		
+		JLabel label = new JLabel("Item(s)");
+		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		label.setBounds(434, 86, 131, 32);
+		pnlInfoPub.add(label);
+		
+		//JImagePanel img = new JImagePanel(entidadeLog.getImagem());
 	}
+	private void limparTela()
+	{
+		txtCodigo.setText("");
+		txtNome.setText("");
+		txtEmail.setText("");
+		txtCnpj.setText("");
+		txtEndereco.setText("");
+		txtTelefone.setText("");
+		txtConta.setText("");
+		txtAgencia.setText("");
+		txtUsuario.setText("");
+	}
+	
+	private void setTxtInt(boolean modo)
+	{
+		txtNome.setEnabled(modo);
+		txtEmail.setEnabled(modo);
+		txtEndereco.setEnabled(modo);
+		txtConta.setEnabled(modo);
+		txtAgencia.setEnabled(modo);
+		txtUsuario.setEnabled(modo);
+		txtCnpj.setEnabled(modo);
+		txtTelefone.setEnabled(modo);
+	}
+	
+	private void setTxtPub(boolean modo)
+	{
+		txtDescricao.setEnabled(modo);
+		txtSite.setEnabled(modo);
+		txtFoto.setEnabled(modo);
+	}
+	
+	private void atualizarTela() 
+	{
+		txtNome.setText(entidadeLog.getNome());
+		txtEmail.setText(entidadeLog.getEmail());
+		txtCnpj.setText(entidadeLog.getCnpj());
+		txtEndereco.setText(entidadeLog.getEndereco());
+		txtTelefone.setText(entidadeLog.getTelefone());
+		txtConta.setText(entidadeLog.getConta());
+		txtAgencia.setText(entidadeLog.getAgencia());
+		txtUsuario.setText(entidadeLog.getUsuario());
+		
+		// exibir necessidades
+		try {
+			
+			for (Component c : pnlNecessidades.getComponents()) 
+			{
+				if (c instanceof JTextField) 
+			    { 
+					((JTextField)c).setVisible(false);
+			    }
+			}
+			
+			MeuResultSet result = Entidades.getNecessidades(entidadeLog.getCodigo());
+			result.last();
+			int qtd = result.getRow();
+
+			int x = 0;
+			for (Component c : pnlNecessidades.getComponents()) {
+				if(x<qtd)
+				if (c instanceof JTextField) 
+			    { 
+					((JTextField)c).setVisible(true);
+					x++;
+			    }
+			}
+			
+			result.first();
+			for (Component c : pnlNecessidades.getComponents()) {
+			    if (c instanceof JTextField) 
+			    { 
+			    	try 
+			    	{
+			    		((JTextField)c).setText(result.getObject("Produto").toString());
+			    		result.next();
+			    	}
+			    	catch(Exception ex)
+			    	{
+			    		((JTextField)c).setText("");
+			    	}
+			    }
+			}
+		}
+		catch(Exception ex)
+		{} // n vai dar erro pois o codigo foi passado por mim
+	}
+	
 }

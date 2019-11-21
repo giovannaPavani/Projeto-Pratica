@@ -94,7 +94,7 @@ public class Entidades
             String sql;
 
             sql = "INSERT INTO HENTIDADES " +
-                  "(CODIGO, NOME, CPNJ, ENDERECO, EMAIL, TELEFONE, CONTA, AGENCIA,USUARIO, SENHA, VISUALIZACOES) " +
+                  "(CODIGO, NOME, CPNJ, ENDERECO, EMAIL, TELEFONE, CONTA, AGENCIA,USUARIO, SENHA, VISUALIZACOES, SITE, IMAGEM) " +
                   "VALUES " +
                   "(?,?,?,?,?,?,?,?,?,?,?)"; // guarda o lugar para dps a gnt colocar uma variavel
 
@@ -103,16 +103,17 @@ public class Entidades
             //substituir as '?'
             BDSQLServer.COMANDO.setInt    (1, entidade.getCodigo());
             BDSQLServer.COMANDO.setString (2, entidade.getNome());
-	    BDSQLServer.COMANDO.setString (4, entidade.getCnpj());
-	    BDSQLServer.COMANDO.setString (7, entidade.getEndereco());
-	    BDSQLServer.COMANDO.setString (3, entidade.getEmail());
-	    BDSQLServer.COMANDO.setString (3, entidade.getTelefone());
-	    BDSQLServer.COMANDO.setString (5, entidade.getConta());
-	    BDSQLServer.COMANDO.setString (6, entidade.getAgencia());
-	    BDSQLServer.COMANDO.setString (8, entidade.getUsuario());
-	    BDSQLServer.COMANDO.setString (9, entidade.getSenha());
-	    BDSQLServer.COMANDO.setInt (9, entidade.getVisualizacoes());
-
+		    BDSQLServer.COMANDO.setString (4, entidade.getCnpj());
+		    BDSQLServer.COMANDO.setString (7, entidade.getEndereco());
+		    BDSQLServer.COMANDO.setString (3, entidade.getEmail());
+		    BDSQLServer.COMANDO.setString (3, entidade.getTelefone());
+		    BDSQLServer.COMANDO.setString (5, entidade.getConta());
+		    BDSQLServer.COMANDO.setString (6, entidade.getAgencia());
+		    BDSQLServer.COMANDO.setString (8, entidade.getUsuario());
+		    BDSQLServer.COMANDO.setString (9, entidade.getSenha());
+		    BDSQLServer.COMANDO.setInt    (10, entidade.getVisualizacoes());
+		    BDSQLServer.COMANDO.setString (11, entidade.getSite());
+		    BDSQLServer.COMANDO.setString (12, entidade.getImagem());
 
             BDSQLServer.COMANDO.executeUpdate(); // executa o comando, todos são executados como "update" - atualiza o banco, menos select / tipo uma função void
             BDSQLServer.COMANDO.commit       (); // USAR APENAS se for insert, delete e update --> O RESTO N PRECISA // efetiva ex: funcionario e dependentes - transação, se n, o banco n fica consistente - tudo ou nada
@@ -126,7 +127,7 @@ public class Entidades
         }
     }
 
-    public static void excluir(int codigo) throws Exception
+    public static void excluir(int codigo) throws Exception // fazer trigger, ao deletar, tirar os cod da entidade da tabela necessidades
     {
         if (!cadastrado(codigo))
             throw new Exception("Nao cadastrada");
@@ -174,7 +175,7 @@ public class Entidades
                   "SET SENHA=?" +
                   "SET VISUALIZACOES= ?" +
                   "SET SITE= ?"+
-                  "SET DESCRICAO= ?"+
+                  "SET DESCRICAO= ?" +
                   "WHERE CODIGO = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
@@ -191,7 +192,6 @@ public class Entidades
 		    BDSQLServer.COMANDO.setInt        (10, entidade.getVisualizacoes());
 		    BDSQLServer.COMANDO.setString     (11, entidade.getSite());
 		    BDSQLServer.COMANDO.setString     (12, entidade.getDescricao());
-
 
             BDSQLServer.COMANDO.executeUpdate();
             BDSQLServer.COMANDO.commit       ();
@@ -224,18 +224,19 @@ public class Entidades
                 throw new Exception ("Nao cadastrado");
 
             entidade = new Entidade(resultado.getInt  ("CODIGO"),
-                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
-                               resultado.getString("EMAIL"),
-			       resultado.getString("CNPJ"),
-			       resultado.getString("CONTA"),
-			       resultado.getString("AGENCIA"),
-			       resultado.getString("ENDERECO"),
-			       resultado.getString("USUARIO"),
-			       resultado.getString("SENHA"),
-			       resultado.getString("TELEFONE"),
-			       resultado.getInt("VISUALIZACOES"),
-			       resultado.getString("DESCRICAO"),
-			       resultado.getString("SITE"));
+	                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
+	                               resultado.getString("EMAIL"),
+							       resultado.getString("CNPJ"),
+							       resultado.getString("CONTA"),
+							       resultado.getString("AGENCIA"),
+							       resultado.getString("ENDERECO"),
+							       resultado.getString("USUARIO"),
+							       resultado.getString("SENHA"),
+							       resultado.getString("TELEFONE"),
+							       resultado.getInt("VISUALIZACOES"),
+							       resultado.getString("DESCRICAO"),
+							       resultado.getString("SITE"),
+							       resultado.getString("IMAGEM"));
         }
         catch (SQLException erro)
         {
@@ -275,7 +276,8 @@ public class Entidades
 							       resultado.getString("TELEFONE"),
 							       resultado.getInt("VISUALIZACOES"),
 							       resultado.getString("DESCRICAO"),
-							       resultado.getString("SITE"));
+							       resultado.getString("SITE"),
+							       resultado.getString("IMAGEM"));
         }
         catch (SQLException erro)
         {
@@ -318,7 +320,8 @@ public class Entidades
 							       resultado.getString("TELEFONE"),
 							       resultado.getInt("VISUALIZACOES"),
 							       resultado.getString("DESCRICAO"),
-							       resultado.getString("SITE"));
+							       resultado.getString("SITE"),
+							       resultado.getString("IMAGEM"));
         }
         catch (SQLException erro)
         {
@@ -350,18 +353,19 @@ public class Entidades
                 throw new Exception ("Nao cadastrado");
 
             entidade = new Entidade(resultado.getInt  ("CODIGO"),
-                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
-                               resultado.getString("EMAIL"),
-			       resultado.getString("CNPJ"),
-			       resultado.getString("CONTA"),
-			       resultado.getString("AGENCIA"),
-			       resultado.getString("ENDERECO"),
-			       resultado.getString("USUARIO"),
-			       resultado.getString("SENHA"),
-			       resultado.getString("TELEFONE"),
-			       resultado.getInt("VISUALIZACOES"),
-			       resultado.getString("DESCRICAO"),
-			       resultado.getString("SITE"));
+	                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
+	                               resultado.getString("EMAIL"),
+							       resultado.getString("CNPJ"),
+							       resultado.getString("CONTA"),
+							       resultado.getString("AGENCIA"),
+							       resultado.getString("ENDERECO"),
+							       resultado.getString("USUARIO"),
+							       resultado.getString("SENHA"),
+							       resultado.getString("TELEFONE"),
+							       resultado.getInt("VISUALIZACOES"),
+							       resultado.getString("DESCRICAO"),
+							       resultado.getString("SITE"),
+							       resultado.getString("IMAGEM"));
         }
         catch (SQLException erro)
         {
