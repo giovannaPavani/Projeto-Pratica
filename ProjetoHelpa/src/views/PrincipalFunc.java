@@ -21,10 +21,6 @@ import java.awt.Font;
 
 public class PrincipalFunc extends JFrame {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JPanel contentPane;
 	Funcionario funcionarioLog;

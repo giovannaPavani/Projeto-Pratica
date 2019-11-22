@@ -228,9 +228,10 @@ public class Entidades
             for(int i =0; i < produtos.length; i++)
             {
             	sql = "insert into HDoacaoesNecessarias values(?, ?)";
+            	BDSQLServer.COMANDO.prepareStatement (sql);
             	BDSQLServer.COMANDO.setInt    (1, cod);
                 BDSQLServer.COMANDO.setString (2, produtos[i]);
-                BDSQLServer.COMANDO.prepareStatement (sql);
+                
                 BDSQLServer.COMANDO.executeUpdate();
                 
             }
@@ -257,9 +258,11 @@ public class Entidades
             for(int i =0; i < produtos.length; i++)
             {
             	sql = "insert into HDoacaoesNecessarias values(?, ?)";
+            	BDSQLServer.COMANDO.prepareStatement (sql);
+            	
             	BDSQLServer.COMANDO.setInt    (1, cod);
                 BDSQLServer.COMANDO.setString (2, produtos[i]);
-                BDSQLServer.COMANDO.prepareStatement (sql);
+                
                 BDSQLServer.COMANDO.executeUpdate();
             }
             BDSQLServer.COMANDO.commit       ();
@@ -289,7 +292,7 @@ public class Entidades
             BDSQLServer.COMANDO.setInt(1, codigo);
 
             MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery (); // n é mais para executar update, mas sim uma query (consulta) / ñ é void
-            // uma tabelinha po
+            
             if (!resultado.first()) // .last()/ .next()/ .previous()/ .absolute(10) --> retornam boolean
                 throw new Exception ("Nao cadastrado");
 
@@ -303,7 +306,7 @@ public class Entidades
 							       resultado.getString("USUARIO"),
 							       resultado.getString("SENHA"),
 							       resultado.getString("TELEFONE"),
-							       resultado.getInt("VISUALIZACOES"),
+							       resultado.getInt   ("VISUALIZACOES"),
 							       resultado.getString("DESCRICAO"),
 							       resultado.getString("SITE"),
 							       resultado.getString("LINKIMAGEM"));
@@ -532,10 +535,8 @@ public class Entidades
             String sql;
 
             sql = "select produto, data, entregue, quantidade from HDoacoes where codEntidade = ?";
-            BDSQLServer.COMANDO.setInt(1, cod);
-
             BDSQLServer.COMANDO.prepareStatement (sql);
-
+            BDSQLServer.COMANDO.setInt(1, cod);
             resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery ();
         }
         catch (SQLException erro)

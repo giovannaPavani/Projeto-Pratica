@@ -218,6 +218,7 @@ public class Entidade implements Cloneable, Comparable<Entidade>
 	    this.setSite         (site);
 	    this.setDescricao    (descricao);
 	    this.setImagem       (imagem);
+	    this.setTelefone     (telefone);
 	 }
 
 	 public String toString ()
