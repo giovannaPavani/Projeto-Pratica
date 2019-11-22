@@ -14,6 +14,7 @@ class PessoaDao {
 
     buscarPorEmail(email,callback) {
         this._db.query("select * from HPessoas where email = '" + email + "'", (err, recordset) => { 
+
             callback(err, recordset); 
         }) 
     } 
@@ -25,7 +26,7 @@ class PessoaDao {
     }
 
     informacoesSobreLogado(callback){
-        this._db.query("select nome from HPessoas where email ='"+this.emailLogado+"'",function (err, recordset) {
+        this._db.query("select email,senha,telefone,nome,endereco,cidade,UF from HPessoas where email ='"+this.emailLogado+"'",function (err, recordset) {
             callback(err, recordset);
     })
 }

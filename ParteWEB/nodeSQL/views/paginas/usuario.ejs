@@ -5,7 +5,9 @@
     <h3 class="w3-bar-item">ÁREA DOADOR</h3>
     <a href="#" id="consultabtn" class="w3-bar-item w3-button">Consulta de Doações</a>
     <a href="#" id="editarbtn" class="w3-bar-item w3-button">Editar Infos</a>
+    <a href="#" id="senhabtn" class="w3-bar-item w3-button">Editar Senha</a>
     <a href="/" id="homebtn" class="w3-bar-item w3-button">Home</a>
+
   </div>
 
 <div id="consulta" style="display:block;">
@@ -43,70 +45,59 @@
   <div id="editarInfos"  style="display: none;">
       <form id="cadastro" method="post" action="http://localhost:3000/usuario">
         <div class="form-row">
-          
+    
         </div>
         <div class="form-group">
                 <label for="inputName">Nome Completo</label>
-                <input name="nome" type="text" class="form-control" id="inputName" placeholder="Nome" required>
+                <input name="nome" type="text" class="form-control" id="inputName" value="<%=informacoesSobreLogado[0].nome%>" placeholder="Nome" required>
               </div>
         <div class="form-group">
           <label for="inputAddress">Endereço</label>
-          <input type="text" name="endereco" class="form-control" id="inputAddress" placeholder="Ex: Rua Miosótis, 500 - Jardim Santa Cláudia" required>
+          <input type="text" name="endereco" class="form-control" id="inputAddress" value="<%=informacoesSobreLogado[0].endereco%>" placeholder="Ex: Rua Miosótis, 500 - Jardim Santa Cláudia" required>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputCity">Cidade</label>
-            <input type="text" name="cidade" class="form-control" id="inputCity" placeholder="Cidade" required>
+            <input type="text" name="cidade" class="form-control" id="inputCity" placeholder="Cidade" value="<%=informacoesSobreLogado[0].cidade%>" required>
           </div>
           <div class="form-group col-md-4">
             <label for="inputState">Estado</label>
-            <select name="uf" id="inputState" class="form-control">
-              <option selected value="AC">Acre – AC</option>
-              <option value="AP">AP - Amapá</option>
-              <option value="AM">AM - Amazonas</option>
-              <option value="BA">BA - Bahia</option>
-              <option value="CE">CE - Ceará</option>
-              <option value="DF">DF - Distrito Federal</option>
-              <option value="ES">ES - Espírito Santo</option>
-              <option value="GO">GO - Goiás</option>
-              <option value="MA">MA - Maranhão</option>
-              <option value="MT">MT - Mato Grosso</option>
-              <option value="MS">MS - Mato Grosso do Sul</option>
-              <option value="MG">MG - Minas Gerais</option>
-              <option value="PA">PA - Pará</option>
-              <option value="PB">PB - Paraíba</option>
-              <option value="PR">PR - Paraná</option>
-              <option value="PE">PE - Pernambuco</option>
-              <option value="PI">PI - Piauí</option>
-              <option value="RR">RR - Roraima</option>
-              <option value="RO">RO - Rondônia</option>
-              <option value="RJ">RJ - Rio de Janeiro</option>
-              <option value="RN">RN - Rio Grande do Norte</option>
-              <option value="RS">RS - Rio Grande do Sul</option>
-              <option value="SC">SC - Santa Catarina</option>
-              <option value="SP">SP - São Paulo</option>
-              <option value="SE">SE - Sergipe</option>
-              <option value="TO">TO - Tocantins</option>
-            </select>
+            <input type="text" name="uf" class="form-control" max-lenght="2" id="inputCity" placeholder="UF" value="<%=informacoesSobreLogado[0].UF%>" required>
           </div>
           <div class="form-group col-md-2">
             <label for="inputZip">Celular</label>
-            <input type="text" name="telefone" class="form-control" id="inputCel" value="" placeholder="Ex: (19) 91234-5678" required>
+            <input type="text" name="telefone" class="form-control" id="inputCel" value="" placeholder="Ex: (19) 91234-5678" value="<%=informacoesSobreLogado[0].telefone%>" required>
           </div>
         </div>
         <div class="form-group col-md-6">
                 <label id="inputEmail4" for="inputEmail4">Email</label>
-                <input type="email" name="email" class="form-control" id="inputEmail4" placeholder="Email" required>
+                <input type="email" name="email" class="form-control" id="inputEmail4" placeholder="Email" value="<%=informacoesSobreLogado[0].email%>" required>
               </div>
-              <div class="form-group col-md-6">
-                <label id="inputPassword4" for="inputPassword4">Senha</label>
-                <input type="password" name="senha" class="form-control" id="inputPassword4" placeholder="Senha" required>
-              </div>
+
         <input type="submit" name="submit" class="btn btn-primary" value="Enviar">
         <br>
-        <p>Já é cadastrado?<a href = "/login"> Entre por aqui</a></p>
+            </form>
+          </div></div>
+
+
+
+
+        <div id="editaraSenha"  style="display: none;">
+          <form action="/usuario">
+          <div>
+            <label>Nova Senha</label>
+            <input name="nsenha1" type="text" class="form-control" id="inputSenha1"  placeholder="Nova Senha" required>
+          </div>
+        <div>
+          <label>Confirme a nova senha</label>
+                <input name="nsenha2" type="text" class="form-control" id="inputSenha2" placeholder="Comfirme a senha" required>
+              </div>
+            <div>
+              <label>Nome Completo</label>
+                <input name="senha" type="text" class="form-control" id="inputSenha" placeholder="Senha Antiga" required>
+              </div>
+        </div>
       </form>
-    <div>
     <style>
 
 .S{
@@ -125,7 +116,13 @@
 
 #editarInfos{
   position:absolute;
-  margin-left:300px;
+  margin-left:150px;
+  margin-top:50px;
+}
+#editaraSenha{
+  position:absolute;
+  margin-left:90px;
+  margin-top:50px;
 }
 #consulta{
   position:absolute;
@@ -193,12 +190,20 @@ padding-top:0px;
 $("#consultabtn").click(function () {
   $('#consulta').show();
   $('#editarInfos').hide();
+  $('#editaraSenha').hide();
 });
 
 
 $("#editarbtn").click(function () {
   $('#consulta').hide();
+  $('#editaraSenha').hide();
   $('#editarInfos').show();
+});
+
+$("#senhabtn").click(function () {
+  $('#editaraSenha').show();
+    $('#consulta').hide();
+  $('#editaraSenha').hide();
 });
 
           </script>

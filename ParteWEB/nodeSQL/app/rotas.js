@@ -2,7 +2,7 @@ var PessoaDao = require('../app/pessoa-dao');
 var EntidadeDao = require('../app/entidade-dao');
 var conexao = require('../config/custom-mssql');
 const session = require('express-session');
-
+var senhaLocal;
 var emailLogado = "vazio";
 var pessoaDao = new PessoaDao(conexao, emailLogado);
 
@@ -103,7 +103,7 @@ module.exports = (app) => {
         sess = req.session;
 
          emailLogado = req.body.email.substring(0, 50);
-        var senhaLocal = req.body.senha.substring(0, 15);
+         senhaLocal = req.body.senha.substring(0, 15);
 
         pessoaDao = new PessoaDao(conexao, emailLogado);
         pessoaDao.buscarPorEmail(emailLogado, function (erro, resultados) {
@@ -140,6 +140,7 @@ module.exports = (app) => {
             return console.log(err);
         }
             emailLogado = "vazio";
+            senhaLocal = undefined;
             pessoaDao = new PessoaDao(conexao, emailLogado);
             pessoaDao.lista(function (erro, resultados) {
                 pessoaDao.listaDoacoes(function (erro, resultados2) {
@@ -168,4 +169,36 @@ module.exports = (app) => {
         });
     });
 
+    app.post('/usuario', function (req, resp) {
+            const nome = req.body.nome.substring(0, 50);
+            const email = req.body.email.substring(0, 50);
+            const endereco = req.body.endereco.substring(0, 100);
+            const cidade = req.body.cidade.substring(0, 40);
+            const uf = req.body.uf.substring(0, 2);
+            const telefone = req.body.telefone.substring(0, 14);
+    
+            pessoaDao = new PessoaDao(conexao, emailLogado);
+            pessoaDao.buscarPorEmail(emailLogado, function (erro, resultados) {
+                if (erro){
+                    console.log("Erro para Atualizar");
+                }   
+            console.log(emailLogado);
+            console.log(email);
+                    if(emailLogado != email){
+                        conexao.query(`SELECT * FROM HPessoas where email = '${email}'`, (err, result) => {
+                            console.log(result);
+                            if (result.rowsAffected == 0) { 
+                                execSQL(`update HPessoas set email='${email}',nome='${nome}',endereco='${endereco}',telefone='${telefone}',cidade='${cidade}',UF='${uf}' where email = '${emailLogado}'`, resp);
+                               emailLogado = email; 
+                               resp.redirect('/usuario');
+                            } else
+                           console.log("erjkljkljkljlterar");
+                        });
+                    }
+                    else{
+                        execSQL(`update HPessoas set nome='${nome}',endereco='${endereco}',telefone='${telefone}',cidade='${cidade}',UF='${uf}' where email = '${email}'`, resp);
+                        resp.redirect('/usuario');
+                    }
+                });
+        });
 }
