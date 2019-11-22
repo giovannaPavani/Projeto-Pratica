@@ -187,14 +187,16 @@ public class Pessoas
             pessoa = new Pessoa(resultado.getInt   ("CODIGO"),
                                resultado.getString("NOME"), // como q ele sb qual ie string eh?
                                resultado.getString ("EMAIL"),
-			       resultado.getString("CPF"),
-			       resultado.getString("CONTA"),
-			       resultado.getString("AGENCIA"),
-			       resultado.getString("ENDERECO"),
-			       resultado.getString("USUARIO"),
-			       resultado.getString("SENHA"),
-			       resultado.getString("TELEFONE")
-);
+						       resultado.getString("CPF"),
+						       resultado.getString("CONTA"),
+						       resultado.getString("AGENCIA"),
+						       resultado.getString("ENDERECO"),
+						       resultado.getString("USUARIO"),
+						       resultado.getString("SENHA"),
+						       resultado.getString("TELEFONE"),
+						       resultado.getString("CIDADE"),
+						       resultado.getString("UF")
+            					);
         }
         catch (SQLException erro)
         {
@@ -247,5 +249,66 @@ public class Pessoas
         }
 
         return resultado;
+    }
+    
+    public static MeuResultSet getPessoasDoa () throws Exception
+    {
+        MeuResultSet resultado = null;
+
+        try
+        {
+            String sql;
+
+            sql = "select p.codigo as 'Codigo', p.nome as 'Nome', count(d.codPessoa) as 'Vezes' from HPessoas p, HDoacoes d where p.codigo = d.codPessoa group by p.codigo, p.nome order by Vezes desc ";
+
+            BDSQLServer.COMANDO.prepareStatement (sql);
+
+            resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery ();
+        }
+        catch (SQLException erro)
+        {
+            throw new Exception ("Erro ao recuperar rank de doações");
+        }
+
+        return resultado;
+    }
+    
+    public static Pessoa getPrimeiroRegistro() throws Exception
+    {
+    	Pessoa pessoa = null;
+
+        try
+        {
+            String sql;
+
+            sql = "SELECT * " +
+                  "FROM HPESSOAS ";
+
+            BDSQLServer.COMANDO.prepareStatement(sql);
+            MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery (); // n é mais para executar update, mas sim uma query (consulta) / ñ é void
+            
+            if (!resultado.first()) // .last()/ .next()/ .previous()/ .absolute(10) --> retornam boolean
+                throw new Exception ();
+
+            pessoa = new Pessoa(resultado.getInt   ("CODIGO"),
+                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
+                               resultado.getString ("EMAIL"),
+						       resultado.getString("CPF"),
+						       resultado.getString("CONTA"),
+						       resultado.getString("AGENCIA"),
+						       resultado.getString("ENDERECO"),
+						       resultado.getString("USUARIO"),
+						       resultado.getString("SENHA"),
+						       resultado.getString("TELEFONE"),
+						       resultado.getString("CIDADE"),
+						       resultado.getString("UF")
+            					);
+        }
+        catch (SQLException erro)
+        {
+            throw new Exception ("Tabela vazia");
+        }
+
+        return pessoa;
     }
 }

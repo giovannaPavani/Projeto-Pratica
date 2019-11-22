@@ -196,7 +196,7 @@ public class PrincipalEntidade extends JFrame {
 		menuBar.setBounds(0, 0, 676, 32);
 		pnlInfoInt.add(menuBar);
 		
-		JButton btnAlterarInt = new JButton("ALTERAR");
+		JButton btnAlterarInt = new JButton("Alterar");
 		btnAlterarInt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setTxtInt(true);
@@ -206,7 +206,7 @@ public class PrincipalEntidade extends JFrame {
 		btnAlterarInt.setFont(UIManager.getFont("ToolTip.font"));
 		menuBar.add(btnAlterarInt);
 		
-		JButton btnSalvarInt = new JButton("SALVAR");
+		JButton btnSalvarInt = new JButton("Salvar");
 		btnSalvarInt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if( !txtCodigo.getText().equals("")  ||
@@ -247,6 +247,10 @@ public class PrincipalEntidade extends JFrame {
 		});
 		btnSalvarInt.setFont(UIManager.getFont("ToolTip.font"));
 		menuBar.add(btnSalvarInt);
+		
+		JLabel label_10 = new JLabel("   Caso queira alterar algo, clique no bot\u00E3o [Alterar] e, ap\u00F3s digitar, clique em [Salvar]!");
+		label_10.setForeground(Color.GRAY);
+		menuBar.add(label_10);
 		
 		JLabel lblEssasInformaesApenas = new JLabel("Essas informa\u00E7\u00F5es apenas n\u00F3s da Helpa! e voc\u00EA, dono da Entidade, t\u00EAm acesso! ");
 		lblEssasInformaesApenas.setForeground(Color.GRAY);

@@ -12,6 +12,8 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	 private String usuario;
 	 private String senha;
 	 private String telefone;
+	 private String cidade;
+	 private String uf;
 	 
 	 public void setCodigo(int codigo) throws Exception
 	 {
@@ -27,6 +29,22 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	         throw new Exception ("Nome não fornecido");
 	
 	     this.nome = nome;
+	 }
+	 
+	 public void setCidade(String cidade) throws Exception
+	 {
+	     if (cidade==null || cidade.equals(""))
+	         throw new Exception ("Cidade não fornecida");
+	
+	     this.cidade = cidade;
+	 }
+	 
+	 public void setUf(String uf) throws Exception
+	 {
+	     if (uf==null || uf.equals(""))
+	         throw new Exception ("Uf não fornecida");
+	
+	     this.uf = uf;
 	 }
 	
 	 public void setTelefone(String telefone) throws Exception
@@ -102,6 +120,16 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	 {
 	     return this.nome;
 	 }
+	 
+	 public String getCidade ()
+	 {
+	     return this.cidade;
+	 }
+	 
+	 public String getUf ()
+	 {
+	     return this.uf;
+	 }
 	
 	 public String getTelefone ()
 	 {
@@ -143,7 +171,7 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	     return this.senha;
 	 }
 	
-	 public Pessoa (int codigo, String nome, String email, String cpf, String conta, String agencia, String endereco, String usuario, String senha, String telefone) throws Exception
+	 public Pessoa (int codigo, String nome, String email, String cpf, String conta, String agencia, String endereco, String usuario, String senha, String telefone, String cidade, String uf) throws Exception
 	 {
 	    this.setCodigo  (codigo);
 	    this.setNome    (nome);
@@ -155,6 +183,8 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	    this.setUsuario (usuario);
 	    this.setSenha   (senha);
 	    this.setTelefone(telefone);
+	    this.setCidade  (cidade);
+	    this.setUf      (uf);
 	 }
 	
 	 public String toString ()
@@ -171,6 +201,8 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	     ret+="Endereço: "+this.endereco + "\n";
 	     ret+="Usuário: "+this.usuario + "\n";
 	     ret+="Senha: "+this.senha + "\n";
+	     ret+="Cidade: "+this.cidade + "\n";
+	     ret+="UF: "+this.uf;
 	
 	     return ret;
 	 }
@@ -188,6 +220,8 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 		ret = ret * 5 + this.endereco.hashCode();
 		ret = ret * 5 + this.usuario.hashCode();
 		ret = ret * 5 + this.senha.hashCode();
+		ret = ret * 5 + this.cidade.hashCode();
+		ret = ret * 5 + this.uf.hashCode();
 		
 		if(ret < 0)
 			ret = -ret;
@@ -208,7 +242,7 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 		
 		Pessoa pes = (Pessoa)obj;
 		
-		if(pes.codigo != this.codigo || pes.nome != this.nome || pes.email != this.email || pes.cpf != this.cpf || pes.telefone != this.telefone || pes.conta != this.conta || pes.agencia != this.agencia || pes.endereco != this.endereco || pes.usuario != this.usuario || pes.senha != this.senha)
+		if(pes.codigo != this.codigo || pes.nome != this.nome || pes.email != this.email || pes.cpf != this.cpf || pes.telefone != this.telefone || pes.conta != this.conta || pes.agencia != this.agencia || pes.endereco != this.endereco || pes.usuario != this.usuario || pes.senha != this.senha || pes.cidade != this.cidade || pes.uf != this.uf)
 			return false;
 		
 			return true;

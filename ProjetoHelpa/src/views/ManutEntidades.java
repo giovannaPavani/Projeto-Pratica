@@ -24,6 +24,7 @@ import java.awt.event.ComponentEvent;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Color;
 
 public class ManutEntidades extends JFrame {
 
@@ -263,6 +264,7 @@ public class ManutEntidades extends JFrame {
 				limparTela();
 				setTxt(true);
 				txtCodigo.grabFocus();
+				setTxtNecessidades(false);
 				txtNcsd1.setEnabled(true);
 				btnSalvar.enable(true);
 			}
@@ -286,11 +288,11 @@ public class ManutEntidades extends JFrame {
 				try 
 				{
 					Entidades.excluir(Integer.parseInt(txtCodigo.getText()));
+					atualizarTela();
 				}
 				catch(Exception er)
 				{
 					JOptionPane.showMessageDialog(null,"Não foi possível excluir essa entidade!");
-					atualizarTela();
 				}
 			}
 		});
@@ -356,9 +358,10 @@ public class ManutEntidades extends JFrame {
 								txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
 								txtEndereco.getText(), txtUsuario.getText(),"", txtTelefone.getText(), 0, "", txtSite.getText(), "");
 							}
-								catch(Exception ex)
-								{throw new Exception();}
+							catch(Exception ex)
+							{throw new Exception();}
 							Entidades.incluir(entidade);
+							
 							int qtd = 1;
 							String produtos[] = new String[qtd];
 							produtos[0] = txtNcsd1.getText();
@@ -370,8 +373,8 @@ public class ManutEntidades extends JFrame {
 						}
 					
 						case NAVEGANDO:
-							setTxt(false);
-							btnSalvar.setEnabled(false);
+						setTxt(false);
+						btnSalvar.setEnabled(false);
 					}
 				}
 				else
@@ -431,18 +434,19 @@ public class ManutEntidades extends JFrame {
 		txtNcsd5.setColumns(10);
 		pnlNecessidades.add(txtNcsd5);
 		
-		JPanel pnlConsulta = new JPanel();
-		tabbedPane.addTab("Relatório", null, pnlConsulta, null);
-		pnlConsulta.setLayout(null);
+		JPanel pnlRelatorio = new JPanel();
+		tabbedPane.addTab("Relatório", null, pnlRelatorio, null);
+		pnlRelatorio.setLayout(null);
 		
 		tblEntidades = new JTable();
 		tblEntidades.setBounds(10, 392, 656, -362);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 676, 21);
-		pnlConsulta.add(menuBar);
+		pnlRelatorio.add(menuBar);
 		
-		JLabel lblAquiTemosTodas = new JLabel("Aqui, temos todas as entidades cadastradas ranqueadas pela quantidade de doa\u00E7\u00F5es para elas feitas");
+		JLabel lblAquiTemosTodas = new JLabel("Aqui, temos todas as entidades cadastradas ranqueadas pela quantidade de doa\u00E7\u00F5es que receberam:");
+		lblAquiTemosTodas.setForeground(Color.GRAY);
 		menuBar.add(lblAquiTemosTodas);
 		
 		DefaultTableModel model = null;
@@ -478,7 +482,7 @@ public class ManutEntidades extends JFrame {
 			System.out.print(ex.getMessage());
 		}
 		tblEntidades.setModel(model);   
-		pnlConsulta.add(tblEntidades);	
+		pnlRelatorio.add(tblEntidades);	
 	}
 		
 		private void atualizarTela() 
@@ -513,6 +517,7 @@ public class ManutEntidades extends JFrame {
 					if (c instanceof JTextField) 
 				    { 
 						((JTextField)c).setVisible(false);
+						((JTextField)c).setEnabled(false);
 				    }
 				}
 				
@@ -578,5 +583,16 @@ public class ManutEntidades extends JFrame {
 		txtUsuario.setEnabled(modo);
 		txtCnpj.setEnabled(modo);
 		txtTelefone.setEnabled(modo);
+	}
+	
+	private void setTxtNecessidades(boolean modo)
+	{
+		for (Component c : pnlNecessidades.getComponents()) 
+		{
+			if (c instanceof JTextField) 
+		    { 
+				((JTextField)c).setVisible(false);
+		    }
+		}
 	}
 }
