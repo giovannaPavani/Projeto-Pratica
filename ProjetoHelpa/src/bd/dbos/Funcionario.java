@@ -172,17 +172,17 @@ public class Funcionario implements Cloneable
 	
 	public Funcionario (int codigo, String nome,String cpf,String email,float salario,String telefone,String cargo,String conta,String agencia,String endereco,String usuario,String senha) throws Exception
     {
-        this.setCodigo (codigo);
-        this.setNome   (nome);
-		this.setCpf    (cpf);
+        this.setCodigo   (codigo);
+        this.setNome     (nome);
+		this.setCpf      (cpf);
 		this.setEmail    (email);
-		this.setSalario    (salario);
-		this.setTelefone    (telefone);
-        this.setCargo  (cargo);
+		this.setSalario  (salario);
+		this.setTelefone (telefone);
+        this.setCargo    (cargo);
 		this.setConta    (conta);
-		this.setAgencia    (agencia);
-		this.setEndereco    (endereco);
-		this.setUsuario    (usuario);
+		this.setAgencia  (agencia);
+		this.setEndereco (endereco);
+		this.setUsuario  (usuario);
 		this.setSenha    (senha);
     }
 	
@@ -190,18 +190,18 @@ public class Funcionario implements Cloneable
     {
         String ret="";
 
-        ret+="Codigo: "+this.codigo+"\n";
-        ret+="Nome: "+this.nome  +"\n";
-        ret+="Cpf: "+this.cpf  +"\n";
-		ret+="Email: "+this.email  +"\n";
-		ret+="Salario: "+this.salario  +"\n";	
-		ret+="Telefone: "+this.telefone  +"\n";
-		ret+="Cargo: "+this.cargo  +"\n";
-		ret+="Conta: "+this.conta  +"\n";
-		ret+="Agencia: "+this.agencia  +"\n";
-		ret+="Endereco: "+this.endereco  +"\n";
-		ret+="Usuario: "+this.usuario  +"\n";
-		ret+="Senha: "+this.senha  +"\n";
+        ret+="Codigo: "  +this.codigo   +"\n";
+        ret+="Nome: "    +this.nome     +"\n";
+        ret+="Cpf: "     +this.cpf      +"\n";
+		ret+="Email: "   +this.email    +"\n";
+		ret+="Salario: " +this.salario  +"\n";	
+		ret+="Telefone: "+this.telefone +"\n";
+		ret+="Cargo: "   +this.cargo    +"\n";
+		ret+="Conta: "   +this.conta    +"\n";
+		ret+="Agencia: " +this.agencia  +"\n";
+		ret+="Endereco: "+this.endereco +"\n";
+		ret+="Usuario: " +this.usuario  +"\n";
+		ret+="Senha: "   +this.senha;
         return ret;
     }
 
@@ -241,7 +241,10 @@ public class Funcionario implements Cloneable
 		
 		Funcionario fun = (Funcionario)obj;
 		
-		if(fun.codigo != this.codigo || fun.nome != this.nome || fun.cargo != this.cargo || fun.email != this.email || fun.cpf != this.cpf || fun.telefone != this.telefone || fun.conta != this.conta || fun.agencia != this.agencia || fun.endereco != this.endereco || fun.usuario != this.usuario || fun.senha != this.senha || fun.salario != this.salario)
+		if(fun.codigo != this.codigo || !fun.nome.equals(this.nome) || !fun.cargo.equals(this.cargo) || 
+		  !fun.email.equals(email) || !fun.cpf.equals(this.cpf) || !fun.telefone.equals(this.telefone) || 
+		  !fun.conta.equals(this.conta) || !fun.agencia.equals(this.agencia) || !fun.endereco.equals(this.endereco) || 
+		  !fun.usuario.equals(this.usuario) || !fun.senha.equals(this.senha) || fun.salario != this.salario)
 			return false;
 		
 		return true;

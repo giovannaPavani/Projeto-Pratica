@@ -30,6 +30,8 @@ import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import java.awt.TextArea;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PrincipalEntidade extends JFrame {
 	
@@ -479,6 +481,13 @@ public class PrincipalEntidade extends JFrame {
 		menuBar_2.add(lblAquiEstoExibidas);
 		
 		tblRelatorio = new JTable();
+		tblRelatorio.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int idDoacao = (int)tblRelatorio.getValueAt(tblRelatorio.getSelectedRow(), 0);
+				
+			}
+		});
 		tblRelatorio.setBounds(10, 342, 536, -312);
 		pnlRelatorio.add(tblRelatorio);
 		DefaultTableModel model = null;

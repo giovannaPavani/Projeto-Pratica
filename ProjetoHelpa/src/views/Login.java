@@ -105,7 +105,6 @@ public class Login {
 								else
 								{
 									JOptionPane.showMessageDialog(null,"Senha incorreta!");
-									txtUsuario.setText("");
 									txtSenha.setText("");
 								}
 							}
@@ -116,7 +115,6 @@ public class Login {
 						{
 							ex.printStackTrace();
 							JOptionPane.showMessageDialog(null,ex.getMessage());
-							txtUsuario.setText("");
 							txtSenha.setText("");
 						}
 					}
