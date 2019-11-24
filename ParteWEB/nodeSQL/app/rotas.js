@@ -17,7 +17,7 @@ function execSQL(sql, resposta) {
 
 module.exports = (app) => {
 
-    app.post('/', function (req, res) {
+    app.post('/', function (req, res) { //rota para realizar a doação. Pega a quantidade, para qual entidade foi doado e qual foi a doação
 
         const doacao = req.body.doacao;
         const entidade = req.body.codDaEntidade;
@@ -33,7 +33,7 @@ module.exports = (app) => {
     });
 
 
-    app.get('/', function (req, res) {
+    app.get('/', function (req, res) { //rota para entrar na pági principal (primeiro contato do cliente com o site)
 
         sess = req.session;
         sess.email;
@@ -53,24 +53,23 @@ module.exports = (app) => {
         });
     });
 
-    app.get('/cadastro', function (req, resp) {
-        if (typeof sess.email == "undefined") {
-
+    app.get('/cadastro', function (req, resp) { //carrega a pagina do cadastro
+        if (typeof sess.email == "undefined") { //se ainda n estiver logado, pode fazer cadastro
             resp.render("paginas/cadastro");
         }
         else {
-            resp.redirect("/#");
+            resp.redirect("/#"); //se ja estiver logado, vai para página inicial
         }
 
     });
 
-    app.get('/pesquisar/:busc', function (req, resp) {
+    app.get('/pesquisar/:busc', function (req, resp) { //faz a pesquisa de entidades
         var busc = req.params.busc;
         console.log("Busca_sp '" + busc + "'");
         execSQL("Busca_sp '" + busc + "'", resp);
     });
 
-    app.post('/cadastro', function (req, resp) {
+    app.post('/cadastro', function (req, resp) { //realiza o cadastro de alguem com as informacoes nos campos dos inputs 
         const nome = req.body.nome.substring(0, 50);
         const email = req.body.email.substring(0, 50);
         const endereco = req.body.endereco.substring(0, 100);
@@ -79,26 +78,26 @@ module.exports = (app) => {
         const senha = req.body.senha.substring(0, 15);
         const telefone = req.body.telefone.substring(0, 14);
 
-        conexao.query(`SELECT * FROM HPessoas where email = '${email}'`, (err, result) => {
-            if (result.rowsAffected == 0) {
+        conexao.query(`SELECT * FROM HPessoas where email = '${email}'`, (err, result) => { //verifica se o email informado já existe no banco
+            if (result.rowsAffected == 0) { //se não existe, cadastra
                 execSQL(`INSERT INTO HPessoas VALUES('${nome}','${email}','','${endereco}','${cidade}','${uf}','${senha}','${telefone}')`, resp);
                 resp.render("paginas/login");
             } else
-                resp.render("paginas/cadastro");
+                resp.render("paginas/cadastro"); //se existe, recarrega a pagina do cadastro para pessoa fazer novamente
         });
     });
 
-    app.get('/login', function (req, resp) {
+    app.get('/login', function (req, resp) { //vai até a pagina de login se a pessoa ainda não estiver logada
         sess = req.session;
         if (typeof sess.email == "undefined") {
             resp.render("paginas/login");
         }
         else {
-            resp.redirect("/");
+            resp.redirect("/"); //se nao envia para a pagina inicial
         }
     });
 
-    app.post('/login', function (req, resp) {
+    app.post('/login', function (req, resp) { //loga a pessoa de acordo com as informacoes fornecidas 
         sess = req.session;
 
         emailLogado = req.body.email.substring(0, 50);
@@ -110,22 +109,11 @@ module.exports = (app) => {
             if (erro) {
                 console.log("erro no login");
             }
-            else if (resultados.recordset.length != 0 && resultados.recordset[0].senha == senhaLocal) {
-                sess.email = emailLogado;
+            else if (resultados.recordset.length != 0 && resultados.recordset[0].senha == senhaLocal) { //verifica de o email existe e se a senha bate com a real
+                sess.email = emailLogado; //se sim, faz a sessao receber as informacoes
                 sess.senha = senhaLocal;
                 emailLogado = sess.email;
-
-                pessoaDao.lista(function (erro, resultados) {
-                    pessoaDao.listaDoacoes(function (erro, resultados2) {
-                        pessoaDao.informacoesSobreLogado(function (erro, resultados3) {
-                            resp.render('paginas/home', {
-                                lista: resultados["recordset"],
-                                listaDoacoes: resultados2["recordset"],
-                                informacoesSobreLogado: resultados3["recordset"]
-                            })
-                        })
-                    });
-                });
+                resp.redirect("/"); //recarrega a pagina inicial
             }
             else {
                 resp.redirect('/login');
@@ -133,9 +121,9 @@ module.exports = (app) => {
         });
     });
 
-    app.get('/sair', (req, res) => {
+    app.get('/sair', (req, res) => { //rota para deslogar
         sess = req.session;
-        if (typeof sess.email == "undefined") {
+        if (typeof sess.email == "undefined") { //se tiver um email logado ele desloga, se nao vai para o login
             res.render("paginas/login");
         }
         else {
@@ -237,7 +225,7 @@ module.exports = (app) => {
             if (erro) {
                 console.log("erro no login");
             }
-            else if (resultados.recordset[0].senha == senha && nsenha1 == nsenha2) {
+            else if (resultados.recordset[0].senha == senha && nsenha1 == nsenha2) { //deu certo
                 console.log("entou1");
             sess.senha = senha;
             senhaLocal = senha;
