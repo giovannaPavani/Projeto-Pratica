@@ -1,0 +1,59 @@
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:15%">
+  <h3 class="w3-bar-item">ÁREA DOADOR</h3>
+  <a href="/consulta" id="consultabtn" class="w3-bar-item w3-button">Consulta de Doações</a>
+  <a href="/editarInformacoes" id="editarbtn" class="w3-bar-item w3-button">Editar Informações</a>
+  <a href="/editarSenha" id="senhabtn" class="w3-bar-item w3-button">Editar Senha</a>
+  <a href="/" id="homebtn" class="w3-bar-item w3-button">Home</a>
+
+</div>
+
+<div id="editarSenha">
+ <h1 style="padding-bottom: 200px;">Editar Senha</h1>
+  <form method="post" action="http://localhost:3000/editarSenha">
+    <div>
+      <label>Nova Senha</label>
+      <input name="nsenha1" type="text" class="form-control" id="inputSenha1" placeholder="Nova Senha" required>
+    </div>
+    <div>
+      <label>Confirme a nova senha</label>
+      <input name="nsenha2" type="text" class="form-control" id="inputSenha2" placeholder="Confirme a senha" required>
+    </div>
+    <div>
+      <label>Senha Antiga</label>
+      <input name="senha" type="text" class="form-control" id="inputSenha" placeholder="Senha Antiga" required>
+    </div>
+    <br>
+    <input type="submit" id="btn-enviar" name="submit" class="btn btn-primary" value="Enviar">
+    <br>
+    <div id="mensagem">
+    <p></p>
+    </div>
+  </form>
+</div>
+
+
+<style>
+  #editarSenha {
+    position: absolute;
+    margin-left: 60em;
+    margin-top: 03em;
+  }
+
+  body {
+    background-color: rgba(255, 156, 156, 0.815);
+  }
+</style>
+
+<script>
+$("#btn-enviar").click(function () {
+  $.getJSON("http://localhost:3000/editarSenha", function (result) {
+      var infos = result;
+  $("#mensagem").html(`<p>`+ infos[1].descricao+ `</p>`);  
+});
+});
+
+  </script>

@@ -27,8 +27,6 @@ module.exports = (app) => {
             var codLogado = result.recordset[0].codigo;
             execSQL(`Insert into HDoacoes values (${codLogado},'${doacao}',${entidade},GETUTCDATE(),'N','${qtd}')`, res);
         });
-
-        execSQL(`UPDATE HPessoas set qtdDoacoesFeitas=qtdDoacoesFeitas+1 where email = '${emailLogado}'`, res);
         execSQL(`UPDATE HEntidades set visualizacoes=visualizacoes+1 where codigo = '${entidade}'`, res);
 
         res.redirect('/#entidades');
@@ -68,6 +66,7 @@ module.exports = (app) => {
 
     app.get('/pesquisar/:busc', function (req, resp) {
         var busc = req.params.busc;
+        console.log("Busca_sp '" + busc + "'");
         execSQL("Busca_sp '" + busc + "'", resp);
     });
 
@@ -82,7 +81,7 @@ module.exports = (app) => {
 
         conexao.query(`SELECT * FROM HPessoas where email = '${email}'`, (err, result) => {
             if (result.rowsAffected == 0) {
-                execSQL(`INSERT INTO HPessoas VALUES('${nome}','${email}','','','','${endereco}','${cidade}','${uf}','${senha}','${telefone}',0)`, resp);
+                execSQL(`INSERT INTO HPessoas VALUES('${nome}','${email}','','${endereco}','${cidade}','${uf}','${senha}','${telefone}')`, resp);
                 resp.render("paginas/login");
             } else
                 resp.render("paginas/cadastro");
@@ -102,15 +101,15 @@ module.exports = (app) => {
     app.post('/login', function (req, resp) {
         sess = req.session;
 
-         emailLogado = req.body.email.substring(0, 50);
-         senhaLocal = req.body.senha.substring(0, 15);
+        emailLogado = req.body.email.substring(0, 50);
+        senhaLocal = req.body.senha.substring(0, 15);
 
         pessoaDao = new PessoaDao(conexao, emailLogado);
         pessoaDao.buscarPorEmail(emailLogado, function (erro, resultados) {
 
-            if (erro){
+            if (erro) {
                 console.log("erro no login");
-            }          
+            }
             else if (resultados.recordset.length != 0 && resultados.recordset[0].senha == senhaLocal) {
                 sess.email = emailLogado;
                 sess.senha = senhaLocal;
@@ -134,71 +133,143 @@ module.exports = (app) => {
         });
     });
 
-    app.get('/sair',(req,res) => {
-        req.session.destroy((err) => {
-        if(err) {
-            return console.log(err);
+    app.get('/sair', (req, res) => {
+        sess = req.session;
+        if (typeof sess.email == "undefined") {
+            res.render("paginas/login");
         }
-            emailLogado = "vazio";
-            senhaLocal = undefined;
-            pessoaDao = new PessoaDao(conexao, emailLogado);
-            pessoaDao.lista(function (erro, resultados) {
-                pessoaDao.listaDoacoes(function (erro, resultados2) {
-                    pessoaDao.informacoesSobreLogado(function (erro, resultados3) {
-                        res.render('paginas/home', {
-                            lista: resultados["recordset"],
-                            listaDoacoes: resultados2["recordset"],
-                            informacoesSobreLogado: resultados3["recordset"]
+        else {
+            req.session.destroy((err) => {
+                if (err) {
+                    return console.log(err);
+                }
+                emailLogado = "vazio";
+                senhaLocal = undefined;
+                pessoaDao = new PessoaDao(conexao, emailLogado);
+                pessoaDao.lista(function (erro, resultados) {
+                    pessoaDao.listaDoacoes(function (erro, resultados2) {
+                        pessoaDao.informacoesSobreLogado(function (erro, resultados3) {
+                            res.render('paginas/home', {
+                                lista: resultados["recordset"],
+                                listaDoacoes: resultados2["recordset"],
+                                informacoesSobreLogado: resultados3["recordset"]
+                            })
                         })
-                    })
-                });
-            });     
-        });
-    });
-
-    app.get('/usuario', function (req, resp) {
-        pessoaDao = new PessoaDao(conexao, emailLogado);
-        pessoaDao.listaDeDoacoesFeitas(function (erro, resultados) {
-            pessoaDao.informacoesSobreLogado(function (erro, resultados2) {
-                console.log(resultados);
-                resp.render('paginas/usuario', {
-                    listaDeDoacoesFeitas: resultados["recordset"],
-                    informacoesSobreLogado: resultados2["recordset"]
+                    });
                 });
             });
+        }
+    });
+
+    app.get('/editarInformacoes', function (req, resp) {
+        sess = req.session;
+        if (typeof sess.email == "undefined") {
+            resp.render("paginas/login");
+        }
+        else {
+            pessoaDao = new PessoaDao(conexao, emailLogado);
+            pessoaDao.informacoesSobreLogado(function (erro, resultados) {
+                console.log(resultados);
+                resp.render('paginas/editarInformacoes', {
+                    informacoesSobreLogado: resultados["recordset"]
+                });
+            });
+        }
+    });
+
+    app.post('/editarInformacoes', function (req, resp) {
+        const nome = req.body.nome.substring(0, 50);
+        const email = req.body.email.substring(0, 50);
+        const endereco = req.body.endereco.substring(0, 100);
+        const cidade = req.body.cidade.substring(0, 40);
+        const uf = req.body.uf.substring(0, 2);
+        const telefone = req.body.telefone.substring(0, 14);
+
+        pessoaDao = new PessoaDao(conexao, emailLogado);
+        pessoaDao.buscarPorEmail(emailLogado, function (erro, resultados) {
+            if (erro) {
+                console.log("Erro para Atualizar");
+            }
+            if (emailLogado != email) {
+                conexao.query(`SELECT * FROM HPessoas where email = '${email}'`, (err, result) => {
+                    console.log(result);
+                    if (result.rowsAffected == 0) {
+                        execSQL(`update HPessoas set email='${email}',nome='${nome}',endereco='${endereco}',telefone='${telefone}',cidade='${cidade}',UF='${uf}' where email = '${emailLogado}'`, resp);
+                        emailLogado = email;
+                        resp.redirect('/editarInformacoes');
+                    } else
+                        console.log("erro");
+                });
+            }
+            else {
+                execSQL(`update HPessoas set nome='${nome}',endereco='${endereco}',telefone='${telefone}',cidade='${cidade}',UF='${uf}' where email = '${email}'`, resp);
+                resp.redirect('/consulta');
+            }
         });
     });
 
-    app.post('/usuario', function (req, resp) {
-            const nome = req.body.nome.substring(0, 50);
-            const email = req.body.email.substring(0, 50);
-            const endereco = req.body.endereco.substring(0, 100);
-            const cidade = req.body.cidade.substring(0, 40);
-            const uf = req.body.uf.substring(0, 2);
-            const telefone = req.body.telefone.substring(0, 14);
-    
+    app.get('/editarSenha', function (req, resp) {
+        sess = req.session;
+        if (typeof sess.email == "undefined") {
+            resp.render("paginas/login");
+        }
+        else {
             pessoaDao = new PessoaDao(conexao, emailLogado);
-            pessoaDao.buscarPorEmail(emailLogado, function (erro, resultados) {
-                if (erro){
-                    console.log("Erro para Atualizar");
-                }   
-            console.log(emailLogado);
-            console.log(email);
-                    if(emailLogado != email){
-                        conexao.query(`SELECT * FROM HPessoas where email = '${email}'`, (err, result) => {
-                            console.log(result);
-                            if (result.rowsAffected == 0) { 
-                                execSQL(`update HPessoas set email='${email}',nome='${nome}',endereco='${endereco}',telefone='${telefone}',cidade='${cidade}',UF='${uf}' where email = '${emailLogado}'`, resp);
-                               emailLogado = email; 
-                               resp.redirect('/usuario');
-                            } else
-                           console.log("erjkljkljkljlterar");
-                        });
-                    }
-                    else{
-                        execSQL(`update HPessoas set nome='${nome}',endereco='${endereco}',telefone='${telefone}',cidade='${cidade}',UF='${uf}' where email = '${email}'`, resp);
-                        resp.redirect('/usuario');
-                    }
+            pessoaDao.informacoesSobreLogado(function (erro, resultados) {
+                resp.render('paginas/editarSenha', {
+                    informacoesSobreLogado: resultados["recordset"]
                 });
+            });
+        }
+    });
+
+    app.post('/editarSenha', function (req, resp) {
+        const nsenha1 = req.body.nsenha1.substring(0, 15);
+        const nsenha2 = req.body.nsenha2.substring(0, 15);
+        const senha = req.body.senha.substring(0, 15);
+        
+        pessoaDao = new PessoaDao(conexao, emailLogado);
+        pessoaDao.buscarPorEmail(emailLogado, function (erro, resultados) {
+            console.log(resultados.recordset[0].senha);
+            console.log(senha);
+            console.log(nsenha1);
+
+            if (erro) {
+                console.log("erro no login");
+            }
+            else if (resultados.recordset[0].senha == senha && nsenha1 == nsenha2) {
+                console.log("entou1");
+            sess.senha = senha;
+            senhaLocal = senha;
+            execSQL(`update HPessoas set senha='${nsenha1}' where email = '${emailLogado}'`, resp);
+            resp.redirect('/editarSenha');
+            }
+            else{
+                console.log("entou2");
+            execSQL(`select descricao from Erro where nome = 'senha'`, resp);
+            }
+
         });
+    });
+
+    app.get('/consulta', function (req, resp) {
+        sess = req.session;
+        if (typeof sess.email == "undefined") {
+            resp.render("paginas/login");
+        }
+        else {
+            pessoaDao = new PessoaDao(conexao, emailLogado);
+            pessoaDao.informacoesSobreLogado(function (erro, resultados) {
+                pessoaDao.listaDeDoacoesFeitas(function (erro, resultados2) {
+                    resp.render('paginas/consultaDoacoes', {
+                        informacoesSobreLogado: resultados["recordset"],
+                        listaDeDoacoesFeitas: resultados2["recordset"]
+
+                    });
+                });
+
+            });
+        }
+    });
 }
+

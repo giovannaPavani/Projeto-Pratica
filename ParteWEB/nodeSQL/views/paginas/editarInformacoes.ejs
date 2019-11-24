@@ -1,0 +1,84 @@
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:15%">
+  <h3 class="w3-bar-item">ÁREA DOADOR</h3>
+  <a href="/consulta" id="consultabtn" class="w3-bar-item w3-button">Consulta de Doações</a>
+  <a href="/editarInformacoes" id="editarbtn" class="w3-bar-item w3-button">Editar Informações</a>
+  <a href="/editarSenha" id="senhabtn" class="w3-bar-item w3-button">Editar Senha</a>
+  <a href="/" id="homebtn" class="w3-bar-item w3-button">Home</a>
+</div>
+
+<div id="editarInfos">
+
+  <form id="cadastro" method="post" action="http://localhost:3000/editarInformacoes">
+    <h1 style="padding-bottom: 150px;text-align: center;">Editar Informações</h1>
+    <div class="form-group">
+      <label for="inputName">Nome Completo</label>
+      <input name="nome" type="text" maxlength="50"class="form-control" id="inputName" value="<%=informacoesSobreLogado[0].nome%>"
+        placeholder="Nome" required>
+    </div>
+    <div class="form-group">
+      <label for="inputAddress">Endereço</label>
+      <input type="text" name="endereco" maxlength="100" class="form-control" id="inputAddress"
+        value="<%=informacoesSobreLogado[0].endereco%>" placeholder="Ex: Rua Miosótis, 500 - Jardim Santa Cláudia"
+        required>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputCity">Cidade</label>
+        <input type="text" name="cidade" maxlength="40" class="form-control" id="inputCity" placeholder="Cidade"
+          value="<%=informacoesSobreLogado[0].cidade%>" required>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputState">Estado</label>
+        <input type="text" name="uf" class="form-control" max-lenght="2" id="inputCity" placeholder="UF"
+          value="<%=informacoesSobreLogado[0].UF%>" required>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputZip">Celular</label>
+        <input type="text" name="telefone" class="form-control"  pattern=".{14,}" maxlength="14" id="inputCel" placeholder="(99)99999-9999" value="<%=informacoesSobreLogado[0].telefone%>" required>
+      </div>
+    </div>
+    <div class="form-row">
+    <div class="form-group col-md-6">
+      <label id="inputEmail4" for="inputEmail4">Email</label>
+      <input type="email" name="email" class="form-control" maxlength="50" id="inputEmail4" placeholder="Email"
+        value="<%=informacoesSobreLogado[0].email%>" required>
+    </div>
+  </div>
+    <input type="submit" name="submit" class="btn btn-primary" value="Enviar">
+    <br>
+  </form>
+</div>
+
+<style>
+  #editarInfos {
+    position: absolute;
+    margin-left: 250px;
+    margin-top: 4em;
+  }
+
+  #cadastro {
+    margin-left: 420px;
+    width: 600px;
+  }
+
+  #inputCel {
+    width: 170px;
+  }
+
+  #inputName {
+    width: 685px;
+  }
+
+  #inputAddress {
+    width: 685px;
+  }
+
+
+  body {
+    background-color: rgba(255, 156, 156, 0.815);
+  }
+</style>
