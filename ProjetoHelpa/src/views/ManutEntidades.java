@@ -29,28 +29,6 @@ import java.awt.Color;
 public class ManutEntidades extends JFrame {
 
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-    /*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ManutEntidades frame = new ManutEntidades();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	private JTextField txtAgencia;
 	private JTextField txtNome;
 	private JTextField txtCodigo;
 	private JTextField txtEmail;
@@ -58,7 +36,6 @@ public class ManutEntidades extends JFrame {
 	private JTextField txtUsuario;
 	private JTextField txtTelefone;
 	private JTextField txtCnpj;
-	private JTextField txtConta;
 	private JButton btnProcurar;
 	private JButton btnNovo;
 	private JButton btnEditar;
@@ -66,7 +43,6 @@ public class ManutEntidades extends JFrame {
 	private JButton btnCancelar;
 	private JButton btnSalvar;
 	private JPanel pnlManutencao;
-	private JTable table;
 	private JTextField txtSite;
 	private JTable tblEntidades;
 	private Situacao situacaoAtual;
@@ -86,7 +62,7 @@ public class ManutEntidades extends JFrame {
 	private void initialize()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 699, 473);
+		setBounds(100, 100, 699, 416);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -98,7 +74,7 @@ public class ManutEntidades extends JFrame {
 	
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
-		tabbedPane.setBounds(5, 5, 681, 429);
+		tabbedPane.setBounds(5, 5, 681, 374);
 		tabbedPane.setToolTipText("CADASTRO");
 		tabbedPane.setSelectedIndex(0);
 		contentPane.add(tabbedPane);
@@ -118,13 +94,6 @@ public class ManutEntidades extends JFrame {
 		lblCdigo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblCdigo.setBounds(21, 43, 59, 32);
 		pnlManutencao.add(lblCdigo);
-		
-		txtAgencia = new JTextField();
-		txtAgencia.setEnabled(false);
-		txtAgencia.setText((String) null);
-		txtAgencia.setColumns(10);
-		txtAgencia.setBounds(347, 279, 109, 30);
-		pnlManutencao.add(txtAgencia);
 		
 		JLabel label_3 = new JLabel("Nome:");
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -178,25 +147,15 @@ public class ManutEntidades extends JFrame {
 		lblTelefone.setBounds(10, 191, 69, 32);
 		pnlManutencao.add(lblTelefone);
 		
-		JLabel lblAgncia = new JLabel("Ag\u00EAncia:");
-		lblAgncia.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblAgncia.setBounds(280, 275, 69, 32);
-		pnlManutencao.add(lblAgncia);
-		
 		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
 		lblUsurio.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblUsurio.setBounds(21, 318, 69, 32);
+		lblUsurio.setBounds(21, 265, 69, 32);
 		pnlManutencao.add(lblUsurio);
 		
 		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
 		lblEndereo.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblEndereo.setBounds(10, 236, 72, 32);
+		lblEndereo.setBounds(10, 228, 72, 32);
 		pnlManutencao.add(lblEndereo);
-		
-		JLabel label_11 = new JLabel("Conta:");
-		label_11.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_11.setBounds(31, 275, 48, 32);
-		pnlManutencao.add(label_11);
 		
 		txtEmail = new JTextField();
 		txtEmail.setEnabled(false);
@@ -209,14 +168,14 @@ public class ManutEntidades extends JFrame {
 		txtEndereco.setEnabled(false);
 		txtEndereco.setText((String) null);
 		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(90, 236, 355, 30);
+		txtEndereco.setBounds(90, 228, 355, 30);
 		pnlManutencao.add(txtEndereco);
 		
 		txtUsuario = new JTextField();
 		txtUsuario.setEnabled(false);
 		txtUsuario.setText((String) null);
 		txtUsuario.setColumns(10);
-		txtUsuario.setBounds(90, 318, 179, 30);
+		txtUsuario.setBounds(90, 265, 179, 30);
 		pnlManutencao.add(txtUsuario);
 		
 		txtTelefone = new JTextField();
@@ -232,13 +191,6 @@ public class ManutEntidades extends JFrame {
 		txtCnpj.setColumns(10);
 		txtCnpj.setBounds(90, 114, 179, 30);
 		pnlManutencao.add(txtCnpj);
-		
-		txtConta = new JTextField();
-		txtConta.setEnabled(false);
-		txtConta.setText((String) null);
-		txtConta.setColumns(10);
-		txtConta.setBounds(90, 275, 179, 30);
-		pnlManutencao.add(txtConta);
 		
 		JMenuBar menuBar_1 = new JMenuBar();
 		menuBar_1.setMargin(new Insets(10, 1, 1, 1));
@@ -322,8 +274,6 @@ public class ManutEntidades extends JFrame {
 				!txtCnpj.getText().equals("")    ||
 				!txtEndereco.getText().equals("")||
 				!txtTelefone.getText().equals("")||
-				!txtConta.getText().equals("")   ||
-				!txtAgencia.getText().equals("") ||
 				!txtUsuario.getText().equals("") ||
 				!txtNcsd1.getText().equals("")    )
 				{
@@ -336,7 +286,7 @@ public class ManutEntidades extends JFrame {
 							Entidade entidade = null;
 							try {
 								entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
-								txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
+								txtEmail.getText(), txtCnpj.getText(),antiga.getConta(), antiga.getAgencia(),
 								txtEndereco.getText(), txtUsuario.getText(),antiga.getSenha(), txtTelefone.getText(), 
 								antiga.getVisualizacoes(), antiga.getDescricao(), txtSite.getText(), antiga.getImagem());
 							}
@@ -355,7 +305,7 @@ public class ManutEntidades extends JFrame {
 							Entidade entidade = null;
 							try {
 								entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
-								txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
+								txtEmail.getText(), txtCnpj.getText(),"", "",
 								txtEndereco.getText(), txtUsuario.getText(),"", txtTelefone.getText(), 0, "", txtSite.getText(), "");
 							}
 							catch(Exception ex)
@@ -394,14 +344,14 @@ public class ManutEntidades extends JFrame {
 		
 		JLabel lblSite = new JLabel("Site:");
 		lblSite.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSite.setBounds(47, 357, 32, 32);
+		lblSite.setBounds(48, 301, 32, 32);
 		pnlManutencao.add(lblSite);
 		
 		txtSite = new JTextField();
 		txtSite.setText((String) null);
 		txtSite.setEnabled(false);
 		txtSite.setColumns(10);
-		txtSite.setBounds(89, 360, 367, 30);
+		txtSite.setBounds(90, 304, 367, 30);
 		pnlManutencao.add(txtSite);
 		
 		pnlNecessidades = new JPanel();
@@ -455,18 +405,16 @@ public class ManutEntidades extends JFrame {
 			MeuResultSet dados = Entidades.getEntidadesVisu();
 			 model = new DefaultTableModel(new Object[][] {},
 			new String[] {
-				"C\u00F3digo", "Nome", "Email", "CNPJ", "Telefone", "Conta", "Ag\u00EAncia", "Endere\u00E7o", "Usu\u00E1rio", "Visualiza\u00E7\u00F5es", "Descri\u00E7ao", "Site"
+				"C\u00F3digo", "Nome", "Email", "CNPJ", "Telefone", "Endere\u00E7o", "Usu\u00E1rio", "Visualiza\u00E7\u00F5es", "Descri\u00E7ao", "Site"
 			});
-			for(int i =0; dados.next(); i++)
+			while(dados.next())
 			{
-				Object[] linha = new Object[13];
+				Object[] linha = new Object[11];
 				linha[0]= dados.getObject("codigo");
 				linha[1]= dados.getObject("nome");
 				linha[2]= dados.getObject("email");
 				linha[3]= dados.getObject("cpnj");
 				linha[4]= dados.getObject("Telefone");
-				linha[5]= dados.getObject("Conta");
-				linha[6]= dados.getObject("Agencia");
 				linha[7]= dados.getObject("Endereco");
 				linha[8]= dados.getObject("Usuario");
 				linha[9]= dados.getObject("Visualizacoes");
@@ -474,7 +422,7 @@ public class ManutEntidades extends JFrame {
 				linha[11]= dados.getObject("Site");
 				linha[11]= dados.getObject("Imagem");
 				
-				model.addRow(linha);
+				model.addRow(new Object[] {dados.getInt(1)+"", dados.getString(2), dados.getString(3), dados.getString(4), dados.getString(5), dados.getString(6), dados.getString(7), dados.getString(8), dados.getString(9), dados.getString(10), dados.getString(11)});
 			}
 		}
 		catch(Exception ex) 
@@ -505,8 +453,6 @@ public class ManutEntidades extends JFrame {
 			txtCnpj.setText(aEntidade.getCnpj());
 			txtEndereco.setText(aEntidade.getEndereco());
 			txtTelefone.setText(aEntidade.getTelefone());
-			txtConta.setText(aEntidade.getConta());
-			txtAgencia.setText(aEntidade.getAgencia());
 			txtUsuario.setText(aEntidade.getUsuario());
 			
 			// exibir necessidades
@@ -565,8 +511,6 @@ public class ManutEntidades extends JFrame {
 		txtCnpj.setText("");
 		txtEndereco.setText("");
 		txtTelefone.setText("");
-		txtConta.setText("");
-		txtAgencia.setText("");
 		txtUsuario.setText("");
 	}
 	
@@ -578,8 +522,6 @@ public class ManutEntidades extends JFrame {
 		txtEmail.setEnabled(modo);
 		txtEndereco.setEnabled(modo);
 		txtEmail.setEnabled(modo);
-		txtConta.setEnabled(modo);
-		txtAgencia.setEnabled(modo);
 		txtUsuario.setEnabled(modo);
 		txtCnpj.setEnabled(modo);
 		txtTelefone.setEnabled(modo);

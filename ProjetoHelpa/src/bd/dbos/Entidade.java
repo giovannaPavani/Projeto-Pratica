@@ -2,20 +2,19 @@ package bd.dbos;
 
 public class Entidade implements Cloneable, Comparable<Entidade>
 {
-	private int codigo;
+	 private int    codigo;
 	 private String nome;
-	 private String email;
 	 private String cnpj;
-	 private String telefone;
-	 private String conta;
-	 private String agencia;
 	 private String endereco;
+	 private String email;
+	 private String telefone;
 	 private String usuario;
 	 private String senha;
-	 private int visualizacoes;
+	 private int    visualizacoes;
 	 private String descricao;
-	 private String site;
 	 private String imagem;
+	 private String site;
+	 
 	
 	 public void setCodigo(int codigo) throws Exception
 	 {
@@ -54,22 +53,6 @@ public class Entidade implements Cloneable, Comparable<Entidade>
 	         throw new Exception ("CNPJ não fornecido");
 	
 	     this.cnpj = cnpj;
-	 }
-	
-	 public void setConta(String conta) throws Exception
-	 {
-	     if (conta==null || conta.equals(""))
-	         throw new Exception ("Conta não fornecida");
-	
-	     this.conta = conta;
-	 }
-	
-	 public void setAgencia(String agencia) throws Exception
-	 {
-	     if (agencia==null || agencia.equals(""))
-	         throw new Exception ("Agência não fornecida");
-	
-	     this.agencia = agencia;
 	 }
 	
 	 public void setEndereco(String endereco) throws Exception
@@ -163,16 +146,6 @@ public class Entidade implements Cloneable, Comparable<Entidade>
 	     return this.cnpj;
 	 }
 	
-	 public String getConta ()
-	 {
-	     return this.conta;
-	 }
-	
-	 public String getAgencia ()
-	 {
-	     return this.agencia;
-	 }
-	
 	 public String getEndereco ()
 	 {
 	     return this.endereco;
@@ -203,13 +176,11 @@ public class Entidade implements Cloneable, Comparable<Entidade>
 	    this.setCodigo  (codigo);
 	 }
 	
-	 public Entidade(int codigo, String nome, String email, String cnpj, String conta, String agencia, String endereco, String usuario, String senha, String telefone, int visualizacoes, String descricao, String site, String imagem) throws Exception
+	 public Entidade(int codigo, String nome, String cnpj, String endereco, String email, String telefone, String usuario, String senha, int visualizacoes, String descricao, String imagem, String site) throws Exception
 	 {
 	    this.setCodigo       (codigo);
 	    this.setNome         (nome);
 	    this.setEmail        (email);
-	    this.setConta        (conta);
-	    this.setAgencia      (agencia);
 	    this.setEndereco     (endereco);
 	    this.setUsuario      (usuario);
 	    this.setSenha        (senha);
@@ -228,9 +199,7 @@ public class Entidade implements Cloneable, Comparable<Entidade>
 		 ret+="Codigo: "+this.codigo+"\n";
 		 ret+="Nome: "+this.nome  +"\n";
 		 ret+="Email: "+this.email + "\n";
-		 ret+= "CPNJ: " + this.cnpj +"\n";
-		 ret+="Conta: "+this.conta + "\n";
-		 ret+="Agência: "+this.agencia + "\n";
+		 ret+="CPNJ: " + this.cnpj +"\n";
 		 ret+="Endereço: "+this.endereco + "\n";
 		 ret+="Usuário: "+this.usuario + "\n";
 		 ret+="Senha: "+this.senha + "\n";
@@ -250,8 +219,6 @@ public class Entidade implements Cloneable, Comparable<Entidade>
 		ret = ret * 5 + this.email.hashCode();
 		ret = ret * 5 + this.cnpj.hashCode();
 		ret = ret * 5 + this.telefone.hashCode();
-		ret = ret * 5 + this.conta.hashCode();
-		ret = ret * 5 + this.agencia.hashCode();
 		ret = ret * 5 + this.endereco.hashCode();
 		ret = ret * 5 + this.usuario.hashCode();
 		ret = ret * 5 + this.senha.hashCode();
@@ -278,7 +245,10 @@ public class Entidade implements Cloneable, Comparable<Entidade>
 		
 		Entidade ent = (Entidade)obj;
 	
-		if(ent.codigo != this.codigo || ent.nome != this.nome || ent.email != this.email || ent.cnpj != this.cnpj || ent.telefone != this.telefone || ent.conta != this.conta || ent.agencia != this.agencia || ent.endereco != this.endereco || ent.usuario != this.usuario || ent.senha != this.senha || ent.visualizacoes != this.visualizacoes || ent.site != this.site || ent.descricao != this.descricao)
+		if(ent.codigo != this.codigo || !ent.nome.equals(this.nome) || !ent.email.equals(this.email) || 
+		  !ent.cnpj.equals(this.cnpj) || !ent.telefone.equals(this.telefone) || !ent.endereco.equals(this.endereco) || 
+		  !ent.usuario.equals(this.usuario) || !ent.senha.equals(this.senha) || ent.visualizacoes != this.visualizacoes ||
+		  !ent.site.equals(this.site) || !ent.descricao.equals(this.descricao))
 			return false;
 	
 		return true;
@@ -306,8 +276,6 @@ public class Entidade implements Cloneable, Comparable<Entidade>
 		this.email = molde.email;
 		this.cnpj = molde.cnpj;
 		this.telefone = molde.telefone;
-		this.conta = molde.conta;
-		this.agencia = molde.agencia;
 		this.endereco = molde.endereco;
 		this.usuario = molde.usuario;
 		this.senha = molde.senha;

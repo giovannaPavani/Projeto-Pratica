@@ -10,6 +10,9 @@ public class Entidades
 	public static boolean cadastrado(int codigo) throws Exception
     {
         boolean retorno = false;
+        
+        if(codigo <=0)
+        	return retorno;
 
         try
         {
@@ -20,9 +23,7 @@ public class Entidades
                   "WHERE CODIGO = ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
-
             BDSQLServer.COMANDO.setInt(1, codigo);
-
             MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery();
 
             retorno = resultado.first(); // pode-se usar resultado.last() ou resultado.next() ou resultado.previous() ou resultado.absotule(numeroDaLinha)
@@ -37,6 +38,9 @@ public class Entidades
     
     public static boolean cadastrado(String usuario) throws Exception
     {
+    	if(usuario.equals("") || usuario == null)
+    		throw new Exception("Usuário não fornecido");
+    	
         boolean retorno = false;
 
         try
@@ -48,9 +52,7 @@ public class Entidades
                   "WHERE USUARIO = ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
-
             BDSQLServer.COMANDO.setString(1, usuario);
-
             MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery();
 
             retorno = resultado.first(); // pode-se usar resultado.last() ou resultado.next() ou resultado.previous() ou resultado.absotule(numeroDaLinha)
@@ -94,7 +96,7 @@ public class Entidades
             String sql;
 
             sql = "INSERT INTO HENTIDADES " +
-                  "(CODIGO, NOME, CPNJ, ENDERECO, EMAIL, TELEFONE, CONTA, AGENCIA,USUARIO, SENHA, VISUALIZACOES, SITE, LINKIMAGEM) " +
+                  "(CODIGO, NOME, CNPJ, ENDERECO, EMAIL, TELEFONE, USUARIO, SENHA, VISUALIZACOES, DESRICAO, LINKIMAGEM, SITE) " +
                   "VALUES " +
                   "(?,?,?,?,?,?,?,?,?,?,?)"; // guarda o lugar para dps a gnt colocar uma variavel
 
@@ -103,17 +105,16 @@ public class Entidades
             //substituir as '?'
             BDSQLServer.COMANDO.setInt    (1, entidade.getCodigo());
             BDSQLServer.COMANDO.setString (2, entidade.getNome());
-		    BDSQLServer.COMANDO.setString (4, entidade.getCnpj());
-		    BDSQLServer.COMANDO.setString (7, entidade.getEndereco());
-		    BDSQLServer.COMANDO.setString (3, entidade.getEmail());
-		    BDSQLServer.COMANDO.setString (3, entidade.getTelefone());
-		    BDSQLServer.COMANDO.setString (5, entidade.getConta());
-		    BDSQLServer.COMANDO.setString (6, entidade.getAgencia());
-		    BDSQLServer.COMANDO.setString (8, entidade.getUsuario());
-		    BDSQLServer.COMANDO.setString (9, entidade.getSenha());
-		    BDSQLServer.COMANDO.setInt    (10, entidade.getVisualizacoes());
-		    BDSQLServer.COMANDO.setString (11, entidade.getSite());
-		    BDSQLServer.COMANDO.setString (12, entidade.getImagem());
+		    BDSQLServer.COMANDO.setString (3, entidade.getCnpj());
+		    BDSQLServer.COMANDO.setString (4, entidade.getEndereco());
+		    BDSQLServer.COMANDO.setString (5, entidade.getEmail());
+		    BDSQLServer.COMANDO.setString (6, entidade.getTelefone());
+		    BDSQLServer.COMANDO.setString (7, entidade.getUsuario());
+		    BDSQLServer.COMANDO.setString (8, entidade.getSenha());
+		    BDSQLServer.COMANDO.setInt    (9, entidade.getVisualizacoes());
+		    BDSQLServer.COMANDO.setString (10, entidade.getDescricao());
+		    BDSQLServer.COMANDO.setString (11, entidade.getImagem());
+		    BDSQLServer.COMANDO.setString (12, entidade.getSite());
 
             BDSQLServer.COMANDO.executeUpdate(); // executa o comando, todos são executados como "update" - atualiza o banco, menos select / tipo uma função void
             BDSQLServer.COMANDO.commit       (); // USAR APENAS se for insert, delete e update --> O RESTO N PRECISA // efetiva ex: funcionario e dependentes - transação, se n, o banco n fica consistente - tudo ou nada
@@ -127,7 +128,7 @@ public class Entidades
         }
     }
 
-    public static void excluir(int codigo) throws Exception // fazer trigger, ao deletar, tirar os cod da entidade da tabela necessidades
+    public static void excluir(int codigo) throws Exception
     {
         if (!cadastrado(codigo))
             throw new Exception("Nao cadastrada");
@@ -142,7 +143,7 @@ public class Entidades
             BDSQLServer.COMANDO.executeUpdate();
             
             sql = "DELETE FROM HENTIDADES " +
-                  "WHERE CODIGO=?";
+                  "WHERE CODIGO = ?";
             BDSQLServer.COMANDO.prepareStatement(sql);
             BDSQLServer.COMANDO.setInt(1, codigo);
             BDSQLServer.COMANDO.executeUpdate();
@@ -162,7 +163,7 @@ public class Entidades
             throw new Exception ("Entidade nao fornecida");
 
         if (!cadastrado(entidade.getCodigo()))
-            throw new Exception("Nao cadastrada");
+            throw new Exception ("Entidade nao cadastrada");
 
         try
         {
@@ -170,12 +171,10 @@ public class Entidades
 
             sql = "UPDATE HENTIDADES " +
                   "SET NOME=? " +
-                  "SET CPNJ=?" +
+                  "SET CNPJ=?" +
                   "SET ENDERECO=?" +
                   "SET EMAIL=? " +
                   "SET TELEFONE=? " +
-                  "SET CONTA=?" +
-                  "SET AGENCIA=?" +
                   "SET USUARIO=?" +
                   "SET SENHA=?" +
                   "SET VISUALIZACOES= ?" +
@@ -186,19 +185,18 @@ public class Entidades
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
-            BDSQLServer.COMANDO.setInt        (1, entidade.getCodigo());
-            BDSQLServer.COMANDO.setString     (2, entidade.getNome());
-		    BDSQLServer.COMANDO.setString     (3, entidade.getEmail());
-		    BDSQLServer.COMANDO.setString     (4, entidade.getCnpj());
-		    BDSQLServer.COMANDO.setString     (5, entidade.getConta());
-		    BDSQLServer.COMANDO.setString     (6, entidade.getAgencia());
-		    BDSQLServer.COMANDO.setString     (7, entidade.getEndereco());
-		    BDSQLServer.COMANDO.setString     (8, entidade.getUsuario());
-		    BDSQLServer.COMANDO.setString     (9, entidade.getSenha());
-		    BDSQLServer.COMANDO.setInt        (10, entidade.getVisualizacoes());
-		    BDSQLServer.COMANDO.setString     (11, entidade.getSite());
-		    BDSQLServer.COMANDO.setString     (12, entidade.getDescricao());
-		    BDSQLServer.COMANDO.setString     (13, entidade.getImagem());
+            BDSQLServer.COMANDO.setString (1, entidade.getNome());
+            BDSQLServer.COMANDO.setString (2, entidade.getCnpj());
+            BDSQLServer.COMANDO.setString (3, entidade.getEndereco());
+		    BDSQLServer.COMANDO.setString (4, entidade.getEmail());
+		    BDSQLServer.COMANDO.setString (5, entidade.getTelefone());
+		    BDSQLServer.COMANDO.setString (6, entidade.getUsuario());
+		    BDSQLServer.COMANDO.setString (7, entidade.getSenha());
+		    BDSQLServer.COMANDO.setInt    (8, entidade.getVisualizacoes());
+		    BDSQLServer.COMANDO.setString (9, entidade.getSite());
+		    BDSQLServer.COMANDO.setString (10, entidade.getDescricao());
+		    BDSQLServer.COMANDO.setString (11, entidade.getImagem());
+		    BDSQLServer.COMANDO.setInt    (12, entidade.getCodigo());
 
             BDSQLServer.COMANDO.executeUpdate();
             BDSQLServer.COMANDO.commit       ();
@@ -211,51 +209,49 @@ public class Entidades
     
     public static void alterarNecessidades(int cod, String[] produtos) throws Exception
     {
-        if (cod <= 0)
-            throw new Exception ("Codigo inválido");
-
         if (!cadastrado(cod))
             throw new Exception("Nao cadastrada");
+        
+        if (produtos == null)
+        	throw new Exception("Lista de necessidades é nula");
 
         try
         {
-            String sql = "delete from HDoacoesNecessarias where codEntidade = ? ";
-            BDSQLServer.COMANDO.setInt           (1, cod);
+            String sql = "DELETE FROM HDOACOESNECESSARIAS WHERE CODENTIDADE = ? ";
             BDSQLServer.COMANDO.prepareStatement (sql);
+            BDSQLServer.COMANDO.setInt           (1, cod);
             BDSQLServer.COMANDO.executeUpdate    ();
             
-            sql="";
             for(int i =0; i < produtos.length; i++)
             {
-            	sql = "insert into HDoacaoesNecessarias values(?, ?)";
+            	sql = "INSERT INTO HDOACOESNECESSARIAS VALUES (?, ?)";
             	BDSQLServer.COMANDO.prepareStatement (sql);
-            	BDSQLServer.COMANDO.setInt    (1, cod);
-                BDSQLServer.COMANDO.setString (2, produtos[i]);
-                
-                BDSQLServer.COMANDO.executeUpdate();
-                
+            	BDSQLServer.COMANDO.setInt           (1, cod);
+                BDSQLServer.COMANDO.setString        (2, produtos[i]);
+                BDSQLServer.COMANDO.executeUpdate    ();
             }
-            BDSQLServer.COMANDO.commit       ();
+            
+            BDSQLServer.COMANDO.commit();
         }
         catch (SQLException erro)
         {
         	BDSQLServer.COMANDO.rollback();
-            throw new Exception("Erro ao atualizar dados de entidade");
+            throw new Exception("Erro ao atualizar necessidades de entidade");
         }
     }
     
     public static void inserirNecessidades(int cod, String[] produtos) throws Exception
     {
-        if (cod <= 0)
-            throw new Exception ("Codigo inválido");
-
         if (!cadastrado(cod))
             throw new Exception("Nao cadastrada");
+        
+        if (produtos == null)
+        	throw new Exception("Lista de necessidades é nula");
 
         try
         {
             String sql;
-            for(int i =0; i < produtos.length; i++)
+            for(int i=0; i < produtos.length; i++)
             {
             	sql = "insert into HDoacaoesNecessarias values(?, ?)";
             	BDSQLServer.COMANDO.prepareStatement (sql);
@@ -270,15 +266,17 @@ public class Entidades
         catch (SQLException erro)
         {
         	BDSQLServer.COMANDO.rollback();
-            throw new Exception("Erro ao atualizar dados de entidade");
+            throw new Exception("Erro ao inserir necessidades de entidade");
         }
     }
-    
 
     public static Entidade getEntidadeByCod(int codigo) throws Exception
     {
+    	
+    	if(!cadastrado(codigo))
+    		throw new Exception("Entidade não cadastrada");
+    	
         Entidade entidade = null;
-
         try
         {
             String sql;
@@ -296,20 +294,18 @@ public class Entidades
             if (!resultado.first()) // .last()/ .next()/ .previous()/ .absolute(10) --> retornam boolean
                 throw new Exception ("Nao cadastrado");
 
-            entidade = new Entidade(resultado.getInt  ("CODIGO"),
-	                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
-	                               resultado.getString("EMAIL"),
-							       resultado.getString("CNPJ"),
-							       resultado.getString("CONTA"),
-							       resultado.getString("AGENCIA"),
-							       resultado.getString("ENDERECO"),
-							       resultado.getString("USUARIO"),
-							       resultado.getString("SENHA"),
-							       resultado.getString("TELEFONE"),
-							       resultado.getInt   ("VISUALIZACOES"),
-							       resultado.getString("DESCRICAO"),
-							       resultado.getString("SITE"),
-							       resultado.getString("LINKIMAGEM"));
+            entidade = new Entidade(resultado.getInt   ("CODIGO"),
+	                                resultado.getString ("NOME"), // como q ele sb qual ie string eh?
+	                                resultado.getString ("EMAIL"),
+							        resultado.getString ("CNPJ"),
+							        resultado.getString ("ENDERECO"),
+							        resultado.getString ("USUARIO"),
+							        resultado.getString ("SENHA"),
+							        resultado.getString ("TELEFONE"),
+							        resultado.getInt    ("VISUALIZACOES"),
+							        resultado.getString ("DESCRICAO"),
+							        resultado.getString ("SITE"),
+							        resultado.getString ("LINKIMAGEM"));
         }
         catch (SQLException erro)
         {
@@ -339,15 +335,13 @@ public class Entidades
 
             entidade = new Entidade(resultado.getInt  ("CODIGO"),
 	                               resultado.getString("NOME"), 
+	                               resultado.getString("CNPJ"),
+	                               resultado.getString("ENDERECO"),
 	                               resultado.getString("EMAIL"),
-							       resultado.getString("CNPJ"),
-							       resultado.getString("CONTA"),
-							       resultado.getString("AGENCIA"),
-							       resultado.getString("ENDERECO"),
+	                               resultado.getString("TELEFONE"),
 							       resultado.getString("USUARIO"),
 							       resultado.getString("SENHA"),
-							       resultado.getString("TELEFONE"),
-							       resultado.getInt("VISUALIZACOES"),
+							       resultado.getInt   ("VISUALIZACOES"),
 							       resultado.getString("DESCRICAO"),
 							       resultado.getString("SITE"),
 							       resultado.getString("LINKIMAGEM"));
@@ -382,19 +376,17 @@ public class Entidades
                 throw new Exception ("Nao cadastrado");
 
             entidade = new Entidade(resultado.getInt  ("CODIGO"),
-	                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
-	                               resultado.getString("EMAIL"),
-							       resultado.getString("CNPJ"),
-							       resultado.getString("CONTA"),
-							       resultado.getString("AGENCIA"),
-							       resultado.getString("ENDERECO"),
-							       resultado.getString("USUARIO"),
-							       resultado.getString("SENHA"),
-							       resultado.getString("TELEFONE"),
-							       resultado.getInt   ("VISUALIZACOES"),
-							       resultado.getString("DESCRICAO"),
-							       resultado.getString("SITE"),
-							       resultado.getString("LINKIMAGEM"));
+                    resultado.getString("NOME"), 
+                    resultado.getString("CNPJ"),
+                    resultado.getString("ENDERECO"),
+                    resultado.getString("EMAIL"),
+                    resultado.getString("TELEFONE"),
+				       resultado.getString("USUARIO"),
+				       resultado.getString("SENHA"),
+				       resultado.getInt   ("VISUALIZACOES"),
+				       resultado.getString("DESCRICAO"),
+				       resultado.getString("SITE"),
+				       resultado.getString("LINKIMAGEM"));
         }
         catch (SQLException erro)
         {
@@ -426,19 +418,17 @@ public class Entidades
                 throw new Exception ("Nao cadastrado");
 
             entidade = new Entidade(resultado.getInt  ("CODIGO"),
-	                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
-	                               resultado.getString("EMAIL"),
-							       resultado.getString("CNPJ"),
-							       resultado.getString("CONTA"),
-							       resultado.getString("AGENCIA"),
-							       resultado.getString("ENDERECO"),
-							       resultado.getString("USUARIO"),
-							       resultado.getString("SENHA"),
-							       resultado.getString("TELEFONE"),
-							       resultado.getInt("VISUALIZACOES"),
-							       resultado.getString("DESCRICAO"),
-							       resultado.getString("SITE"),
-							       resultado.getString("LINKIMAGEM"));
+				                    resultado.getString("NOME"), 
+				                    resultado.getString("CNPJ"),
+				                    resultado.getString("ENDERECO"),
+				                    resultado.getString("EMAIL"),
+				                    resultado.getString("TELEFONE"),
+							        resultado.getString("USUARIO"),
+							        resultado.getString("SENHA"),
+							        resultado.getInt   ("VISUALIZACOES"),
+							        resultado.getString("DESCRICAO"),
+							        resultado.getString("SITE"),
+							        resultado.getString("LINKIMAGEM"));
         }
         catch (SQLException erro)
         {

@@ -2,12 +2,10 @@ package bd.dbos;
 
 public class Pessoa implements Cloneable, Comparable<Pessoa>
 {
-	private int codigo;
+	 private int    codigo;
 	 private String nome;
 	 private String email;
 	 private String cpf;
-	 private String conta;
-	 private String agencia;
 	 private String endereco;
 	 private String usuario;
 	 private String senha;
@@ -71,22 +69,6 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	     this.cpf = cpf;
 	 }
 	
-	 public void setConta(String conta) throws Exception
-	 {
-	     if (conta==null || conta.equals(""))
-	         throw new Exception ("Conta não fornecida");
-	
-	     this.conta = conta;
-	 }
-	
-	 public void setAgencia(String agencia) throws Exception
-	 {
-	     if (agencia==null || agencia.equals(""))
-	         throw new Exception ("Agência não fornecida");
-	
-	     this.agencia = agencia;
-	 }
-	
 	 public void setEndereco(String endereco) throws Exception
 	 {
 	     if (endereco==null || endereco.equals(""))
@@ -146,16 +128,6 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	     return this.cpf;
 	 }
 	
-	 public String getConta ()
-	 {
-	     return this.conta;
-	 }
-	
-	 public String getAgencia ()
-	 {
-	     return this.agencia;
-	 }
-	
 	 public String getEndereco ()
 	 {
 	     return this.endereco;
@@ -171,14 +143,12 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	     return this.senha;
 	 }
 	
-	 public Pessoa (int codigo, String nome, String email, String cpf, String conta, String agencia, String endereco, String usuario, String senha, String telefone, String cidade, String uf) throws Exception
+	 public Pessoa (int codigo, String nome, String email, String cpf, String endereco, String usuario, String senha, String telefone, String cidade, String uf) throws Exception
 	 {
 	    this.setCodigo  (codigo);
 	    this.setNome    (nome);
 	    this.setEmail   (email);
 	    this.setCpf     (cpf);
-	    this.setConta   (conta);
-	    this.setAgencia (agencia);
 	    this.setEndereco(endereco);
 	    this.setUsuario (usuario);
 	    this.setSenha   (senha);
@@ -195,8 +165,6 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	     ret+="Nome: "+this.nome  +"\n";
 	     ret+="Email: "+this.email + "\n";
 	     ret+="CPF: "+this.cpf + "\n";
-	     ret+="Conta: "+this.conta + "\n";
-	     ret+="Agência: "+this.agencia + "\n";
 	     ret+="Telefone: "+this.telefone + "\n";
 	     ret+="Endereço: "+this.endereco + "\n";
 	     ret+="Usuário: "+this.usuario + "\n";
@@ -215,8 +183,6 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 		ret = ret * 5 + this.email.hashCode();
 		ret = ret * 5 + this.cpf.hashCode();
 		ret = ret * 5 + this.telefone.hashCode();
-		ret = ret * 5 + this.conta.hashCode();
-		ret = ret * 5 + this.agencia.hashCode();
 		ret = ret * 5 + this.endereco.hashCode();
 		ret = ret * 5 + this.usuario.hashCode();
 		ret = ret * 5 + this.senha.hashCode();
@@ -242,7 +208,9 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 		
 		Pessoa pes = (Pessoa)obj;
 		
-		if(pes.codigo != this.codigo || pes.nome != this.nome || pes.email != this.email || pes.cpf != this.cpf || pes.telefone != this.telefone || pes.conta != this.conta || pes.agencia != this.agencia || pes.endereco != this.endereco || pes.usuario != this.usuario || pes.senha != this.senha || pes.cidade != this.cidade || pes.uf != this.uf)
+		if(pes.codigo != this.codigo || !pes.nome.equals(this.nome) || !pes.email.equals(this.email) || !pes.cpf.equals(this.cpf) || 
+		  !pes.telefone.equals(this.telefone) || !pes.endereco.equals(this.endereco) || !pes.usuario.equals(this.usuario) || 
+		  !pes.senha.equals(this.senha) || !pes.cidade.equals(this.cidade) || !pes.uf.equals(this.uf))
 			return false;
 		
 			return true;
@@ -268,8 +236,6 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 		this.nome = modelo.nome;
 		this.email = modelo.email;
 		this.cpf = modelo.cpf;
-		this.conta = modelo.conta;
-		this.agencia = modelo.agencia;
 		this.endereco = modelo.endereco;
 		this.usuario = modelo.usuario;
 		this.senha = modelo.senha;

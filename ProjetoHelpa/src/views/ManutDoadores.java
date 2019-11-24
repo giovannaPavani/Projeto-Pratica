@@ -30,14 +30,12 @@ import java.awt.event.ActionEvent;
 public class ManutDoadores extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtAgencia;
 	private JTextField txtNome;
 	private JTextField txtCodigo;
 	private JTextField txtEmail;
 	private JTextField txtEndereco;
 	private JTextField txtTelefone;
 	private JTextField txtCpf;
-	private JTextField txtConta;
 	private JTextField txtCidade;
 	private JTable tblDoadores;
 	private JTextField txtUf;
@@ -67,7 +65,7 @@ public class ManutDoadores extends JFrame {
 		atualizarTela();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 497, 437);
+		setBounds(100, 100, 497, 376);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -76,7 +74,7 @@ public class ManutDoadores extends JFrame {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setToolTipText("CADASTRO");
 		tabbedPane.setSelectedIndex(0);
-		tabbedPane.setBounds(0, 0, 476, 398);
+		tabbedPane.setBounds(0, 0, 476, 335);
 		contentPane.add(tabbedPane);
 		
 		JPanel pnlManutencao = new JPanel();
@@ -87,13 +85,6 @@ public class ManutDoadores extends JFrame {
 		label.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		label.setBounds(21, 43, 59, 32);
 		pnlManutencao.add(label);
-		
-		txtAgencia = new JTextField();
-		txtAgencia.setText((String) null);
-		txtAgencia.setEnabled(false);
-		txtAgencia.setColumns(10);
-		txtAgencia.setBounds(336, 276, 102, 30);
-		pnlManutencao.add(txtAgencia);
 		
 		JLabel label_1 = new JLabel("Nome:");
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -109,7 +100,7 @@ public class ManutDoadores extends JFrame {
 		
 		JLabel lblCpf = new JLabel("CPF:");
 		lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblCpf.setBounds(32, 115, 48, 32);
+		lblCpf.setBounds(32, 147, 48, 32);
 		pnlManutencao.add(lblCpf);
 		
 		txtCodigo = new JTextField();
@@ -121,63 +112,46 @@ public class ManutDoadores extends JFrame {
 		
 		JLabel label_3 = new JLabel("E-mail:");
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_3.setBounds(21, 150, 59, 32);
+		label_3.setBounds(21, 115, 59, 32);
 		pnlManutencao.add(label_3);
 		
 		JLabel label_4 = new JLabel("Telefone:");
 		label_4.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_4.setBounds(10, 191, 69, 32);
+		label_4.setBounds(10, 185, 69, 32);
 		pnlManutencao.add(label_4);
-		
-		JLabel label_5 = new JLabel("Ag\u00EAncia:");
-		label_5.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_5.setBounds(273, 273, 69, 32);
-		pnlManutencao.add(label_5);
 		
 		JLabel label_7 = new JLabel("Endere\u00E7o:");
 		label_7.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_7.setBounds(10, 236, 72, 32);
+		label_7.setBounds(8, 221, 72, 32);
 		pnlManutencao.add(label_7);
-		
-		JLabel label_8 = new JLabel("Conta:");
-		label_8.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_8.setBounds(31, 275, 48, 32);
-		pnlManutencao.add(label_8);
 		
 		txtEmail = new JTextField();
 		txtEmail.setText((String) null);
 		txtEmail.setEnabled(false);
 		txtEmail.setColumns(10);
-		txtEmail.setBounds(90, 150, 355, 30);
+		txtEmail.setBounds(90, 115, 355, 30);
 		pnlManutencao.add(txtEmail);
 		
 		txtEndereco = new JTextField();
 		txtEndereco.setText((String) null);
 		txtEndereco.setEnabled(false);
 		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(90, 236, 355, 30);
+		txtEndereco.setBounds(90, 224, 355, 30);
 		pnlManutencao.add(txtEndereco);
 		
 		txtTelefone = new JTextField();
 		txtTelefone.setText((String) null);
 		txtTelefone.setEnabled(false);
 		txtTelefone.setColumns(10);
-		txtTelefone.setBounds(90, 191, 179, 30);
+		txtTelefone.setBounds(90, 185, 179, 30);
 		pnlManutencao.add(txtTelefone);
 		
 		txtCpf = new JTextField();
 		txtCpf.setText((String) null);
 		txtCpf.setEnabled(false);
 		txtCpf.setColumns(10);
-		txtCpf.setBounds(90, 114, 179, 30);
+		txtCpf.setBounds(90, 150, 179, 30);
 		pnlManutencao.add(txtCpf);
-		
-		txtConta = new JTextField();
-		txtConta.setText((String) null);
-		txtConta.setEnabled(false);
-		txtConta.setColumns(10);
-		txtConta.setBounds(90, 275, 173, 30);
-		pnlManutencao.add(txtConta);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setMargin(new Insets(10, 1, 1, 1));
@@ -227,26 +201,26 @@ public class ManutDoadores extends JFrame {
 		
 		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblCidade.setBounds(21, 315, 54, 32);
+		lblCidade.setBounds(26, 259, 54, 32);
 		pnlManutencao.add(lblCidade);
 		
 		txtCidade = new JTextField();
 		txtCidade.setText((String) null);
 		txtCidade.setEnabled(false);
 		txtCidade.setColumns(10);
-		txtCidade.setBounds(90, 318, 221, 30);
+		txtCidade.setBounds(90, 262, 221, 30);
 		pnlManutencao.add(txtCidade);
 		
 		JLabel lblUf = new JLabel("UF:");
 		lblUf.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblUf.setBounds(336, 317, 54, 32);
+		lblUf.setBounds(336, 259, 54, 32);
 		pnlManutencao.add(lblUf);
 		
 		txtUf = new JTextField();
 		txtUf.setText((String) null);
 		txtUf.setEnabled(false);
 		txtUf.setColumns(10);
-		txtUf.setBounds(365, 317, 48, 30);
+		txtUf.setBounds(370, 262, 48, 30);
 		pnlManutencao.add(txtUf);
 		
 		JPanel pnlRelatorio = new JPanel();
@@ -261,7 +235,7 @@ public class ManutDoadores extends JFrame {
 		menuBar_1.add(lblAquiEstEm);
 		
 		tblDoadores = new JTable();
-		tblDoadores.setBounds(10, 358, 451, -328);
+		tblDoadores.setBounds(10, 298, 451, -268);
 		pnlRelatorio.add(tblDoadores);
 		
 		DefaultTableModel model = null;
@@ -272,14 +246,9 @@ public class ManutDoadores extends JFrame {
 			new String[] {
 				"C\u00F3digo", "Nome Doador", "Vezes"
 			});
-			for(int i =0; dados.next(); i++)
+			while(dados.next())
 			{
-				Object[] linha = new Object[13];
-				linha[0]= dados.getObject("codigo");
-				linha[1]= dados.getObject("nome");
-				linha[2]= dados.getObject("vezes");
-				
-				model.addRow(linha);
+				model.addRow(new Object[] {dados.getInt(1)+"", dados.getString(2), dados.getInt(3)+""});
 			}
 		}
 		catch(Exception ex) 
