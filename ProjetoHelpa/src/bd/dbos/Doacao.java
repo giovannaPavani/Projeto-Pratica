@@ -53,7 +53,7 @@ public class Doacao implements Cloneable, Comparable<Doacao>
   
   public void setEntregue (char entreg) throws Exception
   {
-      if (entreg != 'S' && entreg != 'N')
+      if (entreg!='S' && entreg!='N')
           throw new Exception ("Campo 'Entregue?' inválido");
 
       this.entregue = entreg;
@@ -94,7 +94,7 @@ public class Doacao implements Cloneable, Comparable<Doacao>
  
  public char getEntregue ()
  {
-        return this.entregue;
+	 return this.entregue;
  }
  
  public String getQuantidade ()
@@ -103,10 +103,11 @@ public class Doacao implements Cloneable, Comparable<Doacao>
  }
 	 
 	
-	public Doacao (int id, int codEnt, int codPes, Date dat, char entreg, String qtd)throws Exception
+	public Doacao (int id, int codEnt, String produto, int codPes, Date dat, char entreg, String qtd)throws Exception
 	{
 		this.setId          (id);
 	    this.setCodEntidade (codEnt);
+	    this.setProduto     (produto);
 	    this.setCodPessoa   (codPes);
 	    this.setData        (dat);
 	    this.setEntregue    (entreg);
@@ -150,7 +151,7 @@ public class Doacao implements Cloneable, Comparable<Doacao>
 	  ret = ret * 5 + new Integer(this.id).hashCode();
 	  ret = ret * 5 + new Integer(this.codPessoa).hashCode();
 	  ret = ret * 5 + new Integer(this.codEntidade).hashCode();
-	  //ret = ret * 5 + new Date   (this.data).hashCode()
+	  ret = ret * 5 + this.data.hashCode();
 	  ret = ret * 5 + this.quantidade.hashCode();
 	  ret = ret * 5 + this.produto.hashCode();
 	  ret = ret * 5 + new Character (this.entregue).hashCode();
@@ -168,7 +169,7 @@ public class Doacao implements Cloneable, Comparable<Doacao>
 	  this.data = modelo.data;
 	  this.produto = modelo.produto;
 	  this.entregue = modelo.entregue;
-	  this.quantidade = modelo.quantidade
+	  this.quantidade = modelo.quantidade;
 	}
 	
 	public Object clone()

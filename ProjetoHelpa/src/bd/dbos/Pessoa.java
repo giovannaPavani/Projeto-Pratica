@@ -7,7 +7,6 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	 private String email;
 	 private String cpf;
 	 private String endereco;
-	 private String usuario;
 	 private String senha;
 	 private String telefone;
 	 private String cidade;
@@ -77,13 +76,6 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	     this.endereco = endereco;
 	 }
 	
-	 public void setUsuario(String usuario) throws Exception
-	 {
-	     if (usuario==null || usuario.equals(""))
-	         throw new Exception ("Usuário não fornecido");
-	
-	     this.usuario = usuario;
-	 }
 	
 	 public void setSenha(String senha) throws Exception
 	 {
@@ -133,24 +125,18 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	     return this.endereco;
 	 }
 	
-	 public String getUsuario ()
-	 {
-	     return this.usuario;
-	 }
-	
 	 public String getSenha ()
 	 {
 	     return this.senha;
 	 }
 	
-	 public Pessoa (int codigo, String nome, String email, String cpf, String endereco, String usuario, String senha, String telefone, String cidade, String uf) throws Exception
+	 public Pessoa (int codigo, String nome, String email, String cpf, String endereco, String senha, String telefone, String cidade, String uf) throws Exception
 	 {
 	    this.setCodigo  (codigo);
 	    this.setNome    (nome);
 	    this.setEmail   (email);
 	    this.setCpf     (cpf);
 	    this.setEndereco(endereco);
-	    this.setUsuario (usuario);
 	    this.setSenha   (senha);
 	    this.setTelefone(telefone);
 	    this.setCidade  (cidade);
@@ -167,7 +153,6 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 	     ret+="CPF: "+this.cpf + "\n";
 	     ret+="Telefone: "+this.telefone + "\n";
 	     ret+="Endereço: "+this.endereco + "\n";
-	     ret+="Usuário: "+this.usuario + "\n";
 	     ret+="Senha: "+this.senha + "\n";
 	     ret+="Cidade: "+this.cidade + "\n";
 	     ret+="UF: "+this.uf;
@@ -184,7 +169,6 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 		ret = ret * 5 + this.cpf.hashCode();
 		ret = ret * 5 + this.telefone.hashCode();
 		ret = ret * 5 + this.endereco.hashCode();
-		ret = ret * 5 + this.usuario.hashCode();
 		ret = ret * 5 + this.senha.hashCode();
 		ret = ret * 5 + this.cidade.hashCode();
 		ret = ret * 5 + this.uf.hashCode();
@@ -209,7 +193,7 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 		Pessoa pes = (Pessoa)obj;
 		
 		if(pes.codigo != this.codigo || !pes.nome.equals(this.nome) || !pes.email.equals(this.email) || !pes.cpf.equals(this.cpf) || 
-		  !pes.telefone.equals(this.telefone) || !pes.endereco.equals(this.endereco) || !pes.usuario.equals(this.usuario) || 
+		  !pes.telefone.equals(this.telefone) || !pes.endereco.equals(this.endereco) |
 		  !pes.senha.equals(this.senha) || !pes.cidade.equals(this.cidade) || !pes.uf.equals(this.uf))
 			return false;
 		
@@ -237,7 +221,6 @@ public class Pessoa implements Cloneable, Comparable<Pessoa>
 		this.email = modelo.email;
 		this.cpf = modelo.cpf;
 		this.endereco = modelo.endereco;
-		this.usuario = modelo.usuario;
 		this.senha = modelo.senha;
 		this.telefone = modelo.telefone;
 	}

@@ -76,8 +76,8 @@ public class Doacoes {
             BDSQLServer.COMANDO.setInt    (2, doacao.getCodPessoa());
             BDSQLServer.COMANDO.setString (3, doacao.getProduto());
             BDSQLServer.COMANDO.setInt    (4, doacao.getCodEntidade());
-            //BDSQLServer.COMANDO.setDate   (5, doacao.getData());
-            //BDSQLServer.COMANDO.setChar   (6, doacao.getEntregue());
+            BDSQLServer.COMANDO.setDate   (5, doacao.getData());
+            BDSQLServer.COMANDO.setString (6, doacao.getEntregue()+"");
 		    BDSQLServer.COMANDO.setString (7, doacao.getQuantidade());
 
 
@@ -110,19 +110,20 @@ public class Doacoes {
             BDSQLServer.COMANDO.setInt(1, id);
 
             BDSQLServer.COMANDO.executeUpdate();
-            BDSQLServer.COMANDO.commit       ();        }
+            BDSQLServer.COMANDO.commit       ();        
+        }
         catch (SQLException erro)
         {
             throw new Exception("Erro ao excluir doacao");
         }
     }
 
-    public static void alterar(Pessoa pessoa) throws Exception
+    public static void alterar(Doacao doacao) throws Exception
     {
-        if (pessoa==null)
+        if (doacao==null)
             throw new Exception ("Doacao nao fornecida");
 
-        if (!cadastrado(pessoa.getCodigo()))
+        if (!cadastrado(doacao.getId()))
             throw new Exception("Nao cadastrada");
 
         try
@@ -135,71 +136,67 @@ public class Doacoes {
 				  "SET CODENTIDADE=?" +
 				  "SET DATA=?" +
 				  "SET ENTREGUE=?" +
-				  "SET QUANTIDADE=?";
+				  "SET QUANTIDADE=?" +
+            	  "WHERE ID = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
-            BDSQLServer.COMANDO.setInt    (1, pessoa.getCodigo());
-            BDSQLServer.COMANDO.setString (2, pessoa.getNome());
-		    BDSQLServer.COMANDO.setString (3, pessoa.getEmail());
-		    BDSQLServer.COMANDO.setString (4, pessoa.getCpf());
-		    BDSQLServer.COMANDO.setString (5, pessoa.getConta());
-		    BDSQLServer.COMANDO.setString (6, pessoa.getAgencia());
-		    BDSQLServer.COMANDO.setString (7, pessoa.getEndereco());
+            BDSQLServer.COMANDO.setInt    (1, doacao.getCodPessoa());
+            BDSQLServer.COMANDO.setString (2, doacao.getProduto());
+            BDSQLServer.COMANDO.setInt    (3, doacao.getCodEntidade());
+            BDSQLServer.COMANDO.setDate   (4, doacao.getData());
+            BDSQLServer.COMANDO.setString  (5, doacao.getEntregue()+"");
+		    BDSQLServer.COMANDO.setString (6, doacao.getQuantidade());
+		    BDSQLServer.COMANDO.setInt    (7, doacao.getId());
 
             BDSQLServer.COMANDO.executeUpdate();
             BDSQLServer.COMANDO.commit       ();
         }
         catch (SQLException erro)
         {
-            throw new Exception("Erro ao atualizar dados de pessoa");
+            throw new Exception("Erro ao atualizar dados de doacao");
         }
     }
 
-    public static Pessoa getPessoa(int codigo) throws Exception
+    public static Doacao getDoacao(int id) throws Exception
     {
-        Pessoa pessoa = null;
+        Doacao doacao = null;
 
         try
         {
             String sql;
 
             sql = "SELECT * " +
-                  "FROM HPESSOAS " +
-                  "WHERE CODIGO = ?";
+                  "FROM HDOACOES " +
+                  "WHERE ID = ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
 
-            BDSQLServer.COMANDO.setInt(1, codigo);
+            BDSQLServer.COMANDO.setInt(1, id);
 
-            MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery (); // n é mais para executar update, mas sim uma query (consulta) / ñ é void
-            // uma tabelinha po
-            if (!resultado.first()) // .last()/ .next()/ .previous()/ .absolute(10) --> retornam boolean
+            MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery (); 
+            
+            if (!resultado.first())
                 throw new Exception ("Nao cadastrado");
 
-            pessoa = new Pessoa(resultado.getInt   ("CODIGO"),
-                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
-                               resultado.getString ("EMAIL"),
-						       resultado.getString("CPF"),
-						       resultado.getString("CONTA"),
-						       resultado.getString("AGENCIA"),
-						       resultado.getString("ENDERECO"),
-						       resultado.getString("USUARIO"),
-						       resultado.getString("SENHA"),
-						       resultado.getString("TELEFONE"),
-						       resultado.getString("CIDADE"),
-						       resultado.getString("UF")
+            doacao = new Doacao(resultado.getInt   ("ID"),
+                                resultado.getInt   ("CODPESSOA"), // como q ele sb qual ie string eh?
+                                resultado.getString("PRODUTO"),
+                                resultado.getInt   ("CODENTIDADE"),
+						        resultado.getDate  ("DATA"),
+						        resultado.getString("ENTREGUE").charAt(0),
+						        resultado.getString("QUANTIDADE")
             					);
         }
         catch (SQLException erro)
         {
-            throw new Exception ("Erro ao procurar pessoa");
+            throw new Exception ("Erro ao procurar doacao");
         }
 
-        return pessoa;
+        return doacao;
     }
 
-    public static MeuResultSet getPessoas () throws Exception
+    public static MeuResultSet getDoacoes () throws Exception
     {
         MeuResultSet resultado = null;
 
@@ -207,8 +204,9 @@ public class Doacoes {
         {
             String sql;
 
-            sql = "SELECT * " +
-                  "FROM HPESSOAS";
+            sql = "SELECT ID, PRODUTO, QUANTIDADE, E.NOME, DATA, ENTREGUE" + 
+                  "FROM HDOACOES D, HENTIDADES E" + 
+                  "WHERE E.CODIGO = D.CODENTIDADE";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
@@ -216,51 +214,7 @@ public class Doacoes {
         }
         catch (SQLException erro)
         {
-            throw new Exception ("Erro ao recuperar pessoas");
-        }
-
-        return resultado;
-    }
-    
-    public static MeuResultSet getDoacoes (int cod) throws Exception
-    {
-        MeuResultSet resultado = null;
-
-        try
-        {
-            String sql;
-
-            sql = "select * from Pessoas p, Doacoes d where d.codPessoa = p.codPessoa";
-
-            BDSQLServer.COMANDO.prepareStatement (sql);
-
-            resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery ();
-        }
-        catch (SQLException erro)
-        {
-            throw new Exception ("Erro ao recuperar doacoes de pessoaa");
-        }
-
-        return resultado;
-    }
-    
-    public static MeuResultSet getPessoasDoa () throws Exception
-    {
-        MeuResultSet resultado = null;
-
-        try
-        {
-            String sql;
-
-            sql = "select p.codigo as 'Codigo', p.nome as 'Nome', count(d.codPessoa) as 'Vezes' from HPessoas p, HDoacoes d where p.codigo = d.codPessoa group by p.codigo, p.nome order by Vezes desc ";
-
-            BDSQLServer.COMANDO.prepareStatement (sql);
-
-            resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery ();
-        }
-        catch (SQLException erro)
-        {
-            throw new Exception ("Erro ao recuperar rank de doações");
+            throw new Exception ("Erro ao recuperar doacoes");
         }
 
         return resultado;

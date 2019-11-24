@@ -286,9 +286,8 @@ public class ManutEntidades extends JFrame {
 							Entidade entidade = null;
 							try {
 								entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
-								txtEmail.getText(), txtCnpj.getText(),antiga.getConta(), antiga.getAgencia(),
-								txtEndereco.getText(), txtUsuario.getText(),antiga.getSenha(), txtTelefone.getText(), 
-								antiga.getVisualizacoes(), antiga.getDescricao(), txtSite.getText(), antiga.getImagem());
+								txtCnpj.getText(), txtEndereco.getText(), txtEmail.getText(), txtTelefone.getText(), txtUsuario.getText(),antiga.getSenha(), 
+								antiga.getVisualizacoes(), antiga.getDescricao(), antiga.getImagem(), txtSite.getText());
 							}
 							catch(Exception ex) {throw new Exception();}
 							Entidades.alterar(entidade);
@@ -304,9 +303,9 @@ public class ManutEntidades extends JFrame {
 						{
 							Entidade entidade = null;
 							try {
-								entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
-								txtEmail.getText(), txtCnpj.getText(),"", "",
-								txtEndereco.getText(), txtUsuario.getText(),"", txtTelefone.getText(), 0, "", txtSite.getText(), "");
+								entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(), txtCnpj.getText(),
+								txtEndereco.getText(), txtEmail.getText(),txtTelefone.getText(), txtUsuario.getText(), txtNome.getText()+"123", 0,
+								"", "", txtSite.getText());
 							}
 							catch(Exception ex)
 							{throw new Exception();}
@@ -409,19 +408,6 @@ public class ManutEntidades extends JFrame {
 			});
 			while(dados.next())
 			{
-				Object[] linha = new Object[11];
-				linha[0]= dados.getObject("codigo");
-				linha[1]= dados.getObject("nome");
-				linha[2]= dados.getObject("email");
-				linha[3]= dados.getObject("cpnj");
-				linha[4]= dados.getObject("Telefone");
-				linha[7]= dados.getObject("Endereco");
-				linha[8]= dados.getObject("Usuario");
-				linha[9]= dados.getObject("Visualizacoes");
-				linha[10]= dados.getObject("Descricao");
-				linha[11]= dados.getObject("Site");
-				linha[11]= dados.getObject("Imagem");
-				
 				model.addRow(new Object[] {dados.getInt(1)+"", dados.getString(2), dados.getString(3), dados.getString(4), dados.getString(5), dados.getString(6), dados.getString(7), dados.getString(8), dados.getString(9), dados.getString(10), dados.getString(11)});
 			}
 		}

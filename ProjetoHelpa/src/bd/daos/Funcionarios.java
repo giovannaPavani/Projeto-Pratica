@@ -262,17 +262,17 @@ public class Funcionarios {
                 throw new Exception ("Nao cadastrado");
 
             funcionario = new Funcionario(resultado.getInt("CODIGO"),
-                               resultado.getString("NOME"),
-                               resultado.getString("CPF"),
-                               resultado.getString("EMAIL"),
-                               resultado.getFloat ("SALARIO"),
-                               resultado.getString("TELEFONE"),
-                               resultado.getString("CARGO"),
-                               resultado.getString("CONTA"),
-                               resultado.getString("AGENCIA"),
-                               resultado.getString("ENDERECO"),
-                               resultado.getString("USUARIO"),
-                               resultado.getString("SENHA"));
+		                                  resultado.getString("NOME"),
+		                                  resultado.getString("CPF"),
+		                                  resultado.getString("EMAIL"),
+		                                  resultado.getFloat ("SALARIO"),
+		                                  resultado.getString("TELEFONE"),
+		                                  resultado.getString("CARGO"),
+		                                  resultado.getString("CONTA"),
+		                                  resultado.getString("AGENCIA"),
+		                                  resultado.getString("ENDERECO"),
+		                                  resultado.getString("USUARIO"),
+		                                  resultado.getString("SENHA"));
         }
         catch(SQLException erro)
         {
@@ -328,5 +328,44 @@ public class Funcionarios {
         }
 
         return resultado;
+    }
+    
+    public static Funcionario getPrimeiroRegistro() throws Exception
+    {
+    	Funcionario funcionario = null;
+
+        try
+        {
+            String sql;
+
+            sql = "SELECT * " +
+                  "FROM HFuncionarios";
+
+            BDSQLServer.COMANDO.prepareStatement(sql);
+
+            MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery (); // n é mais para executar update, mas sim uma query (consulta) / ñ é void
+            // uma tabelinha po
+            if (!resultado.first()) // .last()/ .next()/ .previous()/ .absolute(10) --> retornam boolean
+                throw new Exception ("Nao há nada registrado na tabela");
+
+            funcionario = new Funcionario(resultado.getInt("CODIGO"),
+					                      resultado.getString("NOME"),
+					                      resultado.getString("CPF"),
+					                      resultado.getString("EMAIL"),
+					                      resultado.getFloat ("SALARIO"),
+					                      resultado.getString("TELEFONE"),
+					                      resultado.getString("CARGO"),
+					                      resultado.getString("CONTA"),
+					                      resultado.getString("AGENCIA"),
+					                      resultado.getString("ENDERECO"),
+					                      resultado.getString("USUARIO"),
+					                      resultado.getString("SENHA"));
+        }
+        catch (SQLException erro)
+        {
+            throw new Exception ("Erro ao procurar registro");
+        }
+
+        return funcionario;
     }
 }

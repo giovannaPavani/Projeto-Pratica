@@ -1,27 +1,20 @@
 package views;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
 import bd.core.MeuResultSet;
-import bd.daos.Entidades;
 import bd.daos.Pessoas;
-import bd.dbos.Entidade;
 import bd.dbos.Pessoa;
-
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import java.awt.Insets;
-import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -37,9 +30,9 @@ public class ManutDoadores extends JFrame {
 	private JTextField txtTelefone;
 	private JTextField txtCpf;
 	private JTextField txtCidade;
+	JButton btnSalvar;
 	private JTable tblDoadores;
 	private JTextField txtUf;
-	private Situacao situacaoAtual;
 
 	/**
 	 * Launch the application.
@@ -61,7 +54,6 @@ public class ManutDoadores extends JFrame {
 	 * Create the frame.
 	 */
 	public ManutDoadores() {
-		situacaoAtual = Situacao.NAVEGANDO;
 		atualizarTela();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -170,32 +162,82 @@ public class ManutDoadores extends JFrame {
 		label_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		menuBar.add(label_2);
 		
-		JButton btnNovo = new JButton("Novo");
-		btnNovo.addActionListener(new ActionListener() {
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				situacaoAtual = Situacao.INCLUINDO;
-				limparTela();
 				setTxt(true);
-				txtCodigo.grabFocus();
-				//btnSalvar.enable(true);
+				txtCodigo.setEnabled(false);
+				btnSalvar.setEnabled(true);
 			}
 		});
-		menuBar.add(btnNovo);
-		
-		JButton btnEditar = new JButton("Editar");
 		menuBar.add(btnEditar);
 		
 		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try 
+				{
+					Pessoas.excluir(Integer.parseInt(txtCodigo.getText()));
+					atualizarTela();
+				}
+				catch(Exception er)
+				{
+					JOptionPane.showMessageDialog(null,"Não foi possível excluir essa entidade!");
+				}
+			}
+		});
 		menuBar.add(btnExcluir);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				atualizarTela();
+				setTxt(false);
+				txtCodigo.setEnabled(false);
+			}
+		});
 		menuBar.add(btnCancelar);
 		
 		JLabel label_6 = new JLabel("|");
 		label_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		menuBar.add(label_6);
 		
-		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if( !txtCodigo.getText().equals("")  ||
+					!txtNome.getText().equals("")    ||
+					!txtEmail.getText().equals("")   ||
+					!txtCpf.getText().equals("")     ||
+					!txtTelefone.getText().equals("")||
+					!txtEndereco.getText().equals("")||
+					!txtCidade.getText().equals("")  ||
+					!txtUf.getText().equals("")       )
+					{
+						try
+						{
+							Pessoa antiga = Pessoas.getPessoa(Integer.parseInt(txtCodigo.getText()));
+							Pessoa pessoa = null;
+							try 
+							{
+								pessoa = new Pessoa(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
+								txtEmail.getText(), txtCpf.getText(), txtEndereco.getText(), antiga.getSenha(), txtTelefone.getText(), 
+								txtCidade.getText(), txtUf.getText());
+							}
+							catch(Exception ex) {throw new Exception();}
+							Pessoas.alterar(pessoa);
+						}
+						catch(Exception ex) 
+						{
+							JOptionPane.showMessageDialog(null,"Não foi possível editar o doador com os novos dados inseridos. Alteração cancelada!");
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(null,"Não deixe campos em branco! Alteração cancelada!");
+					atualizarTela();
+					btnSalvar.setEnabled(false);
+			}
+		});
 		btnSalvar.setEnabled(false);
 		menuBar.add(btnSalvar);
 		
@@ -279,24 +321,8 @@ public class ManutDoadores extends JFrame {
 		txtCpf.setText(oDoador.getCpf());
 		txtEndereco.setText(oDoador.getEndereco());
 		txtTelefone.setText(oDoador.getTelefone());
-		txtConta.setText(oDoador.getConta());
-		txtAgencia.setText(oDoador.getAgencia());
 		txtCidade.setText(oDoador.getCidade());
 		txtUf.setText(oDoador.getUf());
-	}
-
-	private void limparTela() 
-	{
-		txtCodigo.setText("");
-		txtNome.setText("");
-		txtEmail.setText("");
-		txtCpf.setText("");
-		txtEndereco.setText("");
-		txtTelefone.setText("");
-		txtConta.setText("");
-		txtAgencia.setText("");
-		txtCidade.setText("");
-		txtUf.setText("");
 	}
 	
 	private void setTxt(boolean modo)
@@ -306,8 +332,6 @@ public class ManutDoadores extends JFrame {
 		txtEmail.setEnabled(modo);
 		txtEndereco.setEnabled(modo);
 		txtEmail.setEnabled(modo);
-		txtConta.setEnabled(modo);
-		txtAgencia.setEnabled(modo);
 		txtCpf.setEnabled(modo);
 		txtTelefone.setEnabled(modo);
 		txtCidade.setEnabled(modo);
