@@ -3,23 +3,22 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:15%">
-  <h3 class="w3-bar-item">ÁREA DOADOR</h3>
-  <a href="/consulta" id="consultabtn" class="w3-bar-item w3-button">Consulta de Doações</a>
+  <h3 style="color:rgb(102, 102, 102);" class="w3-bar-item">ÁREA DOADOR</h3>
+  <a  href="/consulta" id="consultabtn" class="w3-bar-item w3-button">Consulta de Doações</a>
   <a href="/editarInformacoes" id="editarbtn" class="w3-bar-item w3-button">Editar Informações</a>
   <a href="/editarSenha" id="senhabtn" class="w3-bar-item w3-button">Editar Senha</a>
   <a href="/" id="homebtn" class="w3-bar-item w3-button">Home</a>
-
 </div>
 
 <div id="consulta">
   <div class="jumbotron text-center">
-    <h3>Nome usuário: <%=informacoesSobreLogado[0].nome%></h3>
-    <h1>Listagem Doações </h1>
+    <h3 style="color:rgba(255, 255, 255, 0.795);">Nome usuário: <%=informacoesSobreLogado[0].nome%></h3>
+    <h1 style="color:white;">Listagem Doações </h1>
     <br>
     <table class="table table-hover" style="border: solid rgb(255, 255, 255); border-radius: 23em; ">
-      <thead>
+      <thead style="color:rgb(54, 54, 54);">
         <tr>
-          <th>Produto</th>
+          <th >Produto</th>
           <th>Quantidade</th>
           <th>Entidade</th>
           <th>Endereço</th>
@@ -27,7 +26,7 @@
         </tr>
         <br>
       </thead>
-      <tbody>
+      <tbody style="color:rgb(112, 112, 112);">
         <p id="qtdLinhas" style="display:none;"><%=listaDeDoacoesFeitas.length%></p>
         <%for(var i=0;i<listaDeDoacoesFeitas.length;i++) {%>
         <tr>
@@ -47,9 +46,15 @@
 
           .S{
             background-color: rgba(10, 223, 10, 0.486);
+            color:white;
+            font-weight: bold;
+            text-align: center;
           }
           .N{
             background-color: rgba(255, 4, 4, 0.582);
+            color:white;
+            font-weight: bold;
+            text-align: center;
           }
       
           #consulta{
@@ -58,7 +63,17 @@
             margin-top:5em;
           }
                  
-             
+          .w3-bar-item{
+          color:rgb(102, 102, 102);
+         font-size: 20px;
+         text-decoration: none;
+       }
+       .w3-bar-item:hover{
+          color:rgb(102, 102, 102);
+         font-size: 22px;
+         text-decoration: none;
+       }
+
               .jumbotron{
           background-color: rgba(255, 156, 156, 0);
           padding-top:0px;
