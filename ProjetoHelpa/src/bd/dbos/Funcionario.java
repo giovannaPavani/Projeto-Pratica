@@ -2,11 +2,11 @@ package bd.dbos;
 
 public class Funcionario implements Cloneable
 {
-	private int codigo;
+	private int    codigo;
 	private String nome;
 	private String cpf;
 	private String email;
-	private float salario;
+	private float  salario;
 	private String telefone;
 	private String cargo;
 	private String conta;

@@ -214,10 +214,10 @@ public class MeuPreparedStatement extends MeuStatement implements PreparedStatem
     {
         this.comando.setClob (parameterIndex, reader, length);
     }
-
-    public void setDate (int parameterIndex, Date x) throws SQLException
+    // data
+    public void setDate (int parameterIndex, java.util.Date date) throws SQLException
     {
-        this.comando.setDate (parameterIndex, x);
+        this.comando.setDate (parameterIndex, (Date) date);
     }
 
     public void setDate (int parameterIndex, Date x, Calendar cal) throws SQLException

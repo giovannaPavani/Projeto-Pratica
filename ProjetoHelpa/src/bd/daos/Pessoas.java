@@ -65,23 +65,22 @@ public class Pessoas
             String sql;
 
             sql = "INSERT INTO HPESSOAS " +
-                  "(CODIGO,NOME,EMAIL, CPF, CONTA, AGENCIA, ENDERECO, USUARIO, SENHA) " +
+                  "(CODIGO,NOME,EMAIL, CPF, ENDERECO, SENHA, TELEFONE, CIDADE, UF) " +
                   "VALUES " +
-                  "(?,?,?,?,?,?,?,?,?)"; // guarda o lugar para dps a gnt colocar uma variavel
+                  "(?,?,?,?,?,?,?)"; // guarda o lugar para dps a gnt colocar uma variavel
 
             BDSQLServer.COMANDO.prepareStatement(sql);
             
             //substituir as '?'
             BDSQLServer.COMANDO.setInt    (1, pessoa.getCodigo());
             BDSQLServer.COMANDO.setString (2, pessoa.getNome());
-	    BDSQLServer.COMANDO.setString (3, pessoa.getEmail());
-	    BDSQLServer.COMANDO.setString (4, pessoa.getCpf());
-	    BDSQLServer.COMANDO.setString (5, pessoa.getConta());
-	    BDSQLServer.COMANDO.setString (6, pessoa.getAgencia());
-	    BDSQLServer.COMANDO.setString (7, pessoa.getEndereco());
-	    BDSQLServer.COMANDO.setString (8, pessoa.getUsuario());
-	    BDSQLServer.COMANDO.setString (9, pessoa.getSenha());
-
+		    BDSQLServer.COMANDO.setString (3, pessoa.getEmail());
+		    BDSQLServer.COMANDO.setString (4, pessoa.getCpf());
+		    BDSQLServer.COMANDO.setString (5, pessoa.getEndereco());
+		    BDSQLServer.COMANDO.setString (6, pessoa.getSenha());
+		    BDSQLServer.COMANDO.setString (6, pessoa.getTelefone());
+		    BDSQLServer.COMANDO.setString (6, pessoa.getCidade());
+		    BDSQLServer.COMANDO.setString (6, pessoa.getUf());
 
             BDSQLServer.COMANDO.executeUpdate(); // executa o comando, todos são executados como "update" - atualiza o banco, menos select / tipo uma função void
             BDSQLServer.COMANDO.commit       (); // USAR APENAS se for insert, delete e update --> O RESTO N PRECISA // efetiva ex: funcionario e dependentes - transação, se n, o banco n fica consistente - tudo ou nada
@@ -134,25 +133,25 @@ public class Pessoas
             sql = "UPDATE HPESSOAS " +
                   "SET NOME=? " +
                   "SET EMAIL=? " +
-		  "SET CPF=?" +
-		  "SET CONTA=?" +
-		  "SET AGENCIA=?" +
-		  "SET ENDERECO=?" +
-		  "SET USUARIO=?" +
-		  "SET SENHA=?" +
+				  "SET CPF=?" +
+				  "SET ENDERECO=?" +
+				  "SET SENHA=?" +
+				  "SET TELEFONE=?" +
+				  "SET CIDADE=?" +
+				  "SET UF=?" +
                   "WHERE CODIGO = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
-            BDSQLServer.COMANDO.setInt    (1, pessoa.getCodigo());
-            BDSQLServer.COMANDO.setString (2, pessoa.getNome());
-	    BDSQLServer.COMANDO.setString (3, pessoa.getEmail());
-	    BDSQLServer.COMANDO.setString (4, pessoa.getCpf());
-	    BDSQLServer.COMANDO.setString (5, pessoa.getConta());
-	    BDSQLServer.COMANDO.setString (6, pessoa.getAgencia());
-	    BDSQLServer.COMANDO.setString (7, pessoa.getEndereco());
-	    BDSQLServer.COMANDO.setString (8, pessoa.getUsuario());
-	    BDSQLServer.COMANDO.setString (9, pessoa.getSenha());
+            BDSQLServer.COMANDO.setString (1, pessoa.getNome());
+		    BDSQLServer.COMANDO.setString (2, pessoa.getEmail());
+		    BDSQLServer.COMANDO.setString (3, pessoa.getCpf());
+		    BDSQLServer.COMANDO.setString (4, pessoa.getEndereco());
+		    BDSQLServer.COMANDO.setString (5, pessoa.getSenha());
+		    BDSQLServer.COMANDO.setString (6, pessoa.getTelefone());
+		    BDSQLServer.COMANDO.setString (7, pessoa.getCidade());
+		    BDSQLServer.COMANDO.setString (8, pessoa.getUf());
+		    BDSQLServer.COMANDO.setInt    (9, pessoa.getCodigo());
 
             BDSQLServer.COMANDO.executeUpdate();
             BDSQLServer.COMANDO.commit       ();
@@ -185,17 +184,14 @@ public class Pessoas
                 throw new Exception ("Nao cadastrado");
 
             pessoa = new Pessoa(resultado.getInt   ("CODIGO"),
-                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
+                               resultado.getString ("NOME"), 
                                resultado.getString ("EMAIL"),
-						       resultado.getString("CPF"),
-						       resultado.getString("CONTA"),
-						       resultado.getString("AGENCIA"),
-						       resultado.getString("ENDERECO"),
-						       resultado.getString("USUARIO"),
-						       resultado.getString("SENHA"),
-						       resultado.getString("TELEFONE"),
-						       resultado.getString("CIDADE"),
-						       resultado.getString("UF")
+						       resultado.getString ("CPF"),
+						       resultado.getString ("ENDERECO"),
+						       resultado.getString ("SENHA"),
+						       resultado.getString ("TELEFONE"),
+						       resultado.getString ("CIDADE"),
+						       resultado.getString ("UF")
             					);
         }
         catch (SQLException erro)
@@ -291,18 +287,15 @@ public class Pessoas
                 throw new Exception ();
 
             pessoa = new Pessoa(resultado.getInt   ("CODIGO"),
-                               resultado.getString("NOME"), // como q ele sb qual ie string eh?
+                               resultado.getString ("NOME"), // como q ele sb qual ie string eh?
                                resultado.getString ("EMAIL"),
-						       resultado.getString("CPF"),
-						       resultado.getString("CONTA"),
-						       resultado.getString("AGENCIA"),
-						       resultado.getString("ENDERECO"),
-						       resultado.getString("USUARIO"),
-						       resultado.getString("SENHA"),
-						       resultado.getString("TELEFONE"),
-						       resultado.getString("CIDADE"),
-						       resultado.getString("UF")
-            					);
+						       resultado.getString ("CPF"),
+						       resultado.getString ("ENDERECO"),
+						       resultado.getString ("SENHA"),
+						       resultado.getString ("TELEFONE"),
+						       resultado.getString ("CIDADE"),
+						       resultado.getString ("UF")
+            				   );
         }
         catch (SQLException erro)
         {

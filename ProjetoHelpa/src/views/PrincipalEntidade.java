@@ -1,13 +1,12 @@
 package views;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
 import bd.core.MeuResultSet;
+import bd.daos.Doacoes;
 import bd.daos.Entidades;
+import bd.dbos.Doacao;
 import bd.dbos.Entidade;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
@@ -15,20 +14,21 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
-
 import java.awt.Insets;
-import java.awt.SystemColor;
 import javax.swing.UIManager;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+
 import java.awt.TextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -37,15 +37,14 @@ public class PrincipalEntidade extends JFrame {
 	
 	private JPanel contentPane;
 	private int codigo;
-	Entidade entidadeLog;
-	private JTextField txtAgencia;
+	private int idDoacao;
+	private int linha;
+	private Entidade entidadeLog;
 	private JTextField txtCodigo;
-	private JTextField txtCnpj;
 	private JTextField txtNome;
 	private JTextField txtEmail;
 	private JTextField txtEndereco;
 	private JTextField txtTelefone;
-	private JTextField txtConta;
 	private JTextField txtSite;
 	private JTextField txtFoto;
 	private JTextField txtUsuario;
@@ -57,7 +56,7 @@ public class PrincipalEntidade extends JFrame {
 	private JComboBox<Integer> cbxNecessidades;
 	private JPanel pnlNecessidades;
 	private JTable tblRelatorio;
-	private TextArea txtDescricao;
+	private JTextArea txtDescricao;
 
 	/**
 	 * Launch the application.
@@ -91,8 +90,9 @@ public class PrincipalEntidade extends JFrame {
 		  entidadeLog = new Entidade(Entidades.getEntidadeByCod(codigo));
 		}
 		catch(Exception ex) {} // n vai dar erro pois o codigo foi eu que passei
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 577, 419);
+		setBounds(100, 100, 575, 407);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -101,100 +101,64 @@ public class PrincipalEntidade extends JFrame {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setToolTipText("");
 		//tabbedPane.setSelectedIndex(0); // ver se dá erro
-		tabbedPane.setBounds(0, 0, 561, 383);
+		tabbedPane.setBounds(0, 0, 559, 368);
 		contentPane.add(tabbedPane);
 		
 		JPanel pnlInfoInt = new JPanel();
 		pnlInfoInt.setLayout(null);
 		tabbedPane.addTab("Informa\u00E7\u00F5es Internas", null, pnlInfoInt, null);
 		
-		txtAgencia = new JTextField();
-		txtAgencia.setText((String) null);
-		txtAgencia.setEnabled(false);
-		txtAgencia.setColumns(10);
-		txtAgencia.setBounds(348, 208, 72, 30);
-		pnlInfoInt.add(txtAgencia);
-		
 		JLabel label_1 = new JLabel("Nome:");
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_1.setBounds(31, 50, 48, 32);
+		label_1.setBounds(52, 78, 48, 32);
 		pnlInfoInt.add(label_1);
 		
 		txtNome = new JTextField();
 		txtNome.setText((String) null);
 		txtNome.setEnabled(false);
 		txtNome.setColumns(10);
-		txtNome.setBounds(88, 52, 400, 30);
+		txtNome.setBounds(109, 80, 400, 30);
 		pnlInfoInt.add(txtNome);
-		
-		JLabel label_2 = new JLabel("CNPJ:");
-		label_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_2.setBounds(36, 93, 43, 32);
-		pnlInfoInt.add(label_2);
 		
 		JLabel label_3 = new JLabel("E-mail:");
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_3.setBounds(31, 128, 51, 32);
+		label_3.setBounds(52, 156, 51, 32);
 		pnlInfoInt.add(label_3);
 		
 		JLabel lblTelefone = new JLabel("Telefone: ");
 		lblTelefone.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblTelefone.setBounds(272, 93, 72, 32);
+		lblTelefone.setBounds(35, 118, 72, 32);
 		pnlInfoInt.add(lblTelefone);
-		
-		JLabel label_5 = new JLabel("Ag\u00EAncia:");
-		label_5.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_5.setBounds(279, 208, 69, 32);
-		pnlInfoInt.add(label_5);
 		
 		JLabel label_7 = new JLabel("Endere\u00E7o:");
 		label_7.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_7.setBounds(10, 168, 72, 32);
+		label_7.setBounds(31, 195, 72, 32);
 		pnlInfoInt.add(label_7);
-		
-		JLabel label_8 = new JLabel("Conta:");
-		label_8.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_8.setBounds(30, 208, 48, 32);
-		pnlInfoInt.add(label_8);
 		
 		txtEmail = new JTextField();
 		txtEmail.setText((String) null);
 		txtEmail.setEnabled(false);
 		txtEmail.setColumns(10);
-		txtEmail.setBounds(88, 131, 400, 30);
+		txtEmail.setBounds(109, 159, 400, 30);
 		pnlInfoInt.add(txtEmail);
 		
 		txtEndereco = new JTextField();
 		txtEndereco.setText((String) null);
 		txtEndereco.setEnabled(false);
 		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(88, 170, 400, 30);
+		txtEndereco.setBounds(109, 198, 400, 30);
 		pnlInfoInt.add(txtEndereco);
 		
 		txtTelefone = new JTextField();
 		txtTelefone.setText((String) null);
 		txtTelefone.setEnabled(false);
 		txtTelefone.setColumns(10);
-		txtTelefone.setBounds(343, 94, 179, 30);
+		txtTelefone.setBounds(109, 121, 179, 30);
 		pnlInfoInt.add(txtTelefone);
-		
-		txtCnpj = new JTextField();
-		txtCnpj.setText((String) null);
-		txtCnpj.setEnabled(false);
-		txtCnpj.setColumns(10);
-		txtCnpj.setBounds(88, 93, 179, 30);
-		pnlInfoInt.add(txtCnpj);
-		
-		txtConta = new JTextField();
-		txtConta.setText((String) null);
-		txtConta.setEnabled(false);
-		txtConta.setColumns(10);
-		txtConta.setBounds(88, 211, 179, 30);
-		pnlInfoInt.add(txtConta);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setMargin(new Insets(10, 1, 1, 1));
-		menuBar.setBounds(0, 0, 676, 32);
+		menuBar.setBounds(0, 0, 554, 32);
 		pnlInfoInt.add(menuBar);
 		
 		JButton btnAlterarInt = new JButton("Alterar");
@@ -213,18 +177,15 @@ public class PrincipalEntidade extends JFrame {
 				if( !txtCodigo.getText().equals("")  ||
 					!txtNome.getText().equals("")    ||
 					!txtEmail.getText().equals("")   ||
-					!txtCnpj.getText().equals("")    ||
 					!txtEndereco.getText().equals("")||
 					!txtTelefone.getText().equals("")||
-					!txtConta.getText().equals("")   ||
-					!txtAgencia.getText().equals("") ||
 					!txtUsuario.getText().equals("")  )
 					{
 						try {
 							Entidade entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
-									txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
-									txtEndereco.getText(), txtUsuario.getText(),entidadeLog.getSenha(), txtTelefone.getText(),
-									entidadeLog.getVisualizacoes(), entidadeLog.getDescricao(), txtSite.getText(), entidadeLog.getImagem());
+									entidadeLog.getCnpj(), txtEndereco.getText(),txtEmail.getText(), txtTelefone.getText(),
+									txtUsuario.getText(),entidadeLog.getSenha(), entidadeLog.getVisualizacoes(), 
+									entidadeLog.getDescricao(), entidadeLog.getImagem(), txtSite.getText());
 							try
 							{
 								Entidades.alterar(entidade);
@@ -256,19 +217,19 @@ public class PrincipalEntidade extends JFrame {
 		JLabel lblEssasInformaesApenas = new JLabel("Essas informa\u00E7\u00F5es apenas n\u00F3s da Helpa! e voc\u00EA, dono da Entidade, t\u00EAm acesso! ");
 		lblEssasInformaesApenas.setForeground(Color.GRAY);
 		lblEssasInformaesApenas.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblEssasInformaesApenas.setBounds(30, 321, 556, 32);
+		lblEssasInformaesApenas.setBounds(31, 284, 556, 32);
 		pnlInfoInt.add(lblEssasInformaesApenas);
 		
 		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
 		lblUsurio.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblUsurio.setBounds(16, 249, 66, 32);
+		lblUsurio.setBounds(41, 231, 66, 32);
 		pnlInfoInt.add(lblUsurio);
 		
 		txtUsuario = new JTextField();
 		txtUsuario.setText((String) null);
 		txtUsuario.setEnabled(false);
 		txtUsuario.setColumns(10);
-		txtUsuario.setBounds(88, 252, 179, 30);
+		txtUsuario.setBounds(109, 234, 179, 30);
 		pnlInfoInt.add(txtUsuario);
 		
 		JButton btnTrocarSenha = new JButton("Trocar Senha");
@@ -278,9 +239,14 @@ public class PrincipalEntidade extends JFrame {
 				formTS.setVisible(true);
 			}
 		});
-		btnTrocarSenha.setFont(UIManager.getFont("ToolTip.font"));
-		btnTrocarSenha.setBounds(289, 249, 107, 39);
+		btnTrocarSenha.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		btnTrocarSenha.setBounds(314, 231, 116, 39);
 		pnlInfoInt.add(btnTrocarSenha);
+		
+		JLabel lblAlgumTtulo = new JLabel("\u00C1rea da Entidade");
+		lblAlgumTtulo.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblAlgumTtulo.setBounds(200, 43, 162, 24);
+		pnlInfoInt.add(lblAlgumTtulo);
 		
 		JPanel pnlInfoPub = new JPanel();
 		pnlInfoPub.setLayout(null);
@@ -310,8 +276,8 @@ public class PrincipalEntidade extends JFrame {
 				{
 					try { 
 						Entidade entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
-						txtEmail.getText(), txtCnpj.getText(),txtConta.getText(), txtAgencia.getText(),
-						txtEndereco.getText(), txtUsuario.getText(),"", txtTelefone.getText(), 0, "", txtSite.getText(), "");
+						entidadeLog.getCnpj(),txtEndereco.getText(), txtEmail.getText(), txtTelefone.getText(),
+						txtUsuario.getText(),entidadeLog.getSenha(), entidadeLog.getVisualizacoes(), txtDescricao.getText(),  txtFoto.getText(),txtSite.getText());
 						try
 						{
 							Entidades.alterar(entidade);
@@ -357,8 +323,8 @@ public class PrincipalEntidade extends JFrame {
 		menuBar_1.add(label_9);
 		
 		JLabel lblSuasNecessidades = new JLabel("Necessidades");
-		lblSuasNecessidades.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblSuasNecessidades.setBounds(388, 54, 158, 32);
+		lblSuasNecessidades.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblSuasNecessidades.setBounds(399, 43, 158, 32);
 		pnlInfoPub.add(lblSuasNecessidades);
 		
 		txtSite = new JTextField();
@@ -397,7 +363,7 @@ public class PrincipalEntidade extends JFrame {
 		pnlInfoPub.add(lblDescrio);
 		
 		pnlNecessidades = new JPanel();
-		pnlNecessidades.setBounds(358, 120, 191, 224);
+		pnlNecessidades.setBounds(359, 106, 191, 224);
 		pnlInfoPub.add(pnlNecessidades);
 		pnlNecessidades.setLayout(new GridLayout(5, 1, 0, 0));
 		
@@ -455,17 +421,22 @@ public class PrincipalEntidade extends JFrame {
 			}
 		});
 		cbxNecessidades.setEnabled(false);
-		cbxNecessidades.setBounds(388, 86, 41, 32);
+		cbxNecessidades.setBounds(399, 75, 41, 32);
 		pnlInfoPub.add(cbxNecessidades);
 		
 		JLabel label = new JLabel("Item(s)");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label.setBounds(434, 86, 131, 32);
+		label.setBounds(445, 75, 131, 32);
 		pnlInfoPub.add(label);
 		
-		txtDescricao = new TextArea();
+		txtDescricao = new JTextArea();
 		txtDescricao.setEnabled(false);
-		txtDescricao.setBounds(10, 185, 338, 160);
+		txtDescricao.setBounds(10, 185, 338, 145);
+		Dimension d = new Dimension();
+		d.setSize(338, 145);
+		txtDescricao.setPreferredSize(d);
+		txtDescricao.setEditable(true);
+		txtDescricao.setLineWrap(true);
 		pnlInfoPub.add(txtDescricao);
 		
 		JPanel pnlRelatorio = new JPanel();
@@ -473,39 +444,74 @@ public class PrincipalEntidade extends JFrame {
 		tabbedPane.addTab("Relat\u00F3rio", null, pnlRelatorio, null);
 		
 		JMenuBar menuBar_2 = new JMenuBar();
-		menuBar_2.setBounds(0, 0, 676, 21);
+		menuBar_2.setBounds(0, 0, 676, 30);
 		pnlRelatorio.add(menuBar_2);
 		
-		JLabel lblAquiEstoExibidas = new JLabel("   Aqui est\u00E3o exibidas todas as doa\u00E7\u00F5es que as pessoas se comprometeram a fazer para a sua entidade!");
-		lblAquiEstoExibidas.setForeground(Color.GRAY);
+		JLabel lblAquiEstoExibidas = new JLabel("Caso certa doa\u00E7\u00E3o j\u00E1 tenha sido entregue, clique sobre ela na tabela e no bot\u00E3o: ");
+		lblAquiEstoExibidas.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblAquiEstoExibidas.setForeground(Color.BLACK);
 		menuBar_2.add(lblAquiEstoExibidas);
+		
+		JButton btnEntregue = new JButton("Entregue!");
+		btnEntregue.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(idDoacao<=0)
+					JOptionPane.showMessageDialog(null,"Selecione uma doação para ser tida como entregue!");
+				else
+				{
+					Doacao doacao = null;
+					try
+					{
+						doacao = Doacoes.getDoacao(idDoacao);
+						if(doacao.getEntregue() == 'S')
+							throw new Exception("Essa doação já está dada como entregue!");
+						doacao.setEntregue('S');
+						Doacoes.alterar(doacao);
+						tblRelatorio.setValueAt("S",linha, 5);
+						JOptionPane.showMessageDialog(null,"Status de doação alterado com sucesso. A doacao foi entregue!");
+					}
+					catch(Exception ex) 
+					{
+						JOptionPane.showMessageDialog(null, ex.getMessage());
+					}
+				}
+			}
+		});
+		btnEntregue.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		menuBar_2.add(btnEntregue);
 		
 		tblRelatorio = new JTable();
 		tblRelatorio.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				int idDoacao = (int)tblRelatorio.getValueAt(tblRelatorio.getSelectedRow(), 0);
-				
+				linha = tblRelatorio.getSelectedRow();
+				idDoacao = (int)tblRelatorio.getValueAt(linha, 0);
 			}
 		});
-		tblRelatorio.setBounds(10, 342, 536, -312);
+		tblRelatorio.setBounds(10, 331, 536, -283);
 		pnlRelatorio.add(tblRelatorio);
 		DefaultTableModel model = null;
 		pnlRelatorio.add(tblRelatorio);	
 		try 
 		{
 			MeuResultSet dados = Entidades.getDoacoes(entidadeLog.getCodigo());
-			 model = new DefaultTableModel(new Object[][] {},
+			model = new DefaultTableModel(new Object[][] {},
 			new String[] {
-				"Produto", "Quantidade", "Data", "Entregue?"
+				"Identificação", "Produto", "Quantidade", "Data", "Entregue?"
 			});
 			
 			while(dados.next())
 			{
-				model.addRow(new Object[] {dados.getString(1), dados.getInt(4)+"", dados.getDate(2)+"", dados.getString(3)});
+				model.addRow(new Object[] {dados.getInt(1)+"", dados.getString(2), dados.getInt(4)+"", dados.getDate(5)+"", dados.getString(4)});
 			}
 			
 			tblRelatorio.setModel(model); 
+			
+			JLabel lblAquiEstoTodas = new JLabel("   Aqui est\u00E3o todas as doa\u00E7\u00F5es que as pessoas se comprometeram a fazer para a sua entidade");
+			lblAquiEstoTodas.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblAquiEstoTodas.setForeground(Color.GRAY);
+			lblAquiEstoTodas.setBounds(0, 34, 519, 14);
+			pnlRelatorio.add(lblAquiEstoTodas);
 		}
 		catch(Exception ex) 
 		{
@@ -521,10 +527,7 @@ public class PrincipalEntidade extends JFrame {
 		txtNome.setEnabled(modo);
 		txtEmail.setEnabled(modo);
 		txtEndereco.setEnabled(modo);
-		txtConta.setEnabled(modo);
-		txtAgencia.setEnabled(modo);
 		txtUsuario.setEnabled(modo);
-		txtCnpj.setEnabled(modo);
 		txtTelefone.setEnabled(modo);
 	}
 	
@@ -539,11 +542,8 @@ public class PrincipalEntidade extends JFrame {
 	{
 		txtNome.setText(entidadeLog.getNome());
 		txtEmail.setText(entidadeLog.getEmail());
-		txtCnpj.setText(entidadeLog.getCnpj());
 		txtEndereco.setText(entidadeLog.getEndereco());
 		txtTelefone.setText(entidadeLog.getTelefone());
-		txtConta.setText(entidadeLog.getConta());
-		txtAgencia.setText(entidadeLog.getAgencia());
 		txtUsuario.setText(entidadeLog.getUsuario());
 		txtSite.setText(entidadeLog.getSite());
 		txtDescricao.setText(entidadeLog.getDescricao());
