@@ -44,7 +44,7 @@ public class Relatorio extends JFrame {
 	 */
 	public Relatorio() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 611, 438);
+		setBounds(100, 100, 590, 401);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -52,15 +52,19 @@ public class Relatorio extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		panel.setBounds(31, 48, 554, 340);
+		panel.setBounds(10, 48, 554, 298);
 		contentPane.add(panel);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 676, 30);
+		menuBar.setBounds(0, 0, 554, 30);
 		panel.add(menuBar);
 		
+		JLabel lblTodasAsDoaes = new JLabel("   Todas as doa\u00E7\u00F5es feitas pela plataforma web do Helpa!");
+		menuBar.add(lblTodasAsDoaes);
+		
 		tblDoacoes = new JTable();
-		tblDoacoes.setBounds(10, 331, 536, -283);
+		tblDoacoes.setEnabled(false);
+		tblDoacoes.setBounds(10, 289, 536, -241);
 		// id, produto, quantidade, nomeEntidade, data, entregue
 		DefaultTableModel model = null;
 		try 
@@ -85,15 +89,9 @@ public class Relatorio extends JFrame {
 		}
 		panel.add(tblDoacoes);
 		
-		JLabel label = new JLabel("   Aqui est\u00E3o todas as doa\u00E7\u00F5es que as pessoas se comprometeram a fazer para a sua entidade");
-		label.setForeground(Color.GRAY);
-		label.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label.setBounds(0, 34, 519, 14);
-		panel.add(label);
-		
 		JLabel lblRelatrioDeDoaes = new JLabel("RELAT\u00D3RIO DE DOA\u00C7\u00D5ES");
-		lblRelatrioDeDoaes.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblRelatrioDeDoaes.setBounds(263, 11, 46, 14);
+		lblRelatrioDeDoaes.setFont(new Font("Tahoma", Font.BOLD, 19));
+		lblRelatrioDeDoaes.setBounds(172, 11, 260, 26);
 		contentPane.add(lblRelatrioDeDoaes);
 	}
 }

@@ -106,7 +106,7 @@ public class PrincipalEntidade extends JFrame {
 		
 		JPanel pnlInfoInt = new JPanel();
 		pnlInfoInt.setLayout(null);
-		tabbedPane.addTab("Informa\u00E7\u00F5es Internas", null, pnlInfoInt, null);
+		tabbedPane.addTab("Informa\u00E7\u00F5es Privadas", null, pnlInfoInt, null);
 		
 		JLabel label_1 = new JLabel("Nome:");
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -158,7 +158,7 @@ public class PrincipalEntidade extends JFrame {
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setMargin(new Insets(10, 1, 1, 1));
-		menuBar.setBounds(0, 0, 554, 32);
+		menuBar.setBounds(0, 0, 546, 32);
 		pnlInfoInt.add(menuBar);
 		
 		JButton btnAlterarInt = new JButton("Alterar");
@@ -497,12 +497,12 @@ public class PrincipalEntidade extends JFrame {
 			MeuResultSet dados = Entidades.getDoacoes(entidadeLog.getCodigo());
 			model = new DefaultTableModel(new Object[][] {},
 			new String[] {
-				"Identificação", "Produto", "Quantidade", "Data", "Entregue?"
+				"Identificação", "Doador", "Produto", "Quantidade", "Data", "Entregue?"
 			});
 			
 			while(dados.next())
 			{
-				model.addRow(new Object[] {dados.getInt(1)+"", dados.getString(2), dados.getInt(4)+"", dados.getDate(5)+"", dados.getString(4)});
+				model.addRow(new Object[] {dados.getInt(1)+"",dados.getString(2), dados.getString(3), dados.getString(4), dados.getDate(5)+"", dados.getString(6)});
 			}
 			
 			tblRelatorio.setModel(model); 

@@ -524,7 +524,7 @@ public class Entidades
         {
             String sql;
 
-            sql = "select id, produto, data, entregue, quantidade from HDoacoes where codEntidade = ?";
+            sql = "select id, p.nome, produto, data, entregue, quantidade from HDoacoes d, HPessoas p where d.codPessoa = p.codigo and codEntidade = ?";
             BDSQLServer.COMANDO.prepareStatement (sql);
             BDSQLServer.COMANDO.setInt(1, cod);
             resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery ();
