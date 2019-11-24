@@ -18,10 +18,10 @@ body {
 }
 
 #estaCadastrado{
-	color:white;
-	font-size: 2em;
-	float:right;
-	margin-left:10px;
+	color: white;
+	font-size: 27px;
+    margin-left: 90px;
+    margin-bottom: 30px;
 }
 
 ul {
@@ -83,11 +83,13 @@ h6 {
 	font-size: 18px;  
 }
 
-img {
-	border: none;
-	max-width: 100%;
+#logoa {
+    border: none;
+    position: absolute;
+    width: 231px;
+    margin-top: 6px;
+    margin-left: 77px;
 }
-
 button {
 	padding: 5px 15px;
 	border-radius: 5px;
@@ -121,7 +123,7 @@ display: inline;
 .menu ul{
 	/* background-image: linear-gradient(to right, rgba(253, 80, 80, 0.788),rgba(255, 138, 138, 0.685)); */
 	background-image: linear-gradient(to right, rgb(255, 82, 120), rgb(255, 176, 176));
-	text-align: center;
+	text-align: end;
 }
 .menu ul li {
 	list-style: none;
@@ -131,15 +133,15 @@ display: inline;
 
 
 .menu ul li a {
-	color: #fff;
-	display: inline-block;
-	font-size: 28px;
-	font-weight: 700;
-	text-align: center;
-	padding: 15px;
-	text-transform: uppercase;
-	
+    color: #fff;
+    display: inline-block;
+    font-size: 23px;
+    font-weight: 650;
+    text-align: center;
+    padding: 20px;
+    text-transform: uppercase;
 }
+
 #cabecalho {
 height: 80vh;
 background-size:cover;
@@ -158,22 +160,28 @@ background-attachment: fixed;
 	0%{
 		background-image: url('../images/fundos/Imagem1.png'); 
 	}
-	20%{
+	25%{
+		background-image: url('../images/fundos/Imagem1.png'); 
+	}
+
+	26%{
 		background-image: url('../images/fundos/Imagem2.png'); 
 	}
-	40%{
-		background-image: url('../images/fundos/Imagem3.png'); 
+	50%{
+		background-image: url('../images/fundos/Imagem2.png'); 
 	}
-	60%{
-		background-image: url('../images/fundos/Imagem4.png');
-	}
-	80%{
+	51%{
 		background-image: url('../images/fundos/Imagem1.png');
+	}
+	75%{
+		background-image: url('../images/fundos/Imagem1.png');
+	}
+	76%{
+		background-image: url('../images/fundos/Imagem2.png');
 	}
 	100%{
 		background-image: url('../images/fundos/Imagem2.png');
 	}
-	
 
 }
 
@@ -200,7 +208,7 @@ background-attachment: fixed;
 	font-size: 45px;
 	display: inline-block;
 	font-weight: 700;
-	margin-top: 30px;
+	margin-top: 0px;
 	margin-bottom: 0px;
 }
 
@@ -210,8 +218,8 @@ background-attachment: fixed;
 }
 
 #logoo{
-	width: 400px;
-	height: 180px;
+	width: 200px;
+
 }
  /*mu-menu */
  
@@ -231,15 +239,15 @@ background-attachment: fixed;
 
 .cabecalho-destaque-content {
 	display: inline;
-	float: right;
 }
 
 .cabecalho-destaque-content h1 {
-	font-size: 45px;
+	margin-top: 200px;
+	margin-left: 90px;
+	font-size: 55px;
 	color: #fff;
 	font-weight: 300;
 	margin-bottom: 15px;
-	text-align:center;
 }
 
 .cabecalho-destaque-content h1 span {
@@ -258,10 +266,10 @@ background-attachment: fixed;
 
 #botoesdoarinscrever h4 {
 	color: #fff;
-	font-size: 18px;
-	font-weight: 300;
-	margin-bottom: 20px;
-text-align: center;
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 20px;
+	margin-left: 95;
 }
 
 
@@ -270,10 +278,12 @@ text-align: center;
     border-radius: 50px;
     color: #fff;
     display: inline-block;
-    margin: 9 150px;
-    padding: 11px 22px;
+	padding: 11px 22px;
+	font-size: 19px;
     text-transform: uppercase;
-    transition: all 0.5s;
+	transition: all 0.5s;
+	margin-left: 90px;
+	margin-right: 10px;
 }
 
 .botaodoar:hover,
@@ -297,6 +307,37 @@ text-align: center;
 	line-height: 24px;
 }
 
+.botaodoar2{
+	border: 2px solid #fff;
+    border-radius: 50px;
+	color: #fff;
+	font-size: 19px;
+    display: inline-block;
+    padding: 11px 22px;
+    text-transform: uppercase;
+    transition: all 0.5s;
+}
+
+.botaodoar2:hover,
+.botaodoar2:focus
+{
+	background-color: #ffffff;
+}
+
+.botaodoar2 i
+ {
+	display: block;
+    float: left;
+    font-size: 20px;
+    line-height: 24px;
+    margin-right: 10px;
+}
+
+.botaodoar2 span {
+	display: block;
+	float: left;
+	line-height: 24px;
+}
 
 
 .titulo-area {
@@ -664,6 +705,9 @@ text-align: center;
 		font-size: 25px;
 	}
 }
+
+
+      
 
 	
 
