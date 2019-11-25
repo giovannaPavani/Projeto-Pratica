@@ -161,16 +161,16 @@ public class Funcionarios {
             String sql;
 
             sql = "UPDATE HFuncionarios " +
-                  "SET NOME=? ," +
-                  "CPF=? ," +
-                  "EMAIL=? ," +
-                  "SALARIO=? ," +
-                  "TELEFONE=? ," +
-                  "CARGO=? ," +
-                  "CONTA=? ," +
-                  "AGENCIA=? ," +
-                  "ENDERECO=? ," +
-                  "USUARIO=? ," +
+                  "SET NOME=?, " +
+                  "CPF=?, " +
+                  "EMAIL=?, " +
+                  "SALARIO=?, " +
+                  "TELEFONE=?, " +
+                  "CARGO=?, " +
+                  "CONTA=?, " +
+                  "AGENCIA=?, " +
+                  "ENDERECO=?, " +
+                  "USUARIO=?, " +
                   "SENHA=? " +
 
                   "WHERE CODIGO = ?";

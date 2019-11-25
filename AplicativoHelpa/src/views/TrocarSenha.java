@@ -47,7 +47,7 @@ public class TrocarSenha extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				setVisible(false);
+				dispose();
 			}
 		});
 		Object usuario = usu;
@@ -118,6 +118,7 @@ public class TrocarSenha extends JFrame {
 							ent.setSenha(senha);
 							Entidades.alterar(ent);
 							JOptionPane.showMessageDialog(null,"Senha alterada com sucesso!");
+							dispose();
 						} 
 						catch (Exception e) 
 						{
@@ -127,12 +128,21 @@ public class TrocarSenha extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(99, 143, 107, 30);
+		btnNewButton.setBounds(188, 134, 107, 30);
 		contentPane.add(btnNewButton);
 		
 		JLabel lblSenha_1 = new JLabel("senha:");
 		lblSenha_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblSenha_1.setBounds(20, 102, 123, 21);
 		contentPane.add(lblSenha_1);
+		
+		JButton btnVoltar = new JButton("Cancelar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		btnVoltar.setBounds(41, 134, 107, 30);
+		contentPane.add(btnVoltar);
 	}
 }

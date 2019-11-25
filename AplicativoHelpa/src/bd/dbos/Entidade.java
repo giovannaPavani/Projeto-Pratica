@@ -176,7 +176,8 @@ public class Entidade implements Cloneable, Comparable<Entidade>
 	    this.setCodigo  (codigo);
 	 }
 	
-	 public Entidade(int codigo, String nome, String cnpj, String endereco, String email, String telefone, String usuario, String senha, int visualizacoes, String descricao, String imagem, String site) throws Exception
+	 public Entidade(int codigo, String nome, String cnpj, String endereco, String email, String telefone, String usuario, 
+			 String senha, int visualizacoes, String descricao, String imagem, String site) throws Exception
 	 {
 	    this.setCodigo       (codigo);
 	    this.setNome         (nome);
@@ -282,6 +283,7 @@ public class Entidade implements Cloneable, Comparable<Entidade>
 		this.visualizacoes = molde.visualizacoes;
 		this.site = molde.site;
 		this.descricao = molde.descricao;
+		this.imagem = molde.imagem;
 	}
 	
 	public int compareTo(Entidade outro)

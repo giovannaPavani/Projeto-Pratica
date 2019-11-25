@@ -29,6 +29,9 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JScrollPane;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class PrincipalEntidade extends JFrame {
 	
@@ -37,7 +40,6 @@ public class PrincipalEntidade extends JFrame {
 	private int idDoacao;
 	private int linha;
 	private Entidade entidadeLog;
-	private JTextField txtCodigo;
 	private JTextField txtNome;
 	private JTextField txtEmail;
 	private JTextField txtEndereco;
@@ -52,8 +54,12 @@ public class PrincipalEntidade extends JFrame {
 	private JTextField txtNec5;
 	private JComboBox<Integer> cbxNecessidades;
 	private JPanel pnlNecessidades;
-	private JTable tblRelatorio;
 	private JTextArea txtDescricao;
+	private JPanel pnlInfoInt;
+	private JPanel pnlInfoPub;
+	JButton btnSalvarInt;
+	JButton btnSalvarPub;
+	private JTable tblRelatorio;
 
 	/**
 	 * Launch the application.
@@ -87,7 +93,6 @@ public class PrincipalEntidade extends JFrame {
 		  entidadeLog = new Entidade(Entidades.getEntidadeByCod(codigo));
 		}
 		catch(Exception ex) {} // n vai dar erro pois o codigo foi eu que passei
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 575, 407);
 		contentPane = new JPanel();
@@ -101,7 +106,7 @@ public class PrincipalEntidade extends JFrame {
 		tabbedPane.setBounds(0, 0, 559, 368);
 		contentPane.add(tabbedPane);
 		
-		JPanel pnlInfoInt = new JPanel();
+		pnlInfoInt = new JPanel();
 		pnlInfoInt.setLayout(null);
 		tabbedPane.addTab("Informa\u00E7\u00F5es Internas", null, pnlInfoInt, null);
 		
@@ -111,8 +116,8 @@ public class PrincipalEntidade extends JFrame {
 		pnlInfoInt.add(label_1);
 		
 		txtNome = new JTextField();
+		txtNome.setEditable(false);
 		txtNome.setText((String) null);
-		txtNome.setEnabled(false);
 		txtNome.setColumns(10);
 		txtNome.setBounds(109, 80, 400, 30);
 		pnlInfoInt.add(txtNome);
@@ -133,22 +138,22 @@ public class PrincipalEntidade extends JFrame {
 		pnlInfoInt.add(label_7);
 		
 		txtEmail = new JTextField();
+		txtEmail.setEditable(false);
 		txtEmail.setText((String) null);
-		txtEmail.setEnabled(false);
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(109, 159, 400, 30);
 		pnlInfoInt.add(txtEmail);
 		
 		txtEndereco = new JTextField();
+		txtEndereco.setEditable(false);
 		txtEndereco.setText((String) null);
-		txtEndereco.setEnabled(false);
 		txtEndereco.setColumns(10);
 		txtEndereco.setBounds(109, 198, 400, 30);
 		pnlInfoInt.add(txtEndereco);
 		
 		txtTelefone = new JTextField();
+		txtTelefone.setEditable(false);
 		txtTelefone.setText((String) null);
-		txtTelefone.setEnabled(false);
 		txtTelefone.setColumns(10);
 		txtTelefone.setBounds(109, 121, 179, 30);
 		pnlInfoInt.add(txtTelefone);
@@ -162,30 +167,30 @@ public class PrincipalEntidade extends JFrame {
 		btnAlterarInt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setTxtInt(true);
-				txtCodigo.setEnabled(false);
 			}
 		});
 		btnAlterarInt.setFont(UIManager.getFont("ToolTip.font"));
 		menuBar.add(btnAlterarInt);
 		
-		JButton btnSalvarInt = new JButton("Salvar");
+		btnSalvarInt = new JButton("Salvar");
 		btnSalvarInt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if( !txtCodigo.getText().equals("")  ||
-					!txtNome.getText().equals("")    ||
+				if( !txtNome.getText().equals("")    ||
 					!txtEmail.getText().equals("")   ||
 					!txtEndereco.getText().equals("")||
 					!txtTelefone.getText().equals("")||
 					!txtUsuario.getText().equals("")  )
 					{
 						try {
-							Entidade entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
+							Entidade entidade = new Entidade(entidadeLog.getCodigo(), txtNome.getText(),
 									entidadeLog.getCnpj(), txtEndereco.getText(),txtEmail.getText(), txtTelefone.getText(),
 									txtUsuario.getText(),entidadeLog.getSenha(), entidadeLog.getVisualizacoes(), 
-									entidadeLog.getDescricao(), entidadeLog.getImagem(), txtSite.getText());
+									entidadeLog.getDescricao(), entidadeLog.getImagem(), entidadeLog.getSite());
 							try
 							{
 								Entidades.alterar(entidade);
+								entidadeLog = new Entidade(entidade);
+								JOptionPane.showMessageDialog(null,"Informações alteradas com sucesso!");
 							}
 							catch(Exception ex) 
 							{
@@ -211,7 +216,7 @@ public class PrincipalEntidade extends JFrame {
 		label_10.setForeground(Color.GRAY);
 		menuBar.add(label_10);
 		
-		JLabel lblEssasInformaesApenas = new JLabel("Essas informa\u00E7\u00F5es apenas n\u00F3s da Helpa! e voc\u00EA, dono da Entidade, t\u00EAm acesso! ");
+		JLabel lblEssasInformaesApenas = new JLabel("Essas informa\u00E7\u00F5es apenas n\u00F3s da Helpa! e voc\u00EA, entidade, t\u00EAm acesso! ");
 		lblEssasInformaesApenas.setForeground(Color.GRAY);
 		lblEssasInformaesApenas.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblEssasInformaesApenas.setBounds(31, 284, 556, 32);
@@ -223,8 +228,8 @@ public class PrincipalEntidade extends JFrame {
 		pnlInfoInt.add(lblUsurio);
 		
 		txtUsuario = new JTextField();
+		txtUsuario.setEditable(false);
 		txtUsuario.setText((String) null);
-		txtUsuario.setEnabled(false);
 		txtUsuario.setColumns(10);
 		txtUsuario.setBounds(109, 234, 179, 30);
 		pnlInfoInt.add(txtUsuario);
@@ -245,7 +250,7 @@ public class PrincipalEntidade extends JFrame {
 		lblAlgumTtulo.setBounds(200, 43, 162, 24);
 		pnlInfoInt.add(lblAlgumTtulo);
 		
-		JPanel pnlInfoPub = new JPanel();
+		pnlInfoPub = new JPanel();
 		pnlInfoPub.setLayout(null);
 		tabbedPane.addTab("Informa\u00E7\u00F5es P\u00FAblicas", null, pnlInfoPub, null);
 		
@@ -258,12 +263,12 @@ public class PrincipalEntidade extends JFrame {
 		btnAlterarPub.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setTxtPub(true);
-				cbxNecessidades.setEnabled(true);
+				cbxNecessidades.setEditable(true);
 			}
 		});
 		menuBar_1.add(btnAlterarPub);
 		
-		JButton btnSalvarPub = new JButton("Salvar");
+		btnSalvarPub = new JButton("Salvar");
 		btnSalvarPub.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if( !txtFoto.getText().equals("")     ||
@@ -272,12 +277,13 @@ public class PrincipalEntidade extends JFrame {
 					!txtNec1.getText().equals("")      )
 				{
 					try { 
-						Entidade entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
-						entidadeLog.getCnpj(),txtEndereco.getText(), txtEmail.getText(), txtTelefone.getText(),
-						txtUsuario.getText(),entidadeLog.getSenha(), entidadeLog.getVisualizacoes(), txtDescricao.getText(),  txtFoto.getText(),txtSite.getText());
+						Entidade entidade = new Entidade(entidadeLog.getCodigo(), entidadeLog.getNome(),
+						entidadeLog.getCnpj(),entidadeLog.getEndereco(), entidadeLog.getEmail(), entidadeLog.getTelefone(),
+						entidadeLog.getUsuario(),entidadeLog.getSenha(), entidadeLog.getVisualizacoes(), txtDescricao.getText(),txtFoto.getText(),txtSite.getText());
 						try
 						{
 							Entidades.alterar(entidade);
+							entidadeLog = new Entidade(entidade);
 							
 							int qtd = Integer.parseInt(cbxNecessidades.getSelectedItem().toString());
 							String produtos[] = new String[5];
@@ -305,12 +311,13 @@ public class PrincipalEntidade extends JFrame {
 					{
 						JOptionPane.showMessageDialog(null,"Informações inseridas inválidas. Alteração cancelada!");
 					}
-					
+					atualizarTela();
 				}
 				else
 					JOptionPane.showMessageDialog(null,"Não deixe campos em branco! Alteração cancelada!");
 				atualizarTela();
-				cbxNecessidades.setEnabled(false);
+				cbxNecessidades.setEditable(false);
+				btnSalvarPub.setEnabled(false);
 			}
 		});
 		menuBar_1.add(btnSalvarPub);
@@ -325,8 +332,8 @@ public class PrincipalEntidade extends JFrame {
 		pnlInfoPub.add(lblSuasNecessidades);
 		
 		txtSite = new JTextField();
+		txtSite.setEditable(false);
 		txtSite.setText((String) null);
-		txtSite.setEnabled(false);
 		txtSite.setColumns(10);
 		txtSite.setBounds(10, 57, 338, 30);
 		pnlInfoPub.add(txtSite);
@@ -342,8 +349,8 @@ public class PrincipalEntidade extends JFrame {
 		pnlInfoPub.add(label_6);
 		
 		txtFoto = new JTextField();
+		txtFoto.setEditable(false);
 		txtFoto.setText((String) null);
-		txtFoto.setEnabled(false);
 		txtFoto.setColumns(10);
 		txtFoto.setBounds(10, 112, 338, 30);
 		pnlInfoPub.add(txtFoto);
@@ -365,27 +372,27 @@ public class PrincipalEntidade extends JFrame {
 		pnlNecessidades.setLayout(new GridLayout(5, 1, 0, 0));
 		
 		txtNec1 = new JTextField();
-		txtNec1.setEnabled(false);
+		txtNec1.setEditable(false);
 		txtNec1.setColumns(10);
 		pnlNecessidades.add(txtNec1);
 		
 		txtNec2 = new JTextField();
-		txtNec2.setEnabled(false);
+		txtNec2.setEditable(false);
 		txtNec2.setColumns(10);
 		pnlNecessidades.add(txtNec2);
 		
 		txtNec3 = new JTextField();
-		txtNec3.setEnabled(false);
+		txtNec3.setEditable(false);
 		txtNec3.setColumns(10);
 		pnlNecessidades.add(txtNec3);
 		
 		txtNec4 = new JTextField();
-		txtNec4.setEnabled(false);
+		txtNec4.setEditable(false);
 		txtNec4.setColumns(10);
 		pnlNecessidades.add(txtNec4);
 		
 		txtNec5 = new JTextField();
-		txtNec5.setEnabled(false);
+		txtNec5.setEditable(false);
 		txtNec5.setColumns(10);
 		pnlNecessidades.add(txtNec5);
 		
@@ -411,13 +418,12 @@ public class PrincipalEntidade extends JFrame {
 					if (c instanceof JTextField) 
 				    { 
 						((JTextField)c).setVisible(true);
-						((JTextField)c).setEnabled(true);
+						((JTextField)c).setEditable(true);
 						x++;
 				    }
 				}
 			}
 		});
-		cbxNecessidades.setEnabled(false);
 		cbxNecessidades.setBounds(399, 75, 41, 32);
 		pnlInfoPub.add(cbxNecessidades);
 		
@@ -427,16 +433,40 @@ public class PrincipalEntidade extends JFrame {
 		pnlInfoPub.add(label);
 		
 		txtDescricao = new JTextArea();
-		txtDescricao.setEnabled(false);
 		txtDescricao.setBounds(10, 185, 338, 145);
 		Dimension d = new Dimension();
 		d.setSize(338, 145);
 		txtDescricao.setPreferredSize(d);
-		txtDescricao.setEditable(true);
+		txtDescricao.setEditable(false);
 		txtDescricao.setLineWrap(true);
 		pnlInfoPub.add(txtDescricao);
 		
 		JPanel pnlRelatorio = new JPanel();
+		pnlRelatorio.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent arg0) {
+				DefaultTableModel model = null;
+				try 
+				{
+					MeuResultSet dados = Entidades.getDoacoes(entidadeLog.getCodigo());
+					model = new DefaultTableModel(new Object[][] {},
+					new String[] {
+						"Identificação", "Doador", "Produto", "Quantidade", "Data", "Entregue?"
+					});
+					
+					while(dados.next())
+					{
+						model.addRow(new Object[] {dados.getInt(1)+"",dados.getString(2), dados.getString(3), dados.getString(4), dados.getDate(5)+"", dados.getString(6)});
+					}
+					tblRelatorio.setModel(model);
+				}
+				catch(Exception ex) 
+				{
+					ex.printStackTrace();
+					System.out.print(ex.getMessage());
+				}
+			}
+		});
 		pnlRelatorio.setLayout(null);
 		tabbedPane.addTab("Relat\u00F3rio", null, pnlRelatorio, null);
 		
@@ -452,6 +482,7 @@ public class PrincipalEntidade extends JFrame {
 		JButton btnEntregue = new JButton("Entregue!");
 		btnEntregue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				idDoacao = Integer.parseInt(tblRelatorio.getValueAt(tblRelatorio.getSelectedRow(), 0).toString());
 				if(idDoacao<=0)
 					JOptionPane.showMessageDialog(null,"Selecione uma doação para ser tida como entregue!");
 				else
@@ -465,7 +496,7 @@ public class PrincipalEntidade extends JFrame {
 						doacao.setEntregue('S');
 						Doacoes.alterar(doacao);
 						tblRelatorio.setValueAt("S",linha, 5);
-						JOptionPane.showMessageDialog(null,"Status de doação alterado com sucesso. A doacao foi entregue!");
+						JOptionPane.showMessageDialog(null,"Status de doação alterado com sucesso. Doação entregue!");
 					}
 					catch(Exception ex) 
 					{
@@ -476,63 +507,38 @@ public class PrincipalEntidade extends JFrame {
 		});
 		btnEntregue.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		menuBar_2.add(btnEntregue);
+		JLabel lblAquiEstoTodas = new JLabel("   Aqui est\u00E3o todas as doa\u00E7\u00F5es que as pessoas se comprometeram a fazer para a sua entidade");
+		lblAquiEstoTodas.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblAquiEstoTodas.setForeground(Color.GRAY);
+		lblAquiEstoTodas.setBounds(0, 34, 519, 14);
+		pnlRelatorio.add(lblAquiEstoTodas);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 54, 534, 275);
+		pnlRelatorio.add(scrollPane_1);
 		
 		tblRelatorio = new JTable();
-		tblRelatorio.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				linha = tblRelatorio.getSelectedRow();
-				idDoacao = (int)tblRelatorio.getValueAt(linha, 0);
-			}
-		});
-		tblRelatorio.setBounds(10, 331, 536, -283);
-		pnlRelatorio.add(tblRelatorio);
-		DefaultTableModel model = null;
-		pnlRelatorio.add(tblRelatorio);	
-		try 
-		{
-			MeuResultSet dados = Entidades.getDoacoes(entidadeLog.getCodigo());
-			model = new DefaultTableModel(new Object[][] {},
-			new String[] {
-				"Identificação", "Doador", "Produto", "Quantidade", "Data", "Entregue?"
-			});
-			
-			while(dados.next())
-			{
-				model.addRow(new Object[] {dados.getInt(1)+"",dados.getString(2), dados.getString(3), dados.getString(4), dados.getDate(5)+"", dados.getString(6)});
-			}
-			
-			tblRelatorio.setModel(model); 
-			
-			JLabel lblAquiEstoTodas = new JLabel("   Aqui est\u00E3o todas as doa\u00E7\u00F5es que as pessoas se comprometeram a fazer para a sua entidade");
-			lblAquiEstoTodas.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblAquiEstoTodas.setForeground(Color.GRAY);
-			lblAquiEstoTodas.setBounds(0, 34, 519, 14);
-			pnlRelatorio.add(lblAquiEstoTodas);
-		}
-		catch(Exception ex) 
-		{
-			ex.printStackTrace();
-			System.out.print(ex.getMessage());
-		}
-		
+		scrollPane_1.setViewportView(tblRelatorio);
 		atualizarTela();
+		
 	}
 	
 	private void setTxtInt(boolean modo)
 	{
-		txtNome.setEnabled(modo);
-		txtEmail.setEnabled(modo);
-		txtEndereco.setEnabled(modo);
-		txtUsuario.setEnabled(modo);
-		txtTelefone.setEnabled(modo);
+		txtNome.setEditable(modo);
+		txtTelefone.setEditable(modo);
+		txtEmail.setEditable(modo);
+		txtEndereco.setEditable(modo);
+		txtUsuario.setEditable(modo);
 	}
 	
 	private void setTxtPub(boolean modo)
 	{
-		txtDescricao.setEnabled(modo);
-		txtSite.setEnabled(modo);
-		txtFoto.setEnabled(modo);
+		txtSite.setEditable(modo);
+		txtFoto.setEditable(modo);
+		txtDescricao.setEditable(modo);
+		txtNec1.setEditable(modo);
+		cbxNecessidades.setEnabled(modo);
 	}
 	
 	private void atualizarTela() 
@@ -567,6 +573,7 @@ public class PrincipalEntidade extends JFrame {
 				if (c instanceof JTextField) 
 			    { 
 					((JTextField)c).setVisible(true);
+					((JTextField)c).setEditable(false);
 					x++;
 			    }
 			}
@@ -589,5 +596,7 @@ public class PrincipalEntidade extends JFrame {
 		}
 		catch(Exception ex)
 		{} // n vai dar erro pois o codigo foi passado por mim
+		setTxtInt(false);
+		setTxtPub(false);
 	}
 }

@@ -131,12 +131,12 @@ public class Doacoes {
             String sql;
 
             sql = "UPDATE HDOACOES " +
-                  "SET CODPESSOA=? " +
-                  "SET PRODUTO=? " +
-				  "SET CODENTIDADE=?" +
-				  "SET DATA=?" +
-				  "SET ENTREGUE=?" +
-				  "SET QUANTIDADE=?" +
+                  "SET CODPESSOA=?, " +
+                  "PRODUTO=?, " +
+				  "CODENTIDADE=?, " +
+				  "DATA=?, " +
+				  "ENTREGUE=?, " +
+				  "QUANTIDADE=? " +
             	  "WHERE ID = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
@@ -145,7 +145,7 @@ public class Doacoes {
             BDSQLServer.COMANDO.setString (2, doacao.getProduto());
             BDSQLServer.COMANDO.setInt    (3, doacao.getCodEntidade());
             BDSQLServer.COMANDO.setDate   (4, doacao.getData());
-            BDSQLServer.COMANDO.setString  (5, doacao.getEntregue()+"");
+            BDSQLServer.COMANDO.setString (5, doacao.getEntregue()+"");
 		    BDSQLServer.COMANDO.setString (6, doacao.getQuantidade());
 		    BDSQLServer.COMANDO.setInt    (7, doacao.getId());
 

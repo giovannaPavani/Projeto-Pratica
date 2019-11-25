@@ -14,7 +14,6 @@ import bd.dbos.*;
 import javax.swing.JRadioButton;
 
 public class Login {
-
 	private JFrame frame;
 	private JTextField txtUsuario;
 	private JTextField txtSenha;
@@ -129,11 +128,11 @@ public class Login {
 								{
 									PrincipalEntidade formE = new PrincipalEntidade(ent.getCodigo());
 									formE.setVisible(true);
+									//this.frame.dispose();
 								}
 								else
 								{
 									JOptionPane.showMessageDialog(null,"Senha incorreta!");
-									txtUsuario.setText("");
 									txtSenha.setText("");
 								}
 							}

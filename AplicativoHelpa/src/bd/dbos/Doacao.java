@@ -103,7 +103,7 @@ public class Doacao implements Cloneable, Comparable<Doacao>
  }
 	 
 	
-	public Doacao (int id, int codEnt, String produto, int codPes, Date dat, char entreg, String qtd)throws Exception
+	public Doacao (int id, int codPes, String produto, int codEnt, Date dat, char entreg, String qtd)throws Exception
 	{
 		this.setId          (id);
 	    this.setCodEntidade (codEnt);

@@ -131,14 +131,14 @@ public class Pessoas
             String sql;
 
             sql = "UPDATE HPESSOAS " +
-                  "SET NOME=? " +
-                  "SET EMAIL=? " +
-				  "SET CPF=?" +
-				  "SET ENDERECO=?" +
-				  "SET SENHA=?" +
-				  "SET TELEFONE=?" +
-				  "SET CIDADE=?" +
-				  "SET UF=?" +
+                  "SET NOME=?, " +
+                  "EMAIL=?, " +
+				  "CPF=?, " +
+				  "ENDERECO=?, " +
+				  "SENHA=?, " +
+				  "TELEFONE=?, " +
+				  "CIDADE=?, " +
+				  "UF=?" +
                   "WHERE CODIGO = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);

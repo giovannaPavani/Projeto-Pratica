@@ -170,18 +170,18 @@ public class Entidades
             String sql;
 
             sql = "UPDATE HENTIDADES " +
-                  "SET NOME=? " +
-                  "SET CNPJ=?" +
-                  "SET ENDERECO=?" +
-                  "SET EMAIL=? " +
-                  "SET TELEFONE=? " +
-                  "SET USUARIO=?" +
-                  "SET SENHA=?" +
-                  "SET VISUALIZACOES= ?" +
-                  "SET SITE= ?"+
-                  "SET DESCRICAO= ?" +
-                  "SET LINKIMAGEM= ?" +
-                  "WHERE CODIGO = ?";
+                  "SET NOME=?, " +
+                  "CNPJ=?, " +
+                  "ENDERECO=?, " +
+                  "EMAIL=?, " +
+                  "TELEFONE=?, " +
+                  "USUARIO=?, " +
+                  "SENHA=?, " +
+                  "VISUALIZACOES= ?, " +
+                  "SITE= ?, "+
+                  "DESCRICAO= ?, " +
+                  "LINKIMAGEM= ? " +
+                  "WHERE CODIGO = ? ";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
@@ -294,18 +294,18 @@ public class Entidades
             if (!resultado.first()) // .last()/ .next()/ .previous()/ .absolute(10) --> retornam boolean
                 throw new Exception ("Nao cadastrado");
 
-            entidade = new Entidade(resultado.getInt   ("CODIGO"),
-	                                resultado.getString ("NOME"), // como q ele sb qual ie string eh?
-	                                resultado.getString ("EMAIL"),
-							        resultado.getString ("CNPJ"),
-							        resultado.getString ("ENDERECO"),
-							        resultado.getString ("USUARIO"),
-							        resultado.getString ("SENHA"),
-							        resultado.getString ("TELEFONE"),
-							        resultado.getInt    ("VISUALIZACOES"),
-							        resultado.getString ("DESCRICAO"),
-							        resultado.getString ("SITE"),
-							        resultado.getString ("LINKIMAGEM"));
+            entidade = new Entidade(resultado.getInt  ("CODIGO"),
+				                    resultado.getString("NOME"), 
+				                    resultado.getString("CNPJ"),
+				                    resultado.getString("ENDERECO"),
+				                    resultado.getString("EMAIL"),
+				                    resultado.getString("TELEFONE"),
+							        resultado.getString("USUARIO"),
+							        resultado.getString("SENHA"),
+							        resultado.getInt   ("VISUALIZACOES"),
+							        resultado.getString("DESCRICAO"),
+							        resultado.getString("LINKIMAGEM"),
+							        resultado.getString("SITE"));
         }
         catch (SQLException erro)
         {
@@ -334,17 +334,17 @@ public class Entidades
                 throw new Exception ("Nao há nada registrado na tabela");
 
             entidade = new Entidade(resultado.getInt  ("CODIGO"),
-	                               resultado.getString("NOME"), 
-	                               resultado.getString("CNPJ"),
-	                               resultado.getString("ENDERECO"),
-	                               resultado.getString("EMAIL"),
-	                               resultado.getString("TELEFONE"),
-							       resultado.getString("USUARIO"),
-							       resultado.getString("SENHA"),
-							       resultado.getInt   ("VISUALIZACOES"),
-							       resultado.getString("DESCRICAO"),
-							       resultado.getString("SITE"),
-							       resultado.getString("LINKIMAGEM"));
+				                    resultado.getString("NOME"), 
+				                    resultado.getString("CNPJ"),
+				                    resultado.getString("ENDERECO"),
+				                    resultado.getString("EMAIL"),
+				                    resultado.getString("TELEFONE"),
+							        resultado.getString("USUARIO"),
+							        resultado.getString("SENHA"),
+							        resultado.getInt   ("VISUALIZACOES"),
+							        resultado.getString("DESCRICAO"),
+							        resultado.getString("LINKIMAGEM"),
+							        resultado.getString("SITE"));
         }
         catch (SQLException erro)
         {
@@ -376,17 +376,17 @@ public class Entidades
                 throw new Exception ("Nao cadastrado");
 
             entidade = new Entidade(resultado.getInt  ("CODIGO"),
-                    resultado.getString("NOME"), 
-                    resultado.getString("CNPJ"),
-                    resultado.getString("ENDERECO"),
-                    resultado.getString("EMAIL"),
-                    resultado.getString("TELEFONE"),
-				       resultado.getString("USUARIO"),
-				       resultado.getString("SENHA"),
-				       resultado.getInt   ("VISUALIZACOES"),
-				       resultado.getString("DESCRICAO"),
-				       resultado.getString("SITE"),
-				       resultado.getString("LINKIMAGEM"));
+				                    resultado.getString("NOME"), 
+				                    resultado.getString("CNPJ"),
+				                    resultado.getString("ENDERECO"),
+				                    resultado.getString("EMAIL"),
+				                    resultado.getString("TELEFONE"),
+							        resultado.getString("USUARIO"),
+							        resultado.getString("SENHA"),
+							        resultado.getInt   ("VISUALIZACOES"),
+							        resultado.getString("DESCRICAO"),
+							        resultado.getString("LINKIMAGEM"),
+							        resultado.getString("SITE"));
         }
         catch (SQLException erro)
         {
@@ -427,8 +427,8 @@ public class Entidades
 							        resultado.getString("SENHA"),
 							        resultado.getInt   ("VISUALIZACOES"),
 							        resultado.getString("DESCRICAO"),
-							        resultado.getString("SITE"),
-							        resultado.getString("LINKIMAGEM"));
+							        resultado.getString("LINKIMAGEM"),
+							        resultado.getString("SITE"));
         }
         catch (SQLException erro)
         {
@@ -524,7 +524,7 @@ public class Entidades
         {
             String sql;
 
-            sql = "select id, p.nome, produto, data, entregue, quantidade from HDoacoes d, HPessoas p where d.codPessoa = p.codigo and codEntidade = ?";
+            sql = "select id, p.nome, produto, quantidade,  data, entregue  from HDoacoes d, HPessoas p where d.codPessoa = p.codigo and codEntidade = ?";
             BDSQLServer.COMANDO.prepareStatement (sql);
             BDSQLServer.COMANDO.setInt(1, cod);
             resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery ();
