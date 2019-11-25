@@ -1,5 +1,4 @@
 var PessoaDao = require('../app/pessoa-dao');
-var EntidadeDao = require('../app/entidade-dao');
 var conexao = require('../config/custom-mssql');
 const session = require('express-session');
 var senhaLocal;
