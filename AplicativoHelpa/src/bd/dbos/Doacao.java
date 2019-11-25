@@ -293,7 +293,7 @@ public class Doacao implements Cloneable, Comparable<Doacao>
 	}
 
 	/**
-	   Clona Matriz
+	   Clona Doacao
 	   Produz e retorna uma cópia da instância this de Doacao.
 	   @return a cópia do this
 	 */
