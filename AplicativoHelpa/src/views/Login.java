@@ -99,10 +99,6 @@ public class Login {
 								if(func.getSenha().equals(senha) && func.getUsuario().equals(usuario))
 								{
 									PrincipalFunc formPF = new PrincipalFunc(func.getCodigo());
-									formPF.setVisible(true);
-									//ManutDoadores form = new ManutDoadores();
-									//form.setVisible(true);
-									
 								}
 								else
 								{

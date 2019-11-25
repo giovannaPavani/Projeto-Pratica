@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Font;
+import javax.swing.JMenuBar;
 
 public class PrincipalFunc extends JFrame {
 	
@@ -29,7 +30,7 @@ public class PrincipalFunc extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-/*	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -99,8 +100,8 @@ public class PrincipalFunc extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// ABRIR FORM DE MANUTENÇÃO DE ENTIDADES
-				//ManutEntidades formME = new ManutEntidades();
-				//formME.setVisible(true);
+				ManutEntidades formME = new ManutEntidades();
+				formME.setVisible(true);
 			}
 		});
 		frame.setBounds(100, 100, 485, 361);
@@ -246,10 +247,19 @@ public class PrincipalFunc extends JFrame {
 		lblHelpa.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblHelpa.setBounds(159, 21, 190, 37);
 		frame.getContentPane().add(lblHelpa);
+		
 		JMenu menManutencao;
-		menManutencao = new JMenu("MANUTEN\u00C7\u00C3O");
-		menManutencao.setBounds(170, 290, 131, 22);
-		frame.getContentPane().add(menManutencao);
+		
+		
+		JLabel lblNewLabel = new JLabel("HELPA!");
+		lblNewLabel.setBounds(216, 11, 46, 14);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(132, 279, 97, 21);
+		frame.getContentPane().add(menuBar);
+		menManutencao = new JMenu("MANUTEN\u00C7\u00D5ES");
+		menuBar.add(menManutencao);
 		menManutencao.setHorizontalAlignment(SwingConstants.CENTER);
 		
 
@@ -258,8 +268,8 @@ public class PrincipalFunc extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// manunetncao ENTIDADES
-				//ManutEntidades formME = new ManutEntidades();
-				//formME.setVisible(true);
+				ManutEntidades formME = new ManutEntidades();
+				formME.setVisible(true);
 			}
 		});
 		menManutencao.add(miManutEntidades);
@@ -269,18 +279,14 @@ public class PrincipalFunc extends JFrame {
 		
 		
 		JMenuItem miManutFuncs = new JMenuItem("FUNCION\u00C1RIOS");
-		if(!funcionarioLog.getCargo().equals("chefe de manutenção"))
-		{
-			miManutFuncs.setEnabled(false);
-		}
 		miManutFuncs.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// ABRIR FORM DE MANUTENÇÃO DE FUNCIONÁRIOS
 				if(funcionarioLog.getCargo().equals("chefe de manutenção")) // acho q nem precisa
 				{
-					//ManutFuncionarios formMF = new ManutFuncs();
-					//formMF.setVisible(true);
+					ManutFuncionarios formMF = new ManutFuncionarios();
+					formMF.setVisible(true);
 				}
 				else
 					JOptionPane.showMessageDialog(null,"Você não tem permissão para acessar essa camada de manutenção");
@@ -288,9 +294,21 @@ public class PrincipalFunc extends JFrame {
 		});
 		menManutencao.add(miManutFuncs);
 		
-		JLabel lblNewLabel = new JLabel("HELPA!");
-		lblNewLabel.setBounds(216, 11, 46, 14);
-		frame.getContentPane().add(lblNewLabel);
+		JButton btnRelatrio = new JButton("RELAT\u00D3RIO");
+		btnRelatrio.setBounds(249, 277, 100, 23);
+		frame.getContentPane().add(btnRelatrio);
+		
+		menManutencao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		
+		if(!funcionarioLog.getCargo().equals("chefe de manutenção"))
+		{
+			miManutFuncs.setEnabled(false);
+		}
+		frame.setVisible(true);
 	}
 	
 	private void setTxts(boolean modo)

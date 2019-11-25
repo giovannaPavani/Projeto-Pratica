@@ -28,7 +28,7 @@ import java.awt.Color;
 
 public class ManutEntidades extends JFrame {
 
-	private JPanel contentPane;
+	private JFrame frame;
 	private JTextField txtNome;
 	private JTextField txtCodigo;
 	private JTextField txtEmail;
@@ -63,21 +63,20 @@ public class ManutEntidades extends JFrame {
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 699, 416);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		//frame.getContentPane().setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(frame.getContentPane());
+		frame.getContentPane().setLayout(null);
 		
 		situacaoAtual = Situacao.NAVEGANDO;
 		atualizarTela();
-		contentPane.setLayout(null);
+		frame.getContentPane().setLayout(null);
 	
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
 		tabbedPane.setBounds(5, 5, 681, 374);
 		tabbedPane.setToolTipText("CADASTRO");
 		tabbedPane.setSelectedIndex(0);
-		contentPane.add(tabbedPane);
+		frame.getContentPane().add(tabbedPane);
 		
 		pnlManutencao = new JPanel();
 		pnlManutencao.addComponentListener(new ComponentAdapter() {
@@ -417,77 +416,79 @@ public class ManutEntidades extends JFrame {
 		}
 		tblEntidades.setModel(model);   
 		pnlRelatorio.add(tblEntidades);	
+		
+		frame.setVisible(true);
 	}
 		
-		private void atualizarTela() 
+	private void atualizarTela() 
+	{
+		Entidade aEntidade = null;
+		try 
 		{
-			Entidade aEntidade = null;
+			aEntidade = Entidades.getEntidadeByCod(Integer.parseInt(txtCodigo.getText()));
+		}
+		catch(Exception ex) 
+		{
 			try 
 			{
-				aEntidade = Entidades.getEntidadeByCod(Integer.parseInt(txtCodigo.getText()));
-			}
-			catch(Exception ex) 
-			{
-				try 
-				{
-					aEntidade = Entidades.getPrimeiroRegistro();
-				} 
-				catch (Exception e) {} // nunca vai dar erro pois a tabela nunca estará vazia 
-			}
-			txtNome.setText(aEntidade.getNome());
-			txtEmail.setText(aEntidade.getEmail());
-			txtCnpj.setText(aEntidade.getCnpj());
-			txtEndereco.setText(aEntidade.getEndereco());
-			txtTelefone.setText(aEntidade.getTelefone());
-			txtUsuario.setText(aEntidade.getUsuario());
-			
-			// exibir necessidades
-			try {
-				
-				for (Component c : pnlNecessidades.getComponents()) 
-				{
-					if (c instanceof JTextField) 
-				    { 
-						((JTextField)c).setVisible(false);
-						((JTextField)c).setEnabled(false);
-				    }
-				}
-				
-				MeuResultSet result = Entidades.getNecessidades(aEntidade.getCodigo());
-				result.last();
-				int qtd = result.getRow();
-	
-				int x = 0;
-				for (Component c : pnlNecessidades.getComponents()) 
-				{
-					if(x<qtd)
-					if (c instanceof JTextField) 
-				    { 
-						((JTextField)c).setVisible(true);
-						x++;
-				    }
-				}
-				
-				result.first();
-				for (Component c : pnlNecessidades.getComponents()) 
-				{
-				    if (c instanceof JTextField) 
-				    { 
-				    	try 
-				    	{
-				    		((JTextField)c).setText(result.getObject("Produto").toString());
-				    		result.next();
-				    	}
-				    	catch(Exception ex)
-				    	{
-				    		((JTextField)c).setText("");
-				    	}
-				    }
-				}
-			}
-			catch(Exception ex)
-			{} // n vai dar erro pois o codigo foi passado por mim
+				aEntidade = Entidades.getPrimeiroRegistro();
+			} 
+			catch (Exception e) {} // nunca vai dar erro pois a tabela nunca estará vazia 
 		}
+		txtNome.setText(aEntidade.getNome());
+		txtEmail.setText(aEntidade.getEmail());
+		txtCnpj.setText(aEntidade.getCnpj());
+		txtEndereco.setText(aEntidade.getEndereco());
+		txtTelefone.setText(aEntidade.getTelefone());
+		txtUsuario.setText(aEntidade.getUsuario());
+		
+		// exibir necessidades
+		try {
+			
+			for (Component c : pnlNecessidades.getComponents()) 
+			{
+				if (c instanceof JTextField) 
+			    { 
+					((JTextField)c).setVisible(false);
+					((JTextField)c).setEnabled(false);
+			    }
+			}
+			
+			MeuResultSet result = Entidades.getNecessidades(aEntidade.getCodigo());
+			result.last();
+			int qtd = result.getRow();
+
+			int x = 0;
+			for (Component c : pnlNecessidades.getComponents()) 
+			{
+				if(x<qtd)
+				if (c instanceof JTextField) 
+			    { 
+					((JTextField)c).setVisible(true);
+					x++;
+			    }
+			}
+			
+			result.first();
+			for (Component c : pnlNecessidades.getComponents()) 
+			{
+			    if (c instanceof JTextField) 
+			    { 
+			    	try 
+			    	{
+			    		((JTextField)c).setText(result.getObject("Produto").toString());
+			    		result.next();
+			    	}
+			    	catch(Exception ex)
+			    	{
+			    		((JTextField)c).setText("");
+			    	}
+			    }
+			}
+		}
+		catch(Exception ex)
+		{} // n vai dar erro pois o codigo foi passado por mim
+	}
 	
 	private void limparTela() 
 	{

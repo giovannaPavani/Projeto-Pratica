@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 
 public class ManutDoadores extends JFrame {
 
+	static ManutDoadores frame;// TEM Q COLOCAR ISSO AQUI
 	private JPanel contentPane;
 	private JTextField txtNome;
 	private JTextField txtCodigo;
@@ -36,12 +37,12 @@ public class ManutDoadores extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ManutDoadores frame = new ManutDoadores();
+					 frame = new ManutDoadores();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
