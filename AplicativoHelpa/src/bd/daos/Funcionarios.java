@@ -84,7 +84,7 @@ public class Funcionarios {
         return retorno;
     }
 
-/**
+    /**
 		  Inclui funcionarios
 		  Verifica se o funcionario passado não é nulo, e sem seguida
 		  inserta ele na tabela.
@@ -129,7 +129,7 @@ public class Funcionarios {
     }
 
 
-		/**
+	/**
 		  Exclui funcionarios pelo codigo
 		  Verifica se o codigo pertence a algum funcionario, e sem seguida, caso exista,
 		  exclui ele da tabela.

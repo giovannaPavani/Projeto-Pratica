@@ -5,16 +5,23 @@ import bd.core.*;
 import bd.dbos.*;
 
 /**A classe Pessoas é uma DAO e serve para executar ações na
-tabela HFuncionarios, como saber se o funcionario esta cadastrado,
-excluir um funcionario, etc.
+tabela HPessoas, como saber se a pessoa esta cadastrada,
+excluir uma pessoa, etc.
 Nela encontramos vários metodos que modificam/verificam informações
-na tabela HFuncionarios
+na tabela HPessoas
 @author Giovanna Pavani Martelli.
 @author Maria Luiza Sperancin Mancebo.
 @since 2019.*/
 
 public class Pessoas
 {
+
+	/**
+			 Verificador de cadastramento por codigo
+			 Verifica se o codigo passado no parametro já existe na
+			 tabela HPEssoas, se sim, retorna true, se não achar nenhum, retorna false
+			 @return se achar true, se não, false
+	 */
 	public static boolean cadastrado(int codigo) throws Exception
     {
         boolean retorno = false;
@@ -28,9 +35,7 @@ public class Pessoas
                   "WHERE CODIGO = ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
-
             BDSQLServer.COMANDO.setInt(1, codigo);
-
             MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery();
 
             retorno = resultado.first(); // pode-se usar resultado.last() ou resultado.next() ou resultado.previous() ou resultado.absotule(numeroDaLinha)
@@ -43,6 +48,7 @@ public class Pessoas
         return retorno;
     }
 
+/*
     public static boolean existe(int codigo)
     {
         try
@@ -62,8 +68,13 @@ public class Pessoas
             return false;
         }
         return true;
-    }
+    }*/
 
+   /**
+		  Inclui Pessoas
+		  Verifica se a pessoa passada não é nulo, e sem seguida
+		  inserta ela na tabela.
+	 */
     public static void incluir(Pessoa pessoa) throws Exception
     {
         if (pessoa==null)
@@ -103,6 +114,11 @@ public class Pessoas
         }
     }
 
+    /**
+		  Exclui pessoas pelo codigo
+		  Verifica se o codigo pertence a alguma pessoa, e sem seguida, caso exista,
+		  exclui ela da tabela.
+	 */
     public static void excluir(int codigo) throws Exception
     {
         if (!cadastrado(codigo))
@@ -127,6 +143,11 @@ public class Pessoas
         }
     }
 
+/**
+		  Altera pessoas
+		  É passado uma pessoa no parâmetro, que depois de verificar se ela é null ou se não foi
+		  cadastrada ainda,e da um update na tabela HPessoas dessa pessoa
+	 */
     public static void alterar(Pessoa pessoa) throws Exception
     {
         if (pessoa==null)
@@ -171,6 +192,11 @@ public class Pessoas
         }
     }
 
+    /**
+		  Pega uma pessoa pelo código
+		  Seleciona na tabela tudo sobre a pessoa pelo codigo que foi passado no parâmetro.
+		  @return a pessoa encontrada
+	 */
     public static Pessoa getPessoa(int codigo) throws Exception
     {
         Pessoa pessoa = null;
@@ -211,6 +237,11 @@ public class Pessoas
         return pessoa;
     }
 
+	/**
+		  Pega todos as pessoas
+		  Seleciona todos as pessoas e armazena em um ResultSet.
+		  @return resultset de pessoas
+	 */
     public static MeuResultSet getPessoas () throws Exception
     {
         MeuResultSet resultado = null;
@@ -234,6 +265,11 @@ public class Pessoas
         return resultado;
     }
 
+	/**
+		  Pega todas as doacoes
+		  Seleciona todas as doacoes de todas as pessoas presentes no banco
+		  @return resultset de pessoas e doacoes
+	 */
     public static MeuResultSet getDoacoes (int cod) throws Exception
     {
         MeuResultSet resultado = null;
@@ -242,7 +278,7 @@ public class Pessoas
         {
             String sql;
 
-            sql = "select * from Pessoas p, Doacoes d where d.codPessoa = p.codPessoa";
+            sql = "select * from Pessoas p, HDoacoes d where d.codPessoa = p.codPessoa";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
@@ -256,6 +292,11 @@ public class Pessoas
         return resultado;
     }
 
+/**
+		  Rank de doacoes
+		  Seleciona a quantidade de doacoes feitas pelas pessoas e ordena por ordem decrescente a quantidade
+		  @return resultset do rank
+	 */
     public static MeuResultSet getPessoasDoa () throws Exception
     {
         MeuResultSet resultado = null;
@@ -278,6 +319,11 @@ public class Pessoas
         return resultado;
     }
 
+	/**
+		  Pega a primeira pessoa
+		  Seleciona na tabela tudo sobre a primeira pessoa.
+		  @return pessoa encontrada
+	 */
     public static Pessoa getPrimeiroRegistro() throws Exception
     {
     	Pessoa pessoa = null;
