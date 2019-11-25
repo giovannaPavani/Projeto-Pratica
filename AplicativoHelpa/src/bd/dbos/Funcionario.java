@@ -1,5 +1,11 @@
 package bd.dbos;
-
+/**
+	A classe Funcionario é uma classe feita para armazenar dados de
+	funcionario (que é uma tabela do banco de dados).
+	Nela encontramos setters e getters, além do construtor e métodos obrigatórios.
+	@author Giovanna Pavani Martelli - 19173 e Maria Luiza Sperancin Mancebo - 19186
+	@since 2019.
+*/
 public class Funcionario implements Cloneable
 {
 		/**Armazena o codigo da pessoa*/
@@ -373,7 +379,7 @@ public class Funcionario implements Cloneable
 
 /**
 	   Método que retorna se o this é igual ao parametro obj do tipo objeto
-	   Verifica se o Object fornecido como parâmetro é a mesma Pessoa da instância, resultando true em caso afirmativo,
+	   Verifica se o Object fornecido como parâmetro é a mesma Funcionario da instância, resultando true em caso afirmativo,
        ou false, caso não forem iguais.
 	   @param obj do tipo Object é  o objeto com o qual this será comparado
 	   @return boolean se this é igual a obj
@@ -420,7 +426,7 @@ public class Funcionario implements Cloneable
 	   Constroi uma cópia da instância da classe Funcionario.
 	   Deve ser passado no parâmetro uma instância de Funcionario para ser
 	   usada como modelo para criar uma nova.
-	   @param modelo instância de Pessoa que será usada como molde.
+	   @param modelo instância de Funcionario que será usada como molde.
 	   @throws Exception caso o molde for nulo.
     */
 	public Funcionario(Funcionario molde) throws Exception
