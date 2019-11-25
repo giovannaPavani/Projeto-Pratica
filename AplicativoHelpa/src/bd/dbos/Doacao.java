@@ -109,50 +109,95 @@ public class Doacao implements Cloneable, Comparable<Doacao>
       this.entregue = entreg;
   }
 
+/**
+	  Atribui valor a quantidade da doação
+	  Atribui ao atributo quantidade uma String passada por parâmetro.
+	  @param a quantidade a ser atribuida
+	  @throws Exception caso for nula ou vazia
+	 */
   public void setQuantidade (String qtd) throws Exception
   {
       if (qtd == null || qtd.equals(""))
-          throw new Exception ("Data invalida");
+          throw new Exception ("Quantidade invalida");
 
       this.quantidade = qtd;
   }
 
+/**
+	   Retorna atributo produto
+       Retorna o atributo ptoduto da instância à qual este método for aplicado.
+	   @return o produto
+	*/
   public String getProduto ()
   {
          return this.produto;
   }
 
+/**
+	   Retorna id
+       Retorna o atributo id da instância à qual este método for aplicado.
+	   @return o id
+	*/
  public int getId ()
  {
         return this.id;
  }
 
+/**
+	   Retorna código da entidade
+       Retorna o atributo codEntidade da instância à qual este método for aplicado.
+	   @return o codigo da entidade
+	*/
  public int getCodEntidade ()
  {
      return this.codEntidade;
  }
 
+/**
+	   Retorna código da pessoa
+       Retorna o atributo codPessoa da instância à qual este método for aplicado.
+	   @return o codigo da pessoa
+	*/
  public int getCodPessoa ()
  {
      return this.codPessoa;
  }
 
+/**
+	   Retorna atributo data
+       Retorna o atributo data da instância à qual este método for aplicado.
+	   @return a data
+	*/
  public Date getData()
  {
 	 return this.data;
  }
 
+/**
+	   Retorna atributo entregue
+       Retorna o atributo entregue da instância à qual este método for aplicado.
+	   @return o entregue
+	*/
  public char getEntregue ()
  {
 	 return this.entregue;
  }
 
+/**
+	   Retorna atributo quantidade
+       Retorna o atributo quantidade da instância à qual este método for aplicado.
+	   @return a quantidade
+	*/
  public String getQuantidade ()
  {
         return this.quantidade;
  }
 
-
+/**
+	   Constrói uma nova instância da classe Doacao
+	   Ele apenas instancia todos os atributos usando os setters
+	   @throws Exception se algo for nulo ou vazio
+	*/
 	public Doacao (int id, int codPes, String produto, int codEnt, Date dat, char entreg, String qtd)throws Exception
 	{
 		this.setId          (id);
@@ -164,6 +209,11 @@ public class Doacao implements Cloneable, Comparable<Doacao>
 	    this.setQuantidade  (qtd);
 	}
 
+  /**
+	    Gera um String com toda a informação presente na classe Doacao.
+	    É feito um String que recebe todos os valores presentes na doacao
+	    @return um String com todos os dados.
+	 */
 	public String toString ()
     {
         String ret="";
@@ -177,6 +227,13 @@ public class Doacao implements Cloneable, Comparable<Doacao>
         return ret;
     }
 
+/**
+	   Método que retorna se o this é igual ao parametro obj do tipo objeto
+	   Verifica se o Object fornecido como parâmetro é a mesma Doacao da instância, resultando true em caso afirmativo,
+       ou false, caso não forem iguais.
+	   @param obj do tipo Object é  o objeto com o qual this será comparado
+	   @return boolean se this é igual a obj
+	*/
 	public boolean Equals(Object obj)
 	{
 	  if(obj == null)
@@ -195,6 +252,11 @@ public class Doacao implements Cloneable, Comparable<Doacao>
 	  return true;
 	}
 
+/**
+	   Método que retorna o hash code da instância da classe
+	   Calcula o hashcode da Doacao representada pela instância à qual o método for aplicado.
+	   @return int hash code que engloba o this.qtd e cada valor de equacoes
+	*/
 	public int hashCode()
 	{
 	  int ret = 1;
@@ -209,6 +271,14 @@ public class Doacao implements Cloneable, Comparable<Doacao>
 	  return ret;
 	}
 
+  /**
+	       Constroi uma cópia da instância da classe Doacao.
+	       Deve ser passado no parâmetro uma instância de Doacao para ser
+		   usada como modelo para criar uma nova.
+	       @param modelo instância de Doacao que será usada como molde.
+	       @throws Exception caso o molde for nulo.
+    */
+
 	public Doacao(Doacao modelo)throws Exception
 	{
 	  if(modelo == null)
@@ -222,6 +292,11 @@ public class Doacao implements Cloneable, Comparable<Doacao>
 	  this.quantidade = modelo.quantidade;
 	}
 
+	/**
+	   Clona Matriz
+	   Produz e retorna uma cópia da instância this de Doacao.
+	   @return a cópia do this
+	 */
 	public Object clone()
 	{
 	  Doacao ret = null;
@@ -233,12 +308,4 @@ public class Doacao implements Cloneable, Comparable<Doacao>
 	  return ret;
 	}
 
-	public int compareTo(Doacao outro)
-	{
-		if(this.id>outro.id)
-			return 1;
-		if(this.id<outro.id)
-			return -1;
-		return 0;
-	}
 }
