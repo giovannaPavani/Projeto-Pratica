@@ -405,7 +405,7 @@ public class MeuPreparedStatement extends MeuStatement implements PreparedStatem
 
 	@Override
 	public void setDate(int parameterIndex, Date x) throws SQLException {
-		// TODO Auto-generated method stub
+		this.comando.setDate (parameterIndex, x);
 		
 	}
 
