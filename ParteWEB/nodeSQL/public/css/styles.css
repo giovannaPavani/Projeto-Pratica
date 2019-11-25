@@ -1,3 +1,4 @@
+
 #btn-pesquisa,#btn-mostraTudo{
 	border: none;
 	background-color: rgba(255, 138, 138);
@@ -442,7 +443,7 @@ background-attachment: fixed;
     background: rgba(244, 244, 244, 0);
 }
 ::-webkit-scrollbar-thumb {
-    background: #dad7d7;
+    background-image: linear-gradient(to right, rgb(255, 82, 120), #F4F4F4);
 }
 .download-area {
 	display: inline;

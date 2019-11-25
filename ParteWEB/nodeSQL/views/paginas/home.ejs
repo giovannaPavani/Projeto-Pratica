@@ -153,7 +153,7 @@
 				<div class="download-area">
 							
 								<h2 id="tituloapp">Baixe o Aplicativo</h2>
-								<p>Você é uma entidade e quer receber doações? Entre em contato conosco pelo nosso número de telefone (19)99900-0206 para realizarmos sua <br> inscrição,
+								<p>Você é uma entidade e quer receber doações? <br>Entre em contato conosco pelo nosso número <b>(19)99900-0206 </b>ou pela aba <b>Contato </b>para realizarmos <br>sua inscrição,
 									 e a partir dai você terá acesso a nosso aplicativo, além de ser exposto no catálogo Helpa!</p>		
 					<a class="download-desktop" href="#" download=""><span>DOWNLOAD</span></a>
 				</div>
@@ -251,7 +251,7 @@
 				</div>
 			</div>
 		</section>
-		<!-- End FAQ -->
+		
 
 
 		<!-- CONTATO -->
@@ -293,26 +293,26 @@
 <script>	
 
 
-	$("#btn-mostraTudo").click(function () {
+	$("#btn-mostraTudo").click(function () {//exibe todas as entidades novamente
 		document.location.reload(true);
 	});
 
-	$(document).ready(function () {
+	$(document).ready(function () { //exibe ou nao a aba conta no menu
 		var escrito = $("#estaCadastrado").text;
 		if (escrito == "Entre ou se inscreva para poder doar!")
 			$("#conta").css("visibility", "hidden");
 	});
 
-	function SemLogin() {
+	function SemLogin() { //Alerta se a pessoa não está logada
 		alert("Você não está logado, favor logar!");
 	}
 
-	function DoacaoSucesso() {
+	function DoacaoSucesso() { //alerta que foi concluido com sucesso a doação
 		alert("Doação feita com sucesso! Entre na aba \"conta\" para consultar suas doações.");
 	}
 
 
-	$("#btn-pesquisa").click(function () {
+	$("#btn-pesquisa").click(function () { //PESQUISA DE ENTIDADE OU PRODUTO 
 		var desc = $('#busca').val();
 		var url = "http://localhost:3000/pesquisar/" + desc + "";
 

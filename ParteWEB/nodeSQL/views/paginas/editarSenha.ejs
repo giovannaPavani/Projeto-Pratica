@@ -14,23 +14,22 @@
  <h1 style="padding-bottom: 200px;color:white;">Editar Senha</h1>
   <form method="post" action="http://localhost:3000/editarSenha">
     <div>
+
       <label style="color:white;">Nova Senha</label>
-      <input name="nsenha1" type="text" class="form-control" id="inputSenha1" placeholder="Nova Senha" required>
+      <input name="nsenha1" type="password" class="form-control" id="inputSenha1" placeholder="Nova Senha" required>
     </div>
     <div>
       <label style="color:white;">Confirme a nova senha</label>
-      <input name="nsenha2" type="text" class="form-control" id="inputSenha2" placeholder="Confirme a senha" required>
+      <input name="nsenha2" type="password" class="form-control" id="inputSenha2" placeholder="Confirme a senha" required>
     </div>
     <div>
       <label style="color:white;">Senha Antiga</label>
-      <input name="senha" type="text" class="form-control" id="inputSenha" placeholder="Senha Antiga" required>
+      <input name="senha" type="password" class="form-control" id="inputSenha" placeholder="Senha Antiga" required>
     </div>
     <br>
     <input type="submit" id="btn-enviar" name="submit" class="btn btn-primary" value="Enviar">
-    <br>
-    <div id="mensagem">
-    <p></p>
-    </div>
+    <br> 
+         <label id="info" style="color:red;display: none;">Senha incorreta!</label>
   </form>
 </div>
 
@@ -38,7 +37,7 @@
 <style>
   #editarSenha {
     position: absolute;
-    margin-left: 60em;
+    margin-left: 58em;
     margin-top: 03em;
   }
   .w3-bar-item{
@@ -57,11 +56,18 @@
 </style>
 
 <script>
-$("#btn-enviar").click(function () {
-  $.getJSON("http://localhost:3000/editarSenha", function (result) {
-      var infos = result;
-  $("#mensagem").html(`<p>`+ infos[1].descricao+ `</p>`);  
-});
-});
+
+$(document).ready(function(){
+  $.getJSON("http://localhost:3000/resultSenha", function (result) {
+    
+    if (result == 1){
+      $('#info').css('display','block');
+    }
+    else {
+      $('#info').css('display','none');
+    }
+    
+    });
+  });
 
   </script>

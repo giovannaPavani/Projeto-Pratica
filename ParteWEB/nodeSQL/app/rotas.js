@@ -7,6 +7,7 @@ var emailLogado = "vazio";
 var pessoaDao = new PessoaDao(conexao, emailLogado);
 
 var sess;
+var jsonSenha = 0;
 
 function execSQL(sql, resposta) {
     global.conexao.request()
@@ -83,7 +84,11 @@ module.exports = (app) => {
                 execSQL(`INSERT INTO HPessoas VALUES('${nome}','${email}','','${endereco}','${cidade}','${uf}','${senha}','${telefone}')`, resp);
                 resp.render("paginas/login");
             } else
-                resp.render("paginas/cadastro"); //se existe, recarrega a pagina do cadastro para pessoa fazer novamente
+            {
+                jsonSenha = 1;
+                 resp.render("paginas/cadastro"); //se existe, recarrega a pagina do cadastro para pessoa fazer novamente
+            }
+              
         });
     });
 
@@ -116,6 +121,7 @@ module.exports = (app) => {
                 resp.redirect("/"); //recarrega a pagina inicial
             }
             else {
+                jsonSenha = 1;
                 resp.redirect('/login');
             }
         });
@@ -127,13 +133,13 @@ module.exports = (app) => {
             res.render("paginas/login");
         }
         else {
-            req.session.destroy((err) => {
+            req.session.destroy((err) => { //destoi a sessao
                 if (err) {
                     return console.log(err);
                 }
                 emailLogado = "vazio";
                 senhaLocal = undefined;
-                pessoaDao = new PessoaDao(conexao, emailLogado);
+                pessoaDao = new PessoaDao(conexao, emailLogado); //recarrega a dao para atualizar as infos sobre o logado
                 pessoaDao.lista(function (erro, resultados) {
                     pessoaDao.listaDoacoes(function (erro, resultados2) {
                         pessoaDao.informacoesSobreLogado(function (erro, resultados3) {
@@ -149,7 +155,7 @@ module.exports = (app) => {
         }
     });
 
-    app.get('/editarInformacoes', function (req, resp) {
+    app.get('/editarInformacoes', function (req, resp) { //abre a pagina de editar as informacoes do logado apenas se ja estiver alguem logado
         sess = req.session;
         if (typeof sess.email == "undefined") {
             resp.render("paginas/login");
@@ -165,7 +171,7 @@ module.exports = (app) => {
         }
     });
 
-    app.post('/editarInformacoes', function (req, resp) {
+    app.post('/editarInformacoes', function (req, resp) { //envia as novas informacoes do pessoa para o banco
         const nome = req.body.nome.substring(0, 50);
         const email = req.body.email.substring(0, 50);
         const endereco = req.body.endereco.substring(0, 100);
@@ -178,30 +184,34 @@ module.exports = (app) => {
             if (erro) {
                 console.log("Erro para Atualizar");
             }
-            if (emailLogado != email) {
+            if (emailLogado != email) { //se ela trocou o email, verifica se é valido (ainda não tem no banco de dados)
                 conexao.query(`SELECT * FROM HPessoas where email = '${email}'`, (err, result) => {
                     console.log(result);
-                    if (result.rowsAffected == 0) {
+                    if (result.rowsAffected == 0) { //se não tem (ou seja, esta tudo bem), ele faz o update e volta para a pagina de consultas
                         execSQL(`update HPessoas set email='${email}',nome='${nome}',endereco='${endereco}',telefone='${telefone}',cidade='${cidade}',UF='${uf}' where email = '${emailLogado}'`, resp);
                         emailLogado = email;
-                        resp.redirect('/editarInformacoes');
-                    } else
-                        console.log("erro");
+                        resp.redirect('/consulta');
+                    } else{//se não recarrega a de trocar as infos e exibe q o email ja existe
+                        jsonSenha = 1;  
+                         resp.redirect('/editarInformacoes');
+                    }
+                 
+
                 });
             }
-            else {
+            else { //caso a pessoa não mudou o email, apenas da um update com as novas informacoes
                 execSQL(`update HPessoas set nome='${nome}',endereco='${endereco}',telefone='${telefone}',cidade='${cidade}',UF='${uf}' where email = '${email}'`, resp);
                 resp.redirect('/consulta');
             }
         });
     });
 
-    app.get('/editarSenha', function (req, resp) {
+    app.get('/editarSenha', function (req, resp) { //abre a parte de editar senha senha
         sess = req.session;
-        if (typeof sess.email == "undefined") {
+        if (typeof sess.email == "undefined") { //verifica se ja tem alguem logado para poder carregar a pagina
             resp.render("paginas/login");
         }
-        else {
+        else { //carrega a pagina
             pessoaDao = new PessoaDao(conexao, emailLogado);
             pessoaDao.informacoesSobreLogado(function (erro, resultados) {
                 resp.render('paginas/editarSenha', {
@@ -211,38 +221,58 @@ module.exports = (app) => {
         }
     });
 
-    app.post('/editarSenha', function (req, resp) {
+    app.post('/editarSenha', function (req, resp) { //envia as informacoes da pessoa que quer editar a senha
         const nsenha1 = req.body.nsenha1.substring(0, 15);
         const nsenha2 = req.body.nsenha2.substring(0, 15);
         const senha = req.body.senha.substring(0, 15);
         
         pessoaDao = new PessoaDao(conexao, emailLogado);
         pessoaDao.buscarPorEmail(emailLogado, function (erro, resultados) {
-            console.log(resultados.recordset[0].senha);
-            console.log(senha);
-            console.log(nsenha1);
-
             if (erro) {
                 console.log("erro no login");
             }
-            else if (resultados.recordset[0].senha == senha && nsenha1 == nsenha2) { //deu certo
-                console.log("entou1");
-            sess.senha = senha;
-            senhaLocal = senha;
-            execSQL(`update HPessoas set senha='${nsenha1}' where email = '${emailLogado}'`, resp);
-            resp.redirect('/editarSenha');
+            else if (resultados.recordset[0].senha == senha && nsenha1 == nsenha2) { //deu certo, vai para a consulta novamente
+                sess.senha = nsenha1;
+                senhaLocal = nsenha1;
+                execSQL(`update HPessoas set senha='${nsenha1}' where email = '${emailLogado}'`, resp);
+                resp.redirect('/consulta');
             }
-            else{
-                console.log("entou2");
-            execSQL(`select descricao from Erro where nome = 'senha'`, resp);
+            else {
+                jsonSenha = 1; //se deu errado ele coloca 1 no json senha para falar q a senha esta incorreta
+                resp.redirect('/editarSenha');
             }
 
         });
     });
 
-    app.get('/consulta', function (req, resp) {
+    /*rotas para avisar q ta errada a senha ou o email*/
+
+    app.get('/resultSenha', function (req, resp) { 
+        resp.json(jsonSenha);
+        jsonSenha = 0;
+    })
+
+    app.get('/resultEmailSenha', function (req, resp) {
+        resp.json(jsonSenha);
+        jsonSenha = 0;
+    })
+
+    
+    app.get('/resultEmailCadastro', function (req, resp) {
+        resp.json(jsonSenha);
+        jsonSenha = 0;
+    })
+    
+    app.get('/resultEmailAlterar', function (req, resp) {
+        resp.json(jsonSenha);
+        jsonSenha = 0;
+    })
+
+    /*------------------------------------------------*/
+
+    app.get('/consulta', function (req, resp) { //abre a aba de consulta
         sess = req.session;
-        if (typeof sess.email == "undefined") {
+        if (typeof sess.email == "undefined") { //se n tiver ninguem logado ele envia para o login
             resp.render("paginas/login");
         }
         else {

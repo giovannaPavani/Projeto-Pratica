@@ -50,14 +50,15 @@
   </div>
     <input type="submit" name="submit" class="btn btn-primary" value="Enviar">
     <br>
+    <label id="info" style="color:red;display: none;">Email já cadastrado!</label>
   </form>
 </div>
 
 <style>
   #editarInfos {
     position: absolute;
-    margin-left: 250px;
-    margin-top: 4em;
+    margin-left: 255px;
+    margin-top: 3em;
   }
 
   #cadastro {
@@ -92,3 +93,21 @@
     background-color: rgba(255, 156, 156, 0.815);
   }
 </style>
+
+
+<script>
+
+    $(document).ready(function(){
+      $.getJSON("http://localhost:3000/resultEmailAlterar", function (result) {
+        
+        if (result == 1){
+          $('#info').css('display','block');
+        }
+        else {
+          $('#info').css('display','none');
+        }
+        
+        });
+      });
+    
+      </script>

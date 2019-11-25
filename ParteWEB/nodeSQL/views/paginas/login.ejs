@@ -68,7 +68,21 @@
   </style>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script>
-  </script>
+
+      $(document).ready(function(){
+        $.getJSON("http://localhost:3000/resultSenha", function (result) {
+          
+          if (result == 1){
+            $('#info').css('display','block');
+          }
+          else {
+            $('#info').css('display','none');
+          }
+          
+          });
+        });
+      
+        </script>
 
 </head>
 
@@ -109,6 +123,10 @@
       <p>Nao possui conta?
         <a href="/cadastro"> Cadastre-se aqui!</a>
       </p>
+<br>
+<div class="form-group col-sm-3">
+      <p id="info" style="color:red;display: none;"><b>Email ou senha incorretos!</b></p>
+</div>
     </form>
   </div>
 </body>
