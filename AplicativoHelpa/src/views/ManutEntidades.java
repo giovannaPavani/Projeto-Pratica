@@ -25,10 +25,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Color;
+import java.awt.EventQueue;
 
 public class ManutEntidades extends JFrame {
 
-	private JFrame frame;
+	private JPanel contentPane;
 	private JTextField txtNome;
 	private JTextField txtCodigo;
 	private JTextField txtEmail;
@@ -36,9 +37,9 @@ public class ManutEntidades extends JFrame {
 	private JTextField txtUsuario;
 	private JTextField txtTelefone;
 	private JTextField txtCnpj;
-	private JButton btnProcurar;
-	private JButton btnNovo;
-	private JButton btnEditar;
+	private JButton  btnProcurar;
+	private JButton  btnNovo;
+	private JButton  btnEditar;
 	private JButton btnExcluir;
 	private JButton btnCancelar;
 	private JButton btnSalvar;
@@ -53,6 +54,20 @@ public class ManutEntidades extends JFrame {
 	private JTextField txtNcsd5;
 	private JPanel pnlNecessidades;
 	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ManutEntidades frame = new ManutEntidades();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	
 	public ManutEntidades() 
 	{
 		initialize();
@@ -63,28 +78,28 @@ public class ManutEntidades extends JFrame {
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 699, 416);
-		//frame.getContentPane().setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(frame.getContentPane());
-		frame.getContentPane().setLayout(null);
+		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		contentPane = new JPanel();
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
 		situacaoAtual = Situacao.NAVEGANDO;
-		atualizarTela();
-		frame.getContentPane().setLayout(null);
+		contentPane.setLayout(null);
 	
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
 		tabbedPane.setBounds(5, 5, 681, 374);
 		tabbedPane.setToolTipText("CADASTRO");
-		tabbedPane.setSelectedIndex(0);
-		frame.getContentPane().add(tabbedPane);
+		contentPane.add(tabbedPane);
 		
 		pnlManutencao = new JPanel();
-		pnlManutencao.addComponentListener(new ComponentAdapter() {
+		/*pnlManutencao.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent arg0) {
 				// AO ENTRAR NA ABA CADASTRO
 			}
-		});
+		});*/
 		
 		tabbedPane.addTab("Manuten\u00E7\u00E3o", null, pnlManutencao, null);
 		pnlManutencao.setLayout(null);
@@ -217,7 +232,7 @@ public class ManutEntidades extends JFrame {
 				txtCodigo.grabFocus();
 				setTxtNecessidades(false);
 				txtNcsd1.setEnabled(true);
-				btnSalvar.enable(true);
+				btnSalvar.setEnabled(true);
 			}
 		});
 		menuBar_1.add(btnNovo);
@@ -304,10 +319,10 @@ public class ManutEntidades extends JFrame {
 							try {
 								entidade = new Entidade(Integer.parseInt(txtCodigo.getText()), txtNome.getText(), txtCnpj.getText(),
 								txtEndereco.getText(), txtEmail.getText(),txtTelefone.getText(), txtUsuario.getText(), txtNome.getText()+"123", 0,
-								"", "", txtSite.getText());
+								" ", " ", txtSite.getText());
 							}
 							catch(Exception ex)
-							{throw new Exception();}
+							{throw new Exception(ex.getMessage());}
 							Entidades.incluir(entidade);
 							
 							int qtd = 1;
@@ -317,7 +332,7 @@ public class ManutEntidades extends JFrame {
 						}
 						catch(Exception ex) 
 						{
-							JOptionPane.showMessageDialog(null,"Não foi possível incluir essa entidade. Inclusão cancelada!");
+							JOptionPane.showMessageDialog(null,"Não foi possível incluir essa entidade."+ ex.getMessage()+" Inclusão cancelada!");
 						}
 					
 						case NAVEGANDO:
@@ -417,7 +432,7 @@ public class ManutEntidades extends JFrame {
 		tblEntidades.setModel(model);   
 		pnlRelatorio.add(tblEntidades);	
 		
-		frame.setVisible(true);
+		atualizarTela();
 	}
 		
 	private void atualizarTela() 
@@ -435,12 +450,14 @@ public class ManutEntidades extends JFrame {
 			} 
 			catch (Exception e) {} // nunca vai dar erro pois a tabela nunca estará vazia 
 		}
+		txtCodigo.setText(aEntidade.getCodigo()+"");
 		txtNome.setText(aEntidade.getNome());
 		txtEmail.setText(aEntidade.getEmail());
 		txtCnpj.setText(aEntidade.getCnpj());
 		txtEndereco.setText(aEntidade.getEndereco());
 		txtTelefone.setText(aEntidade.getTelefone());
 		txtUsuario.setText(aEntidade.getUsuario());
+		txtSite.setText(aEntidade.getSite());
 		
 		// exibir necessidades
 		try {
@@ -499,6 +516,7 @@ public class ManutEntidades extends JFrame {
 		txtEndereco.setText("");
 		txtTelefone.setText("");
 		txtUsuario.setText("");
+		txtSite.setText("");
 	}
 	
 	private void setTxt(boolean modo)
@@ -512,6 +530,7 @@ public class ManutEntidades extends JFrame {
 		txtUsuario.setEnabled(modo);
 		txtCnpj.setEnabled(modo);
 		txtTelefone.setEnabled(modo);
+		txtSite.setEnabled(modo);
 	}
 	
 	private void setTxtNecessidades(boolean modo)
@@ -523,5 +542,7 @@ public class ManutEntidades extends JFrame {
 				((JTextField)c).setVisible(false);
 		    }
 		}
+		txtNcsd1.setText("");
+		txtNcsd1.setVisible(true);
 	}
 }

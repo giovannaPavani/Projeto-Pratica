@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 
 public class ManutFuncionarios extends JFrame {
 
-	private JPanel contentPane;
+	static private ManutFuncionarios frame;
 	private JTextField txtNome;
 	private JTextField txtCodigo;
 	private JTable tblRelatorio;
@@ -60,16 +60,15 @@ public class ManutFuncionarios extends JFrame {
 		situacaoAtual = Situacao.NAVEGANDO;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 591, 424);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		//frame.getContentPane().setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(frame.getContentPane());
+		frame.getContentPane().setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(0, 0, 574, 384);
 		tabbedPane.setToolTipText("CADASTRO");
 		tabbedPane.setSelectedIndex(0);
-		contentPane.add(tabbedPane);
+		frame.getContentPane().add(tabbedPane);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);

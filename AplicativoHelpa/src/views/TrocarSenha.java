@@ -104,6 +104,7 @@ public class TrocarSenha extends JFrame {
 							func.setSenha(senha);
 							Funcionarios.alterar(func);
 							JOptionPane.showMessageDialog(null,"Senha alterada com sucesso!");
+							dispose();
 						} 
 						catch (Exception e) 
 						{

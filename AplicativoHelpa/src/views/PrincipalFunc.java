@@ -264,9 +264,8 @@ public class PrincipalFunc extends JFrame {
 		
 
 		JMenuItem miManutEntidades = new JMenuItem("ENTIDADES");
-		miManutEntidades.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		miManutEntidades.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				// manunetncao ENTIDADES
 				ManutEntidades formME = new ManutEntidades();
 				formME.setVisible(true);
@@ -295,6 +294,12 @@ public class PrincipalFunc extends JFrame {
 		menManutencao.add(miManutFuncs);
 		
 		JButton btnRelatrio = new JButton("RELAT\u00D3RIO");
+		btnRelatrio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Relatorio formR = new Relatorio();
+				formR.setVisible(true);
+			}
+		});
 		btnRelatrio.setBounds(249, 277, 100, 23);
 		frame.getContentPane().add(btnRelatrio);
 		

@@ -22,8 +22,7 @@ import java.awt.event.ActionEvent;
 
 public class ManutDoadores extends JFrame {
 
-	static ManutDoadores frame;// TEM Q COLOCAR ISSO AQUI
-	private JPanel contentPane;
+	private JFrame frame;// TEM Q COLOCAR ISSO AQUI
 	private JTextField txtNome;
 	private JTextField txtCodigo;
 	private JTextField txtEmail;
@@ -55,20 +54,18 @@ public class ManutDoadores extends JFrame {
 	 * Create the frame.
 	 */
 	public ManutDoadores() {
-		
-		
+		frame = new JFrame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 497, 376);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		//frame.getContentPane() .setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(frame.getContentPane() );
+		frame.getContentPane() .setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setToolTipText("CADASTRO");
 		//tabbedPane.setSelectedIndex(0);
 		tabbedPane.setBounds(0, 0, 476, 335);
-		contentPane.add(tabbedPane);
+		frame.getContentPane().add(tabbedPane);
 		
 		JPanel pnlManutencao = new JPanel();
 		pnlManutencao.setLayout(null);
