@@ -4,7 +4,16 @@ import bd.*;
 import bd.core.*;
 import bd.dbos.*;
 
-public class Pessoas 
+/**A classe Pessoas é uma DAO e serve para executar ações na
+tabela HFuncionarios, como saber se o funcionario esta cadastrado,
+excluir um funcionario, etc.
+Nela encontramos vários metodos que modificam/verificam informações
+na tabela HFuncionarios
+@author Giovanna Pavani Martelli.
+@author Maria Luiza Sperancin Mancebo.
+@since 2019.*/
+
+public class Pessoas
 {
 	public static boolean cadastrado(int codigo) throws Exception
     {
@@ -33,8 +42,8 @@ public class Pessoas
 
         return retorno;
     }
-    
-    public static boolean existe(int codigo) 
+
+    public static boolean existe(int codigo)
     {
         try
         {
@@ -70,7 +79,7 @@ public class Pessoas
                   "(?,?,?,?,?,?,?)"; // guarda o lugar para dps a gnt colocar uma variavel
 
             BDSQLServer.COMANDO.prepareStatement(sql);
-            
+
             //substituir as '?'
             BDSQLServer.COMANDO.setInt    (1, pessoa.getCodigo());
             BDSQLServer.COMANDO.setString (2, pessoa.getNome());
@@ -85,7 +94,7 @@ public class Pessoas
             BDSQLServer.COMANDO.executeUpdate(); // executa o comando, todos são executados como "update" - atualiza o banco, menos select / tipo uma função void
             BDSQLServer.COMANDO.commit       (); // USAR APENAS se for insert, delete e update --> O RESTO N PRECISA // efetiva ex: funcionario e dependentes - transação, se n, o banco n fica consistente - tudo ou nada
         }
-        catch (SQLException erro) 
+        catch (SQLException erro)
         {
         	//se for um monte de comandos (tudo ou nd) e um der errado, tem q excluir td
         	//BDSQLServer.COMANDO.rollback(); --> desfaz o commit / oposto do commit
@@ -184,7 +193,7 @@ public class Pessoas
                 throw new Exception ("Nao cadastrado");
 
             pessoa = new Pessoa(resultado.getInt   ("CODIGO"),
-                               resultado.getString ("NOME"), 
+                               resultado.getString ("NOME"),
                                resultado.getString ("EMAIL"),
 						       resultado.getString ("CPF"),
 						       resultado.getString ("ENDERECO"),
@@ -224,7 +233,7 @@ public class Pessoas
 
         return resultado;
     }
-    
+
     public static MeuResultSet getDoacoes (int cod) throws Exception
     {
         MeuResultSet resultado = null;
@@ -246,7 +255,7 @@ public class Pessoas
 
         return resultado;
     }
-    
+
     public static MeuResultSet getPessoasDoa () throws Exception
     {
         MeuResultSet resultado = null;
@@ -268,7 +277,7 @@ public class Pessoas
 
         return resultado;
     }
-    
+
     public static Pessoa getPrimeiroRegistro() throws Exception
     {
     	Pessoa pessoa = null;
@@ -282,7 +291,7 @@ public class Pessoas
 
             BDSQLServer.COMANDO.prepareStatement(sql);
             MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery (); // n é mais para executar update, mas sim uma query (consulta) / ñ é void
-            
+
             if (!resultado.first()) // .last()/ .next()/ .previous()/ .absolute(10) --> retornam boolean
                 throw new Exception ();
 

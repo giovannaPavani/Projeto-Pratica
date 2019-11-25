@@ -6,7 +6,7 @@ import bd.core.*;
 import bd.dbos.*;
 
 public class Doacoes {
-	
+
 	public static boolean cadastrado(int id) throws Exception
     {
         boolean retorno = false;
@@ -34,8 +34,8 @@ public class Doacoes {
 
         return retorno;
     }
-    
-    public static boolean existe(int id) 
+
+    public static boolean existe(int id)
     {
         try
         {
@@ -71,7 +71,7 @@ public class Doacoes {
                   "(?,?,?,?,?,?,?)";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
-            
+
             BDSQLServer.COMANDO.setInt    (1, doacao.getId());
             BDSQLServer.COMANDO.setInt    (2, doacao.getCodPessoa());
             BDSQLServer.COMANDO.setString (3, doacao.getProduto());
@@ -84,7 +84,7 @@ public class Doacoes {
             BDSQLServer.COMANDO.executeUpdate(); // executa o comando, todos são executados como "update" - atualiza o banco, menos select / tipo uma função void
             BDSQLServer.COMANDO.commit       (); // USAR APENAS se for insert, delete e update --> O RESTO N PRECISA // efetiva ex: funcionario e dependentes - transação, se n, o banco n fica consistente - tudo ou nada
         }
-        catch (SQLException erro) 
+        catch (SQLException erro)
         {
         	//se for um monte de comandos (tudo ou nd) e um der errado, tem q excluir td
         	//BDSQLServer.COMANDO.rollback(); --> desfaz o commit / oposto do commit
@@ -110,7 +110,7 @@ public class Doacoes {
             BDSQLServer.COMANDO.setInt(1, id);
 
             BDSQLServer.COMANDO.executeUpdate();
-            BDSQLServer.COMANDO.commit       ();        
+            BDSQLServer.COMANDO.commit       ();
         }
         catch (SQLException erro)
         {
@@ -174,8 +174,8 @@ public class Doacoes {
 
             BDSQLServer.COMANDO.setInt(1, id);
 
-            MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery (); 
-            
+            MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery ();
+
             if (!resultado.first())
                 throw new Exception ("Nao cadastrado");
 
@@ -204,8 +204,8 @@ public class Doacoes {
         {
             String sql;
 
-            sql = "SELECT ID, PRODUTO, QUANTIDADE, E.NOME, DATA, ENTREGUE" + 
-                  "FROM HDOACOES D, HENTIDADES E" + 
+            sql = "SELECT ID, PRODUTO, QUANTIDADE, E.NOME, DATA, ENTREGUE " +
+                  "FROM HDOACOES D, HENTIDADES E " +
                   "WHERE E.CODIGO = D.CODENTIDADE";
 
             BDSQLServer.COMANDO.prepareStatement (sql);

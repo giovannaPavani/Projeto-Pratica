@@ -4,7 +4,22 @@ import bd.*;
 import bd.core.*;
 import bd.dbos.*;
 
+/**A classe Funcionarios é uma DAO e serve para executar ações na
+tabela HFuncionarios, como saber se o funcionario esta cadastrado,
+excluir um funcionario, etc.
+Nela encontramos vários metodos que modificam/verificam informações
+na tabela HFuncionarios
+@author Giovanna Pavani Martelli.
+@author Maria Luiza Sperancin Mancebo.
+@since 2019.*/
+
 public class Funcionarios {
+	/**
+		  Verificador de cadastramento
+		  Verifica se o codigo passado no parametro já existe na
+		  tabela HFuncionarios, se sim, retorna true, se não achar nenhum, retorna false
+		  @return se achar true, se não, false
+	 */
 	public static boolean cadastrado (int CODIGO) throws Exception
     {
         boolean retorno = false;
@@ -30,10 +45,16 @@ public class Funcionarios {
         {
             throw new Exception ("Erro ao procurar funcionário");
         }
-        									
+
         return retorno;
     }
-    
+
+    /**
+			  Verificador de cadastramento por usuario
+			  Verifica se o usuario passado no parametro já existe na
+			  tabela HFuncionarios, se sim, retorna true, se não achar nenhum, retorna false
+			  @return se achar true, se não, false
+	 */
     public static boolean cadastrado (String usuario) throws Exception
     {
         boolean retorno = false;
@@ -42,7 +63,7 @@ public class Funcionarios {
         {
             String sql;
 
-            sql = "SELECT * " + 
+            sql = "SELECT * " +
                   "FROM HFuncionarios " +
                   "WHERE USUARIO = ?";
 
@@ -59,37 +80,21 @@ public class Funcionarios {
         {erro.printStackTrace();
             throw new Exception ("Erro ao procurar funcionário");
         }
-        									
+
         return retorno;
     }
 
-    public static boolean existe(int Codigo) 
-    {
-        try
-        {
-            String sql;
-
-            sql = "SELECT * " +
-                  "FROM HFUNCIONARIOS " +
-                  "WHERE CODIGO = ?";
-
-            BDSQLServer.COMANDO.prepareStatement(sql);
-            BDSQLServer.COMANDO.setInt(1, Codigo);
-            BDSQLServer.COMANDO.executeQuery();
-        }
-        catch (SQLException erro)
-        {
-            return false;
-        }
-        return true;
-    }
-
+/**
+		  Inclui funcionarios
+		  Verifica se o funcionario passado não é nulo, e sem seguida
+		  inserta ele na tabela.
+	 */
     public static void incluir (Funcionario funcionario) throws Exception
     {
         if (funcionario==null)
             throw new Exception ("Funcionario nao fornecido");
 
-        try //aqui tem um try catch, pq se der merda no meio do try, ele 	      para e da rollback(pq ele quer TUDO ou NADA)
+        try //aqui tem um try catch, pq se der merda no meio do try, ele para e da rollback(pq ele quer TUDO ou NADA)
         {
             String sql;
 
@@ -100,7 +105,7 @@ public class Funcionarios {
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
-            BDSQLServer.COMANDO.setInt    (1, funcionario.getCodigo ());  
+            BDSQLServer.COMANDO.setInt    (1, funcionario.getCodigo ());
             BDSQLServer.COMANDO.setString (2, funcionario.getNome ());
             BDSQLServer.COMANDO.setString (3, funcionario.getCpf ());
             BDSQLServer.COMANDO.setString (4, funcionario.getEmail ());
@@ -124,6 +129,11 @@ public class Funcionarios {
     }
 
 
+		/**
+		  Exclui funcionarios pelo codigo
+		  Verifica se o codigo pertence a algum funcionario, e sem seguida, caso exista,
+		  exclui ele da tabela.
+	 */
     public static void excluir (int CODIGO) throws Exception
     {
         if (!cadastrado(CODIGO))
@@ -148,6 +158,11 @@ public class Funcionarios {
         }
     }
 
+	/**
+		  Altera funcionarios
+		  É passado um Funcionario no parâmetro, que depois de verificar se ele é null ou se não foi
+		  cadastrado ainda,e da um update na tabela HFuncionarios desse funcionario
+	 */
     public static void alterar (Funcionario funcionario) throws Exception
     {
         if (funcionario==null)
@@ -175,7 +190,7 @@ public class Funcionarios {
 
                   "WHERE CODIGO = ?";
 
-            BDSQLServer.COMANDO.prepareStatement (sql);  
+            BDSQLServer.COMANDO.prepareStatement (sql);
             BDSQLServer.COMANDO.setString (1, funcionario.getNome ());
             BDSQLServer.COMANDO.setString (2, funcionario.getCpf ());
             BDSQLServer.COMANDO.setString (3, funcionario.getEmail ());
@@ -198,6 +213,11 @@ public class Funcionarios {
         }
     }
 
+	/**
+		  Pega um funcionario pelo código
+		  Seleciona na tabela tudo sobre o funcionario pelo codigo que foi passado no parâmetro.
+		  @return o funcionario encontrado
+	 */
     public static Funcionario getFuncionarioByCod (int Codigo) throws Exception
     {
         Funcionario funcionario = null;
@@ -239,7 +259,11 @@ public class Funcionarios {
 
         return funcionario;
     }
-    
+	/**
+		  Pega um funcionario pelo usuario
+		  Seleciona na tabela tudo sobre o funcionario pelo usuario que foi passado no parâmetro.
+		  @return o funcionario encontrado
+	 */
     public static Funcionario getFuncionarioByUsuario (String usuario) throws Exception
     {
         Funcionario funcionario = null;
@@ -281,8 +305,8 @@ public class Funcionarios {
 
         return funcionario;
     }
-        
-    public static int getCODIGOigo (String usuario) throws Exception
+
+  /*  public static int getCODIGOigo (String usuario) throws Exception
     {
     	int CODIGO;
         try
@@ -305,8 +329,13 @@ public class Funcionarios {
         }
 
         return CODIGO;
-    }
+    }*/
 
+	/**
+		  Pega todos os funcionarios
+		  Seleciona todos os funcionarios e armazena em um ResultSet.
+		  @return resultset de funcionarios
+	 */
     public static MeuResultSet getFuncionarios () throws Exception
     {
         MeuResultSet resultado = null;
@@ -329,7 +358,12 @@ public class Funcionarios {
 
         return resultado;
     }
-    
+
+	/**
+		  Pega o primeiro funcionario
+		  Seleciona na tabela tudo sobre o primeiro funcionario.
+		  @return o funcionario encontrado
+	 */
     public static Funcionario getPrimeiroRegistro() throws Exception
     {
     	Funcionario funcionario = null;
