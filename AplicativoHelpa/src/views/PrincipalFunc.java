@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
@@ -28,11 +29,11 @@ public class PrincipalFunc extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	/*public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PrincipalFunc frame = new PrincipalFunc();
+					PrincipalFunc frame = new PrincipalFunc(12);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -98,8 +99,8 @@ public class PrincipalFunc extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// ABRIR FORM DE MANUTENÇÃO DE ENTIDADES
-				ManutEntidades formME = new ManutEntidades();
-				formME.setVisible(true);
+				//ManutEntidades formME = new ManutEntidades();
+				//formME.setVisible(true);
 			}
 		});
 		frame.setBounds(100, 100, 485, 361);
@@ -257,8 +258,8 @@ public class PrincipalFunc extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// manunetncao ENTIDADES
-				ManutEntidades formME = new ManutEntidades();
-				formME.setVisible(true);
+				//ManutEntidades formME = new ManutEntidades();
+				//formME.setVisible(true);
 			}
 		});
 		menManutencao.add(miManutEntidades);

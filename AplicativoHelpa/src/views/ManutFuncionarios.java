@@ -38,7 +38,8 @@ public class ManutFuncionarios extends JFrame {
 
 	/**
 	 * Launch the application.
-	 
+	 * 
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -65,9 +66,9 @@ public class ManutFuncionarios extends JFrame {
 		contentPane.setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(0, 0, 574, 384);
 		tabbedPane.setToolTipText("CADASTRO");
 		tabbedPane.setSelectedIndex(0);
-		tabbedPane.setBounds(0, 0, 574, 384);
 		contentPane.add(tabbedPane);
 		
 		JPanel panel = new JPanel();
@@ -381,6 +382,7 @@ public class ManutFuncionarios extends JFrame {
 		tblRelatorio.setModel(model);   
 		
 		pnlRelatorio.add(tblRelatorio);
+		this.setVisible(true);
 	}
 	
 	private void atualizarTela() 

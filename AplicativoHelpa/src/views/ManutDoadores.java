@@ -54,7 +54,7 @@ public class ManutDoadores extends JFrame {
 	 * Create the frame.
 	 */
 	public ManutDoadores() {
-		atualizarTela();
+		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 497, 376);
@@ -65,7 +65,7 @@ public class ManutDoadores extends JFrame {
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setToolTipText("CADASTRO");
-		tabbedPane.setSelectedIndex(0);
+		//tabbedPane.setSelectedIndex(0);
 		tabbedPane.setBounds(0, 0, 476, 335);
 		contentPane.add(tabbedPane);
 		
@@ -298,7 +298,8 @@ public class ManutDoadores extends JFrame {
 			System.out.print(ex.getMessage());
 		}
 		tblDoadores.setModel(model);   
-		pnlRelatorio.add(tblDoadores);	
+		pnlRelatorio.add(tblDoadores);
+		atualizarTela();
 	}
 	
 	private void atualizarTela() 

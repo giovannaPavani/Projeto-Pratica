@@ -27,8 +27,6 @@ import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JScrollPane;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;

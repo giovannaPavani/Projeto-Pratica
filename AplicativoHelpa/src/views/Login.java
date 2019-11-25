@@ -100,6 +100,9 @@ public class Login {
 								{
 									PrincipalFunc formPF = new PrincipalFunc(func.getCodigo());
 									formPF.setVisible(true);
+									//ManutDoadores form = new ManutDoadores();
+									//form.setVisible(true);
+									
 								}
 								else
 								{
