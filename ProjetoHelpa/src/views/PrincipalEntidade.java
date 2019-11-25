@@ -106,7 +106,7 @@ public class PrincipalEntidade extends JFrame {
 		
 		JPanel pnlInfoInt = new JPanel();
 		pnlInfoInt.setLayout(null);
-		tabbedPane.addTab("Informa\u00E7\u00F5es Privadas", null, pnlInfoInt, null);
+		tabbedPane.addTab("Informa\u00E7\u00F5es Internas", null, pnlInfoInt, null);
 		
 		JLabel label_1 = new JLabel("Nome:");
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
