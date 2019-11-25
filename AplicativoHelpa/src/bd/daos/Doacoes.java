@@ -1,12 +1,30 @@
 package bd.daos;
-
 import java.sql.*;
 import bd.*;
 import bd.core.*;
 import bd.dbos.*;
 
+/**A classe Doacoes é uma DAO e serve para executar ações na
+tabela HDoacoes, como saber se essa doação existe,
+excluir uma doação, etc.
+Nela encontramos vários metodos que modificam/verificam informações
+na tabela HDoacoes
+@author Giovanna Pavani Martelli.
+@author Maria Luiza Sperancin Mancebo.
+@since 2019.*/
+
+
 public class Doacoes {
 
+
+	/**
+			 Verificador de cadastramento por codigo
+			 Verifica se o codigo passado no parametro já existe na
+			 tabela HDoacoes, se sim, retorna true, se não achar nenhum, retorna false
+			 @return se achar true, se não, false
+			 @param id a ser procurado
+		     @throws Exception caso não recupere as doações
+	 */
 	public static boolean cadastrado(int id) throws Exception
     {
         boolean retorno = false;
@@ -34,7 +52,7 @@ public class Doacoes {
 
         return retorno;
     }
-
+/*
     public static boolean existe(int id)
     {
         try
@@ -55,7 +73,15 @@ public class Doacoes {
         }
         return true;
     }
+*/
 
+	/**
+		  Inclui Doacoes
+		  Verifica se a doação passada não é nula, e em seguida
+		  inserta ela na tabela.
+		  @param doacao a ser inserida
+		  @throws Exception caso a doação não seja fornecida no parâmetro
+	 */
     public static void incluir(Doacao doacao) throws Exception
     {
         if (doacao==null)
@@ -93,6 +119,13 @@ public class Doacoes {
         }
     }
 
+ 	/**
+		  Exclui doacoes pelo id
+		  Verifica se o id pertence a alguma doacao, e em seguida, caso exista,
+		  exclui ela da tabela.
+		  @param id a ser excluido
+		  @throws Exception caso não encontre uma doação com o id informado
+	 */
     public static void excluir(int id) throws Exception
     {
         if (!cadastrado(id))
@@ -118,6 +151,14 @@ public class Doacoes {
         }
     }
 
+
+	/**
+		  Altera doações
+		  É passado uma doação no parâmetro, que depois de verificar se ela é null ou se não foi
+		  cadastrada ainda,e da um update na tabela HPDoacoes nessa doação
+		   @param doação a ser alterada
+		   @throws Exception caso for nula ou não estiver cadastrada
+	 */
     public static void alterar(Doacao doacao) throws Exception
     {
         if (doacao==null)
@@ -158,6 +199,14 @@ public class Doacoes {
         }
     }
 
+
+	/**
+			  Pega todas as informações dobre uma doação
+			  Seleciona na tabela tudo sobre a doação pelo id que foi passado no parâmetro.
+			  @return a entidade encontrada
+			  @param id a ser procurado
+		     @throws Exception caso o id não esteja cadastrado
+	 */
     public static Doacao getDoacao(int id) throws Exception
     {
         Doacao doacao = null;
@@ -195,6 +244,14 @@ public class Doacoes {
 
         return doacao;
     }
+
+	/**
+		  Pega a doação e a sua respectiva entidade
+		  Seleciona todas as doações feitas a todas as entidades, colocando
+		  em um resultSet
+		  @return resultset de doacoes
+		  @throws Exception caso não recupere as doações
+	 */
 
     public static MeuResultSet getDoacoes () throws Exception
     {

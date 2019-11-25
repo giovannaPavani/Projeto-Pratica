@@ -21,6 +21,8 @@ public class Pessoas
 			 Verifica se o codigo passado no parametro já existe na
 			 tabela HPEssoas, se sim, retorna true, se não achar nenhum, retorna false
 			 @return se achar true, se não, false
+		     @param código a ser procurado
+    	     @throws Exception caso não ache uma pessoa com o código do parâmetro
 	 */
 	public static boolean cadastrado(int codigo) throws Exception
     {
@@ -72,8 +74,10 @@ public class Pessoas
 
    /**
 		  Inclui Pessoas
-		  Verifica se a pessoa passada não é nulo, e sem seguida
+		  Verifica se a pessoa passada não é nulo, e em seguida
 		  inserta ela na tabela.
+		  @param pessoa do tipo Pessoa a ser incluída
+    	  @throws Exception caso a pessoa for null
 	 */
     public static void incluir(Pessoa pessoa) throws Exception
     {
@@ -116,8 +120,10 @@ public class Pessoas
 
     /**
 		  Exclui pessoas pelo codigo
-		  Verifica se o codigo pertence a alguma pessoa, e sem seguida, caso exista,
+		  Verifica se o codigo pertence a alguma pessoa, e em seguida, caso exista,
 		  exclui ela da tabela.
+		  @param código a ser excluido
+    	  @throws Exception caso não ache uma pessoa com o código do parâmetro
 	 */
     public static void excluir(int codigo) throws Exception
     {
@@ -143,10 +149,12 @@ public class Pessoas
         }
     }
 
-/**
+	/**
 		  Altera pessoas
 		  É passado uma pessoa no parâmetro, que depois de verificar se ela é null ou se não foi
-		  cadastrada ainda,e da um update na tabela HPessoas dessa pessoa
+		  cadastrada ainda,e da um update na tabela HPessoas nessa pessoa
+		  @param pessoa a ser alterada
+    	  @throws Exception caso não ache uma pessoa cadastrada ou o parametro ser null
 	 */
     public static void alterar(Pessoa pessoa) throws Exception
     {
@@ -196,6 +204,8 @@ public class Pessoas
 		  Pega uma pessoa pelo código
 		  Seleciona na tabela tudo sobre a pessoa pelo codigo que foi passado no parâmetro.
 		  @return a pessoa encontrada
+		  @param código a ser procurado
+    	  @throws Exception caso não ache uma pessoa com o código do parâmetro
 	 */
     public static Pessoa getPessoa(int codigo) throws Exception
     {
@@ -241,6 +251,7 @@ public class Pessoas
 		  Pega todos as pessoas
 		  Seleciona todos as pessoas e armazena em um ResultSet.
 		  @return resultset de pessoas
+    	  @throws Exception caso não ache as pessoas
 	 */
     public static MeuResultSet getPessoas () throws Exception
     {
@@ -269,7 +280,9 @@ public class Pessoas
 		  Pega todas as doacoes
 		  Seleciona todas as doacoes de todas as pessoas presentes no banco
 		  @return resultset de pessoas e doacoes
-	 */
+		  @param código a ser procurado
+		  @throws Exception caso de erro no SQL
+		  */
     public static MeuResultSet getDoacoes (int cod) throws Exception
     {
         MeuResultSet resultado = null;
@@ -296,6 +309,7 @@ public class Pessoas
 		  Rank de doacoes
 		  Seleciona a quantidade de doacoes feitas pelas pessoas e ordena por ordem decrescente a quantidade
 		  @return resultset do rank
+		  @throws Exception caso de erro no SQL
 	 */
     public static MeuResultSet getPessoasDoa () throws Exception
     {
@@ -323,6 +337,7 @@ public class Pessoas
 		  Pega a primeira pessoa
 		  Seleciona na tabela tudo sobre a primeira pessoa.
 		  @return pessoa encontrada
+		  @throws Exception caso a tabela esteja vazia
 	 */
     public static Pessoa getPrimeiroRegistro() throws Exception
     {

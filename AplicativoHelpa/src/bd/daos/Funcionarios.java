@@ -19,6 +19,8 @@ public class Funcionarios {
 		  Verifica se o codigo passado no parametro já existe na
 		  tabela HFuncionarios, se sim, retorna true, se não achar nenhum, retorna false
 		  @return se achar true, se não, false
+		  @param int codigo que será usado na pesquisa
+     	  @throws Exception caso não ache um funcionario com o codigo do parametro
 	 */
 	public static boolean cadastrado (int CODIGO) throws Exception
     {
@@ -54,6 +56,8 @@ public class Funcionarios {
 			  Verifica se o usuario passado no parametro já existe na
 			  tabela HFuncionarios, se sim, retorna true, se não achar nenhum, retorna false
 			  @return se achar true, se não, false
+			  @param usuário a ser procurado
+    	      @throws Exception caso não ache um funcionario com o usuario do parametro
 	 */
     public static boolean cadastrado (String usuario) throws Exception
     {
@@ -86,8 +90,10 @@ public class Funcionarios {
 
     /**
 		  Inclui funcionarios
-		  Verifica se o funcionario passado não é nulo, e sem seguida
+		  Verifica se o funcionario passado não é nulo, e em seguida
 		  inserta ele na tabela.
+		  @param funiconario que será incluido
+    	  @throws Exception caso o parametro seja null
 	 */
     public static void incluir (Funcionario funcionario) throws Exception
     {
@@ -133,6 +139,8 @@ public class Funcionarios {
 		  Exclui funcionarios pelo codigo
 		  Verifica se o codigo pertence a algum funcionario, e sem seguida, caso exista,
 		  exclui ele da tabela.
+		  @param o codigo a ser excluido
+    	  @throws Exception caso não ache codigo cadastrado
 	 */
     public static void excluir (int CODIGO) throws Exception
     {
@@ -161,7 +169,9 @@ public class Funcionarios {
 	/**
 		  Altera funcionarios
 		  É passado um Funcionario no parâmetro, que depois de verificar se ele é null ou se não foi
-		  cadastrado ainda,e da um update na tabela HFuncionarios desse funcionario
+		  cadastrado ainda,e da um update na tabela HFuncionarios nesse funcionario
+		  @param funcionario a ser alterado
+    	  @throws Exception caso não ache um funcionario, ou seja null
 	 */
     public static void alterar (Funcionario funcionario) throws Exception
     {
@@ -217,6 +227,8 @@ public class Funcionarios {
 		  Pega um funcionario pelo código
 		  Seleciona na tabela tudo sobre o funcionario pelo codigo que foi passado no parâmetro.
 		  @return o funcionario encontrado
+		  @param codigo a ser procurado
+    	  @throws Exception caso não ache um funcionario cadastrado com o código passado
 	 */
     public static Funcionario getFuncionarioByCod (int Codigo) throws Exception
     {
@@ -263,6 +275,8 @@ public class Funcionarios {
 		  Pega um funcionario pelo usuario
 		  Seleciona na tabela tudo sobre o funcionario pelo usuario que foi passado no parâmetro.
 		  @return o funcionario encontrado
+		  @param usuario a ser procurado
+    	  @throws Exception caso não ache um funcionario
 	 */
     public static Funcionario getFuncionarioByUsuario (String usuario) throws Exception
     {
@@ -335,6 +349,7 @@ public class Funcionarios {
 		  Pega todos os funcionarios
 		  Seleciona todos os funcionarios e armazena em um ResultSet.
 		  @return resultset de funcionarios
+    	  @throws Exception caso não consiga recuperar os funcionários
 	 */
     public static MeuResultSet getFuncionarios () throws Exception
     {
@@ -363,6 +378,7 @@ public class Funcionarios {
 		  Pega o primeiro funcionario
 		  Seleciona na tabela tudo sobre o primeiro funcionario.
 		  @return o funcionario encontrado
+		  @throws Exception caso não consiga recuperar o funcionário
 	 */
     public static Funcionario getPrimeiroRegistro() throws Exception
     {
