@@ -129,9 +129,8 @@ public class Entidades
             String sql;
 
             sql = "INSERT INTO HENTIDADES " +
-                  "(CODIGO, NOME, CNPJ, ENDERECO, EMAIL, TELEFONE, USUARIO, SENHA, VISUALIZACOES, DESRICAO, LINKIMAGEM, SITE) " +
-                  "VALUES " +
-                  "(?,?,?,?,?,?,?,?,?,?,?)"; // guarda o lugar para dps a gnt colocar uma variavel
+                  "VALUES" +
+                  "(?,?,?,?,?,?,?,?,?,?,?,?)"; // guarda o lugar para dps a gnt colocar uma variavel
 
             BDSQLServer.COMANDO.prepareStatement(sql);
 
@@ -314,7 +313,7 @@ public class Entidades
             String sql;
             for(int i=0; i < produtos.length; i++)
             {
-            	sql = "insert into HDoacaoesNecessarias values(?, ?)";
+            	sql = "insert into HDoacoesNecessarias values(?, ?)";
             	BDSQLServer.COMANDO.prepareStatement (sql);
 
             	BDSQLServer.COMANDO.setInt    (1, cod);

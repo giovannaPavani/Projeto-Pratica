@@ -8,6 +8,8 @@ import bd.daos.Funcionarios;
 import bd.dbos.Funcionario;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
+
+import java.awt.EventQueue;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JMenuBar;
@@ -17,13 +19,15 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JScrollPane;
 
 public class ManutFuncionarios extends JFrame {
 
-	static private ManutFuncionarios frame;
+	static private JPanel contentPane;
 	private JTextField txtNome;
 	private JTextField txtCodigo;
-	private JTable tblRelatorio;
 	private JTextField txtSalario;
 	private JTextField txtAgencia;
 	private JTextField txtEmail;
@@ -35,11 +39,12 @@ public class ManutFuncionarios extends JFrame {
 	private JTextField txtConta;
 	private JButton btnSalvar;
 	private Situacao situacaoAtual;
+	private JTable tblFunc;
 
 	/**
 	 * Launch the application.
 	 * 
-	/*
+	*/
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -57,18 +62,20 @@ public class ManutFuncionarios extends JFrame {
 	 * Create the frame.
 	 */
 	public ManutFuncionarios() {
+		
+		 contentPane = new  JPanel();
 		situacaoAtual = Situacao.NAVEGANDO;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 591, 424);
-		//frame.getContentPane().setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(frame.getContentPane());
-		frame.getContentPane().setLayout(null);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(0, 0, 574, 384);
 		tabbedPane.setToolTipText("CADASTRO");
-		tabbedPane.setSelectedIndex(0);
-		frame.getContentPane().add(tabbedPane);
+		//tabbedPane.setSelectedIndex(0);
+		contentPane.add(tabbedPane);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -349,39 +356,48 @@ public class ManutFuncionarios extends JFrame {
 		lblManutenoDeFuncionrios.setFont(new Font("Tahoma", Font.BOLD, 19));
 		lblManutenoDeFuncionrios.setBounds(260, 43, 281, 22);
 		panel.add(lblManutenoDeFuncionrios);
-		
 		JPanel pnlRelatorio = new JPanel();
 		pnlRelatorio.setLayout(null);
 		tabbedPane.addTab("Relat\u00F3rio", null, pnlRelatorio, null);
+		pnlRelatorio.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				DefaultTableModel model = null;
+				try 
+				{
+					MeuResultSet dados = Funcionarios.getFuncionarios();
+					model = new DefaultTableModel(new Object[][] {},
+					new String[] {
+						"C\u00F3digo", "Nome", "CPF", "Email", "Endere\u00E7o",  "Telefone",  "Usu\u00E1rio", "Cargo", "Sal\u00E1rio", "Conta", "Agencia"
+					}); 
+					while(dados.next())
+					{
+						model.addRow(new Object[] {dados.getInt(1)+"", dados.getString(2), dados.getString(3), dados.getString(4), dados.getString(10), dados.getString(6), dados.getString(11), dados.getString(7), dados.getString(5)+"", dados.getString(8), dados.getString(9)});
+					}
+					tblFunc.setModel(model); 
+				}
+				catch(Exception ex) 
+				{
+					System.out.print(ex.getMessage());
+				}
+			}
+		});
+		//tblFunc.setBounds(10, 32, 549, 313);
+		
 		
 		JMenuBar menuBar_1 = new JMenuBar();
 		menuBar_1.setBounds(0, 0, 596, 21);
 		pnlRelatorio.add(menuBar_1);
 		
-		tblRelatorio = new JTable();
-		tblRelatorio.setBounds(10, 298, 451, -268);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 32, 549, 313);
+		pnlRelatorio.add(scrollPane);
 		
-		DefaultTableModel model = null;
-		try 
-		{
-			MeuResultSet dados = Funcionarios.getFuncionarios();
-			 model = new DefaultTableModel(new Object[][] {},
-			new String[] {
-				"C\u00F3digo 1", "Nome 2", "CPF 3", "Email 4", "Endere\u00E7o 10",  "Telefone 6",  "Usu\u00E1rio 11", "Cargo 7", "Sal\u00E1rio 5", "Conta 8", "Agencia 9"
-			}); 
-			while(dados.next())
-			{
-				model.addRow(new Object[] {dados.getInt(1)+"", dados.getString(2), dados.getString(3), dados.getString(4), dados.getString(10), dados.getString(6), dados.getString(11), dados.getString(7), dados.getString(5)+"", dados.getString(8), dados.getString(9)});
-			}
-		}
-		catch(Exception ex) 
-		{
-			System.out.print(ex.getMessage());
-		}
-		tblRelatorio.setModel(model);   
+		tblFunc = new JTable();
+		scrollPane.setViewportView(tblFunc);
 		
-		pnlRelatorio.add(tblRelatorio);
 		this.setVisible(true);
+		atualizarTela();
 	}
 	
 	private void atualizarTela() 
@@ -399,6 +415,7 @@ public class ManutFuncionarios extends JFrame {
 			} 
 			catch (Exception e) {} // nunca vai dar erro pois a tabela nunca estará vazia 
 		}
+		txtCodigo.setText(oFuncionario.getCodigo()+"");
 		txtNome.setText(oFuncionario.getNome());
 		txtEmail.setText(oFuncionario.getEmail());
 		txtCpf.setText(oFuncionario.getCpf());
