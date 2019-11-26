@@ -55,6 +55,7 @@ public class ManutEntidades extends JFrame {
 	private JTextField txtNcsd5;
 	private JPanel pnlNecessidades;
 	private JTable tblRelatorio;
+	private JButton btnVoltarPA;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -79,7 +80,7 @@ public class ManutEntidades extends JFrame {
 	private void initialize()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 699, 416);
+		setBounds(100, 100, 699, 453);
 		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		contentPane = new JPanel();
@@ -445,6 +446,16 @@ public class ManutEntidades extends JFrame {
 		pnlRelatorio.add(scrollPane);
 		
 		scrollPane.setViewportView(tblRelatorio);
+		
+		btnVoltarPA = new JButton("Voltar p/ a \u00E1rea");
+		btnVoltarPA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		btnVoltarPA.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnVoltarPA.setBounds(282, 378, 132, 36);
+		contentPane.add(btnVoltarPA);
 		
 		atualizarTela();
 	}

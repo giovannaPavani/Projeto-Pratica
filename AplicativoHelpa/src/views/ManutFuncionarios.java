@@ -68,7 +68,7 @@ public class ManutFuncionarios extends JFrame {
 		 contentPane = new  JPanel();
 		situacaoAtual = Situacao.NAVEGANDO;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 591, 424);
+		setBounds(100, 100, 591, 460);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -418,6 +418,15 @@ public class ManutFuncionarios extends JFrame {
 		
 		tblFunc = new JTable();
 		scrollPane.setViewportView(tblFunc);
+		
+		JButton btnNewButton = new JButton("Voltar p/ a \u00E1rea");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		btnNewButton.setBounds(225, 387, 121, 34);
+		contentPane.add(btnNewButton);
 		
 		this.setVisible(true);
 		atualizarTela();
