@@ -7,7 +7,7 @@ import java.util.Date;
 	@author Giovanna Pavani Martelli - 19173 e Maria Luiza Sperancin Mancebo - 19186
 	@since 2019.
 */
-public class Doacao implements Cloneable
+public class Doacao implements Cloneable, Comparable<Doacao>
 {
 	/**Armazena o id da doacao*/
 	private int id;

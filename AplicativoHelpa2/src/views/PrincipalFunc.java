@@ -188,21 +188,21 @@ public class PrincipalFunc extends JFrame {
 		frame.getContentPane().add(btnCancelar);
 		
 		txtNome = new JTextField();
-		txtNome.setEditable(false);
+		txtNome.setEnabled(false);
 		txtNome.setBounds(119, 62, 298, 23);
 		frame.getContentPane().add(txtNome);
 		txtNome.setColumns(10);
 		txtNome.setText(funcionarioLog.getNome());
 		
 		txtEmail = new JTextField();
-		txtEmail.setEditable(false);
+		txtEmail.setEnabled(false);
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(119, 129, 298, 23);
 		frame.getContentPane().add(txtEmail);
 		txtEmail.setText(funcionarioLog.getEmail());
 		
 		txtTelefone = new JTextField();
-		txtTelefone.setEditable(false);
+		txtTelefone.setEnabled(false);
 		txtTelefone.setColumns(10);
 		txtTelefone.setBounds(119, 95, 298, 23);
 		frame.getContentPane().add(txtTelefone);
@@ -214,7 +214,7 @@ public class PrincipalFunc extends JFrame {
 		frame.getContentPane().add(lblEndereo);
 		
 		txtEndereco = new JTextField();
-		txtEndereco.setEditable(false);
+		txtEndereco.setEnabled(false);
 		txtEndereco.setColumns(10);
 		txtEndereco.setBounds(119, 161, 298, 23);
 		frame.getContentPane().add(txtEndereco);
@@ -226,7 +226,7 @@ public class PrincipalFunc extends JFrame {
 		frame.getContentPane().add(lblUsurio);
 		
 		txtUsuario = new JTextField();
-		txtUsuario.setEditable(false);
+		txtUsuario.setEnabled(false);
 		txtUsuario.setColumns(10);
 		txtUsuario.setBounds(119, 194, 200, 23);
 		frame.getContentPane().add(txtUsuario);
@@ -274,18 +274,14 @@ public class PrincipalFunc extends JFrame {
 		menManutencao.add(miManutEntidades);
 		
 		JMenuItem miManutDoadores = new JMenuItem("DOADORES");
-		miManutDoadores.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				ManutDoadores formMD = new ManutDoadores();
-				formMD.setVisible(true);
-			}
-		});
 		menManutencao.add(miManutDoadores);
 		
 		
 		JMenuItem miManutFuncs = new JMenuItem("FUNCION\u00C1RIOS");
-		miManutFuncs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		miManutFuncs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// ABRIR FORM DE MANUTENÇÃO DE FUNCIONÁRIOS
 				if(funcionarioLog.getCargo().equals("chefe de manutenção")) // acho q nem precisa
 				{
 					ManutFuncionarios formMF = new ManutFuncionarios();
@@ -322,10 +318,10 @@ public class PrincipalFunc extends JFrame {
 	
 	private void setTxts(boolean modo)
 	{
-		txtNome.setEditable(modo); 
-		txtEmail.setEditable(modo);
-		txtTelefone.setEditable(modo);
-		txtEndereco.setEditable(modo);
-		txtUsuario.setEditable(modo);
+		txtNome.setEnabled(modo); 
+		txtEmail.setEnabled(modo);
+		txtTelefone.setEnabled(modo);
+		txtEndereco.setEnabled(modo);
+		txtUsuario.setEnabled(modo);
 	}
 }

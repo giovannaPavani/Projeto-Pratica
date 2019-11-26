@@ -19,33 +19,29 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 public class ManutDoadores extends JFrame {
 
-	private JPanel contentPane;
+	private JFrame frame;// TEM Q COLOCAR ISSO AQUI
 	private JTextField txtNome;
 	private JTextField txtCodigo;
 	private JTextField txtEmail;
 	private JTextField txtEndereco;
 	private JTextField txtTelefone;
+	private JTextField txtCpf;
 	private JTextField txtCidade;
 	JButton btnSalvar;
+	private JTable tblDoadores;
 	private JTextField txtUf;
-	private JTable tblRelatorio;
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ManutDoadores frame = new ManutDoadores();
+					 frame = new ManutDoadores();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,16 +54,18 @@ public class ManutDoadores extends JFrame {
 	 * Create the frame.
 	 */
 	public ManutDoadores() {
-		contentPane = new JPanel();
+		frame = new JFrame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 497, 364);
-		setContentPane(contentPane );
-		contentPane.setLayout(null);
+		setBounds(100, 100, 497, 376);
+		//frame.getContentPane() .setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(frame.getContentPane() );
+		frame.getContentPane() .setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setToolTipText("CADASTRO");
-		tabbedPane.setBounds(0, 0, 476, 292);
-		contentPane.add(tabbedPane);
+		//tabbedPane.setSelectedIndex(0);
+		tabbedPane.setBounds(0, 0, 476, 335);
+		frame.getContentPane().add(tabbedPane);
 		
 		JPanel pnlManutencao = new JPanel();
 		pnlManutencao.setLayout(null);
@@ -85,32 +83,19 @@ public class ManutDoadores extends JFrame {
 		
 		txtNome = new JTextField();
 		txtNome.setText((String) null);
-		txtNome.setEditable(false);
+		txtNome.setEnabled(false);
 		txtNome.setColumns(10);
 		txtNome.setBounds(90, 80, 355, 30);
 		pnlManutencao.add(txtNome);
 		
+		JLabel lblCpf = new JLabel("CPF:");
+		lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblCpf.setBounds(32, 147, 48, 32);
+		pnlManutencao.add(lblCpf);
+		
 		txtCodigo = new JTextField();
-		txtCodigo.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode()== KeyEvent.VK_ENTER) // apertou enter e ta procurando
-				{
-					if(!txtCodigo.getText().equals(""))
-					{
-						int codProc = Integer.parseInt(txtCodigo.getText());
-						atualizarTela();
-						if(codProc != Integer.parseInt(txtCodigo.getText()))
-							JOptionPane.showMessageDialog(null,"Não foi possível achar o doador com esse código!");
-					}
-					else
-						JOptionPane.showMessageDialog(null,"Escreva um código válido no campo de código!");
-					txtCodigo.setEditable(false);
-				}
-			}
-		});
-		txtCodigo.setEditable(false);
 		txtCodigo.setText((String) null);
+		txtCodigo.setEnabled(false);
 		txtCodigo.setColumns(10);
 		txtCodigo.setBounds(90, 43, 109, 30);
 		pnlManutencao.add(txtCodigo);
@@ -122,34 +107,41 @@ public class ManutDoadores extends JFrame {
 		
 		JLabel label_4 = new JLabel("Telefone:");
 		label_4.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_4.setBounds(10, 149, 69, 32);
+		label_4.setBounds(10, 185, 69, 32);
 		pnlManutencao.add(label_4);
 		
 		JLabel label_7 = new JLabel("Endere\u00E7o:");
 		label_7.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		label_7.setBounds(8, 185, 72, 32);
+		label_7.setBounds(8, 221, 72, 32);
 		pnlManutencao.add(label_7);
 		
 		txtEmail = new JTextField();
 		txtEmail.setText((String) null);
-		txtEmail.setEditable(false);
+		txtEmail.setEnabled(false);
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(90, 115, 355, 30);
 		pnlManutencao.add(txtEmail);
 		
 		txtEndereco = new JTextField();
 		txtEndereco.setText((String) null);
-		txtEndereco.setEditable(false);
+		txtEndereco.setEnabled(false);
 		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(90, 188, 355, 30);
+		txtEndereco.setBounds(90, 224, 355, 30);
 		pnlManutencao.add(txtEndereco);
 		
 		txtTelefone = new JTextField();
 		txtTelefone.setText((String) null);
-		txtTelefone.setEditable(false);
+		txtTelefone.setEnabled(false);
 		txtTelefone.setColumns(10);
-		txtTelefone.setBounds(90, 149, 179, 30);
+		txtTelefone.setBounds(90, 185, 179, 30);
 		pnlManutencao.add(txtTelefone);
+		
+		txtCpf = new JTextField();
+		txtCpf.setText((String) null);
+		txtCpf.setEnabled(false);
+		txtCpf.setColumns(10);
+		txtCpf.setBounds(90, 150, 179, 30);
+		pnlManutencao.add(txtCpf);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setMargin(new Insets(10, 1, 1, 1));
@@ -159,7 +151,7 @@ public class ManutDoadores extends JFrame {
 		JButton btnProcurar = new JButton("Procurar");
 		btnProcurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				txtCodigo.setEditable(true);
+				txtCodigo.setEnabled(true);
 			}
 		});
 		menuBar.add(btnProcurar);
@@ -168,6 +160,16 @@ public class ManutDoadores extends JFrame {
 		label_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		menuBar.add(label_2);
 		
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setTxt(true);
+				txtCodigo.setEnabled(false);
+				btnSalvar.setEnabled(true);
+			}
+		});
+		menuBar.add(btnEditar);
+		
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -175,11 +177,10 @@ public class ManutDoadores extends JFrame {
 				{
 					Pessoas.excluir(Integer.parseInt(txtCodigo.getText()));
 					atualizarTela();
-					JOptionPane.showMessageDialog(null,"Doador excluído com sucesso");
 				}
 				catch(Exception er)
 				{
-					JOptionPane.showMessageDialog(null,"Não foi possível excluir esse doador!");
+					JOptionPane.showMessageDialog(null,"Não foi possível excluir essa entidade!");
 				}
 			}
 		});
@@ -190,7 +191,7 @@ public class ManutDoadores extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				atualizarTela();
 				setTxt(false);
-				txtCodigo.setEditable(false);
+				txtCodigo.setEnabled(false);
 			}
 		});
 		menuBar.add(btnCancelar);
@@ -205,6 +206,7 @@ public class ManutDoadores extends JFrame {
 				if( !txtCodigo.getText().equals("")  ||
 					!txtNome.getText().equals("")    ||
 					!txtEmail.getText().equals("")   ||
+					!txtCpf.getText().equals("")     ||
 					!txtTelefone.getText().equals("")||
 					!txtEndereco.getText().equals("")||
 					!txtCidade.getText().equals("")  ||
@@ -217,7 +219,7 @@ public class ManutDoadores extends JFrame {
 							try 
 							{
 								pessoa = new Pessoa(Integer.parseInt(txtCodigo.getText()), txtNome.getText(),
-								txtEmail.getText(), txtEndereco.getText(), antiga.getSenha(), txtTelefone.getText(), 
+								txtEmail.getText(), txtCpf.getText(), txtEndereco.getText(), antiga.getSenha(), txtTelefone.getText(), 
 								txtCidade.getText(), txtUf.getText());
 							}
 							catch(Exception ex) {throw new Exception();}
@@ -231,7 +233,6 @@ public class ManutDoadores extends JFrame {
 					else
 						JOptionPane.showMessageDialog(null,"Não deixe campos em branco! Alteração cancelada!");
 					atualizarTela();
-					setTxt(false);
 					btnSalvar.setEnabled(false);
 			}
 		});
@@ -240,61 +241,31 @@ public class ManutDoadores extends JFrame {
 		
 		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblCidade.setBounds(26, 223, 54, 32);
+		lblCidade.setBounds(26, 259, 54, 32);
 		pnlManutencao.add(lblCidade);
 		
 		txtCidade = new JTextField();
 		txtCidade.setText((String) null);
-		txtCidade.setEditable(false);
+		txtCidade.setEnabled(false);
 		txtCidade.setColumns(10);
-		txtCidade.setBounds(90, 226, 221, 30);
+		txtCidade.setBounds(90, 262, 221, 30);
 		pnlManutencao.add(txtCidade);
 		
 		JLabel lblUf = new JLabel("UF:");
 		lblUf.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblUf.setBounds(336, 223, 54, 32);
+		lblUf.setBounds(336, 259, 54, 32);
 		pnlManutencao.add(lblUf);
 		
 		txtUf = new JTextField();
 		txtUf.setText((String) null);
-		txtUf.setEditable(false);
+		txtUf.setEnabled(false);
 		txtUf.setColumns(10);
-		txtUf.setBounds(370, 226, 48, 30);
+		txtUf.setBounds(370, 262, 48, 30);
 		pnlManutencao.add(txtUf);
 		
 		JPanel pnlRelatorio = new JPanel();
-		pnlRelatorio.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent arg0) {
-				DefaultTableModel model = null;
-				try 
-				{
-					MeuResultSet dados = Pessoas.getPessoasDoa();
-					 model = new DefaultTableModel(new Object[][] {},
-					new String[] {
-						"C\u00F3digo", "Nome Doador", "Vezes"
-					});
-					while(dados.next())
-					{
-						model.addRow(new Object[] {dados.getInt(1)+"", dados.getString(2), dados.getInt(3)+""});
-					}
-					tblRelatorio.setModel(model);
-				}
-				catch(Exception ex) 
-				{
-					System.out.print(ex.getMessage());
-				}
-			}
-		});
 		pnlRelatorio.setLayout(null);
 		tabbedPane.addTab("Relat\u00F3rio", null, pnlRelatorio, null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 32, 451, 223);
-		pnlRelatorio.add(scrollPane);
-		
-		tblRelatorio = new JTable();
-		scrollPane.setViewportView(tblRelatorio);
 		
 		JMenuBar menuBar_1 = new JMenuBar();
 		menuBar_1.setBounds(0, 0, 537, 21);
@@ -303,17 +274,29 @@ public class ManutDoadores extends JFrame {
 		JLabel lblAquiEstEm = new JLabel("   Aqui, os doadores est\u00E3o ranqueados por quantidade de vezes que realizar\u00E3o doa\u00E7\u00F5es:");
 		menuBar_1.add(lblAquiEstEm);
 		
-		JButton btnVoltarPA = new JButton("Voltar p/ a \u00E1rea");
-		btnVoltarPA.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dispose();
-			}
-			
-		});
-		btnVoltarPA.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnVoltarPA.setBounds(183, 291, 123, 34);
-		contentPane.add(btnVoltarPA);
+		tblDoadores = new JTable();
+		tblDoadores.setBounds(10, 298, 451, -268);
+		pnlRelatorio.add(tblDoadores);
 		
+		DefaultTableModel model = null;
+		try 
+		{
+			MeuResultSet dados = Pessoas.getPessoasDoa();
+			 model = new DefaultTableModel(new Object[][] {},
+			new String[] {
+				"C\u00F3digo", "Nome Doador", "Vezes"
+			});
+			while(dados.next())
+			{
+				model.addRow(new Object[] {dados.getInt(1)+"", dados.getString(2), dados.getInt(3)+""});
+			}
+		}
+		catch(Exception ex) 
+		{
+			System.out.print(ex.getMessage());
+		}
+		tblDoadores.setModel(model);   
+		pnlRelatorio.add(tblDoadores);
 		atualizarTela();
 	}
 	
@@ -330,13 +313,11 @@ public class ManutDoadores extends JFrame {
 			{
 				oDoador = Pessoas.getPrimeiroRegistro();
 			} 
-			catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "message");
-			} // nunca vai dar erro pois a tabela nunca estará vazia 
+			catch (Exception e) {} // nunca vai dar erro pois a tabela nunca estará vazia 
 		}
-		txtCodigo.setText(oDoador.getCodigo()+"");
 		txtNome.setText(oDoador.getNome());
 		txtEmail.setText(oDoador.getEmail());
+		txtCpf.setText(oDoador.getCpf());
 		txtEndereco.setText(oDoador.getEndereco());
 		txtTelefone.setText(oDoador.getTelefone());
 		txtCidade.setText(oDoador.getCidade());
@@ -345,13 +326,14 @@ public class ManutDoadores extends JFrame {
 	
 	private void setTxt(boolean modo)
 	{
-		txtCodigo.setEditable(modo);
-		txtNome.setEditable(modo);
-		txtEmail.setEditable(modo);
-		txtEndereco.setEditable(modo);
-		txtEmail.setEditable(modo);
-		txtTelefone.setEditable(modo);
-		txtCidade.setEditable(modo);
-		txtUf.setEditable(modo);
+		txtCodigo.setEnabled(modo);
+		txtNome.setEnabled(modo);
+		txtEmail.setEnabled(modo);
+		txtEndereco.setEnabled(modo);
+		txtEmail.setEnabled(modo);
+		txtCpf.setEnabled(modo);
+		txtTelefone.setEnabled(modo);
+		txtCidade.setEnabled(modo);
+		txtUf.setEnabled(modo);
 	}
 }

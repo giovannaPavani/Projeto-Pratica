@@ -6,7 +6,7 @@ package bd.dbos;
 	@author Giovanna Pavani Martelli - 19173 e Maria Luiza Sperancin Mancebo - 19186
 	@since 2019.
 */
-public class Pessoa implements Cloneable
+public class Pessoa implements Cloneable, Comparable<Pessoa>
 {
 		/**Armazena o codigo da pessoa*/
 	 private int    codigo;
@@ -14,6 +14,8 @@ public class Pessoa implements Cloneable
 	 private String nome;
 	 	 /**Armazena o email da pessoa*/
 	 private String email;
+	 	 /**Armazena o cpf da pessoa*/
+	 private String cpf;
 	 	 /**Armazena o endereco da pessoa*/
 	 private String endereco;
 	 	 /**Armazena o senho da pessoa*/
@@ -111,6 +113,20 @@ public class Pessoa implements Cloneable
 	 }
 
 	/**
+	  Atribui valor ao cpf
+	  Atribui ao atributo cpf uma String passada por parâmetro.
+	  @param o cpf que será atribuido
+	  @throws Exception caso o cpf for nulo ou vazio
+	 */
+	 public void setCpf(String cpf) throws Exception
+	 {
+	     if (cpf==null || cpf.equals(""))
+	         throw new Exception ("Cpf não fornecido");
+
+	     this.cpf = cpf;
+	 }
+
+	/**
 	  Atribui valor ao endereco
 	  Atribui ao atributo endereco uma String passada por parâmetro.
 	  @param o endereco que será atribuido
@@ -198,6 +214,16 @@ public class Pessoa implements Cloneable
 	 }
 
 /**
+	   Retorna atributo cpf
+       Retorna o atributo cpf da instância à qual este método for aplicado.
+	   @return o cpf
+	*/
+	 public String getCpf ()
+	 {
+	     return this.cpf;
+	 }
+
+/**
 	   Retorna atributo endereço
        Retorna o atributo endereço da instância à qual este método for aplicado.
 	   @return o endereço
@@ -222,11 +248,12 @@ public class Pessoa implements Cloneable
 	   Ele apenas instancia todos os atributos usando os setters
 	   @throws Exception se algo for nulo ou vazio
 	*/
-	 public Pessoa (int codigo, String nome, String email, String endereco, String senha, String telefone, String cidade, String uf) throws Exception
+	 public Pessoa (int codigo, String nome, String email, String cpf, String endereco, String senha, String telefone, String cidade, String uf) throws Exception
 	 {
 	    this.setCodigo  (codigo);
 	    this.setNome    (nome);
 	    this.setEmail   (email);
+	    this.setCpf     (cpf);
 	    this.setEndereco(endereco);
 	    this.setSenha   (senha);
 	    this.setTelefone(telefone);
@@ -247,6 +274,7 @@ public class Pessoa implements Cloneable
 	     ret+="Codigo: "+this.codigo+"\n";
 	     ret+="Nome: "+this.nome  +"\n";
 	     ret+="Email: "+this.email + "\n";
+	     ret+="CPF: "+this.cpf + "\n";
 	     ret+="Telefone: "+this.telefone + "\n";
 	     ret+="Endereço: "+this.endereco + "\n";
 	     ret+="Senha: "+this.senha + "\n";
@@ -267,6 +295,7 @@ public class Pessoa implements Cloneable
 		ret = ret * 5 + new Integer (this.codigo).hashCode();
 		ret = ret * 5 + this.nome.hashCode();
 		ret = ret * 5 + this.email.hashCode();
+		ret = ret * 5 + this.cpf.hashCode();
 		ret = ret * 5 + this.telefone.hashCode();
 		ret = ret * 5 + this.endereco.hashCode();
 		ret = ret * 5 + this.senha.hashCode();
@@ -299,7 +328,7 @@ public class Pessoa implements Cloneable
 
 		Pessoa pes = (Pessoa)obj;
 
-		if(pes.codigo != this.codigo || !pes.nome.equals(this.nome) || !pes.email.equals(this.email) ||
+		if(pes.codigo != this.codigo || !pes.nome.equals(this.nome) || !pes.email.equals(this.email) || !pes.cpf.equals(this.cpf) ||
 		  !pes.telefone.equals(this.telefone) || !pes.endereco.equals(this.endereco) |
 		  !pes.senha.equals(this.senha) || !pes.cidade.equals(this.cidade) || !pes.uf.equals(this.uf))
 			return false;
@@ -339,6 +368,7 @@ public class Pessoa implements Cloneable
 		this.codigo = modelo.codigo;
 		this.nome = modelo.nome;
 		this.email = modelo.email;
+		this.cpf = modelo.cpf;
 		this.endereco = modelo.endereco;
 		this.senha = modelo.senha;
 		this.telefone = modelo.telefone;

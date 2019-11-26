@@ -105,7 +105,8 @@ public class Funcionarios {
             String sql;
 
             sql = "INSERT INTO HFUNCIONARIOS " +
-                  "VALUES" +
+                  "(CODIGO,NOME,CPF,EMAIL,SALARIO,TELEFONE,CARGO,CONTA,AGENCIA,ENDERECO,USUARIO,SENHA) " +
+                  "VALUES " +
                   "(?,?,?,?,?,?,?,?,?,?,?,?)";
 
             BDSQLServer.COMANDO.prepareStatement (sql);

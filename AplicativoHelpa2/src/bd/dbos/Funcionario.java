@@ -311,8 +311,7 @@ public class Funcionario implements Cloneable
 	   Ele apenas instancia todos os atributos usando os setters
 	   @throws Exception se algo for nulo ou vazio
 	*/
-	public Funcionario (int codigo, String nome,String cpf,String email,float salario,String telefone,
-			String cargo,String conta,String agencia,String endereco,String usuario,String senha) throws Exception
+	public Funcionario (int codigo, String nome,String cpf,String email,float salario,String telefone,String cargo,String conta,String agencia,String endereco,String usuario,String senha) throws Exception
     {
         this.setCodigo   (codigo);
         this.setNome     (nome);

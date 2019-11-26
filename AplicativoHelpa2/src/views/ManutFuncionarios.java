@@ -22,8 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JScrollPane;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class ManutFuncionarios extends JFrame {
 
@@ -95,7 +93,7 @@ public class ManutFuncionarios extends JFrame {
 		
 		txtNome = new JTextField();
 		txtNome.setText((String) null);
-		txtNome.setEditable(false);
+		txtNome.setEnabled(false);
 		txtNome.setColumns(10);
 		txtNome.setBounds(89, 77, 355, 30);
 		panel.add(txtNome);
@@ -106,26 +104,8 @@ public class ManutFuncionarios extends JFrame {
 		panel.add(label_2);
 		
 		txtCodigo = new JTextField();
-		txtCodigo.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode()== KeyEvent.VK_ENTER) // apertou enter e ta procurando
-				{
-					if(!txtCodigo.getText().equals(""))
-					{
-						int codProc = Integer.parseInt(txtCodigo.getText());
-						atualizarTela();
-						if(codProc != Integer.parseInt(txtCodigo.getText()))
-							JOptionPane.showMessageDialog(null,"Não foi possível achar o funcionário com esse código!");
-					}
-					else
-						JOptionPane.showMessageDialog(null,"Escreva um código válido no campo de código!");
-					txtCodigo.setEditable(false);
-				}
-			}
-		});
 		txtCodigo.setText((String) null);
-		txtCodigo.setEditable(false);
+		txtCodigo.setEnabled(false);
 		txtCodigo.setColumns(10);
 		txtCodigo.setBounds(89, 43, 109, 30);
 		panel.add(txtCodigo);
@@ -153,7 +133,7 @@ public class ManutFuncionarios extends JFrame {
 		JButton btnProcurar = new JButton("Procurar");
 		btnProcurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtCodigo.setEditable(true);
+				txtCodigo.setEnabled(true);
 			}
 		});
 		menuBar.add(btnProcurar);
@@ -169,7 +149,7 @@ public class ManutFuncionarios extends JFrame {
 				limparTela();
 				setTxt(true);
 				txtCodigo.grabFocus();
-				btnSalvar.setEnabled(true);
+				btnSalvar.enable(true);
 			}
 		});
 		menuBar.add(btnNovo);
@@ -179,7 +159,7 @@ public class ManutFuncionarios extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				situacaoAtual = Situacao.EDITANDO;
 				setTxt(true);
-				txtCodigo.setEditable(false);
+				txtCodigo.setEnabled(false);
 				btnSalvar.setEnabled(true);
 			}
 		});
@@ -192,7 +172,6 @@ public class ManutFuncionarios extends JFrame {
 				{
 					Funcionarios.excluir(Integer.parseInt(txtCodigo.getText()));
 					atualizarTela();
-					JOptionPane.showMessageDialog(null,"Funcionário excluído com sucesso!");
 				}
 				catch(Exception er)
 				{
@@ -207,7 +186,7 @@ public class ManutFuncionarios extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				atualizarTela();
 				setTxt(false);
-				txtCodigo.setEditable(false);
+				txtCodigo.setEnabled(false);
 			}
 		});
 		menuBar.add(btnCancelar);
@@ -279,7 +258,6 @@ public class ManutFuncionarios extends JFrame {
 							JOptionPane.showMessageDialog(null,"Não deixe campos em branco! Alteração cancelada!");
 						situacaoAtual = Situacao.NAVEGANDO;
 						atualizarTela();
-						setTxt(false);
 						btnSalvar.setEnabled(false);
 			}
 		});
@@ -298,7 +276,7 @@ public class ManutFuncionarios extends JFrame {
 		
 		txtSalario = new JTextField();
 		txtSalario.setText((String) null);
-		txtSalario.setEditable(false);
+		txtSalario.setEnabled(false);
 		txtSalario.setColumns(10);
 		txtSalario.setBounds(407, 283, 150, 30);
 		panel.add(txtSalario);
@@ -315,7 +293,7 @@ public class ManutFuncionarios extends JFrame {
 		
 		txtAgencia = new JTextField();
 		txtAgencia.setText((String) null);
-		txtAgencia.setEditable(false);
+		txtAgencia.setEnabled(false);
 		txtAgencia.setColumns(10);
 		txtAgencia.setBounds(407, 318, 96, 30);
 		panel.add(txtAgencia);
@@ -327,49 +305,49 @@ public class ManutFuncionarios extends JFrame {
 		
 		txtEmail = new JTextField();
 		txtEmail.setText((String) null);
-		txtEmail.setEditable(false);
+		txtEmail.setEnabled(false);
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(89, 110, 355, 30);
 		panel.add(txtEmail);
 		
 		txtCpf = new JTextField();
 		txtCpf.setText((String) null);
-		txtCpf.setEditable(false);
+		txtCpf.setEnabled(false);
 		txtCpf.setColumns(10);
 		txtCpf.setBounds(89, 144, 240, 30);
 		panel.add(txtCpf);
 		
 		txtTelefone = new JTextField();
 		txtTelefone.setText((String) null);
-		txtTelefone.setEditable(false);
+		txtTelefone.setEnabled(false);
 		txtTelefone.setColumns(10);
 		txtTelefone.setBounds(89, 182, 240, 30);
 		panel.add(txtTelefone);
 		
 		txtEndereco = new JTextField();
 		txtEndereco.setText((String) null);
-		txtEndereco.setEditable(false);
+		txtEndereco.setEnabled(false);
 		txtEndereco.setColumns(10);
 		txtEndereco.setBounds(89, 216, 355, 30);
 		panel.add(txtEndereco);
 		
 		txtUsuario = new JTextField();
 		txtUsuario.setText((String) null);
-		txtUsuario.setEditable(false);
+		txtUsuario.setEnabled(false);
 		txtUsuario.setColumns(10);
 		txtUsuario.setBounds(89, 249, 240, 30);
 		panel.add(txtUsuario);
 		
 		txtCargo = new JTextField();
 		txtCargo.setText((String) null);
-		txtCargo.setEditable(false);
+		txtCargo.setEnabled(false);
 		txtCargo.setColumns(10);
 		txtCargo.setBounds(89, 283, 240, 30);
 		panel.add(txtCargo);
 		
 		txtConta = new JTextField();
 		txtConta.setText((String) null);
-		txtConta.setEditable(false);
+		txtConta.setEnabled(false);
 		txtConta.setColumns(10);
 		txtConta.setBounds(89, 318, 150, 30);
 		panel.add(txtConta);
@@ -378,7 +356,6 @@ public class ManutFuncionarios extends JFrame {
 		lblManutenoDeFuncionrios.setFont(new Font("Tahoma", Font.BOLD, 19));
 		lblManutenoDeFuncionrios.setBounds(260, 43, 281, 22);
 		panel.add(lblManutenoDeFuncionrios);
-		
 		JPanel pnlRelatorio = new JPanel();
 		pnlRelatorio.setLayout(null);
 		tabbedPane.addTab("Relat\u00F3rio", null, pnlRelatorio, null);
@@ -468,16 +445,16 @@ public class ManutFuncionarios extends JFrame {
 	
 	private void setTxt(boolean modo)
 	{
-		txtCodigo.setEditable(modo);
-		txtNome.setEditable(modo);
-		txtCpf.setEditable(modo);
-		txtEmail.setEditable(modo);
-		txtSalario.setEditable(modo);
-		txtTelefone.setEditable(modo);
-		txtCargo.setEditable(modo);
-		txtConta.setEditable(modo);
-		txtAgencia.setEditable(modo);
-		txtEndereco.setEditable(modo);
-		txtUsuario.setEditable(modo);
+		txtCodigo.setEnabled(modo);
+		txtNome.setEnabled(modo);
+		txtCpf.setEnabled(modo);
+		txtEmail.setEnabled(modo);
+		txtSalario.setEnabled(modo);
+		txtTelefone.setEnabled(modo);
+		txtCargo.setEnabled(modo);
+		txtConta.setEnabled(modo);
+		txtAgencia.setEnabled(modo);
+		txtEndereco.setEnabled(modo);
+		txtUsuario.setEnabled(modo);
 	}
 }

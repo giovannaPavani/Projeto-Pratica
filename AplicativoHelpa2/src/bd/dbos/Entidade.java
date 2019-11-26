@@ -6,7 +6,7 @@ package bd.dbos;
 	@author Giovanna Pavani Martelli - 19173 e Maria Luiza Sperancin Mancebo - 19186
 	@since 2019.
 */
-public class Entidade implements Cloneable
+public class Entidade implements Cloneable, Comparable<Entidade>
 {
 	/**Armazena o codigo da pessoa*/
 	 private int codigo;

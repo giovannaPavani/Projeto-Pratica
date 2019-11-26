@@ -89,7 +89,7 @@ public class Pessoas
             String sql;
 
             sql = "INSERT INTO HPESSOAS " +
-                  "(CODIGO,NOME,EMAIL, ENDERECO, SENHA, TELEFONE, CIDADE, UF) " +
+                  "(CODIGO,NOME,EMAIL, CPF, ENDERECO, SENHA, TELEFONE, CIDADE, UF) " +
                   "VALUES " +
                   "(?,?,?,?,?,?,?)"; // guarda o lugar para dps a gnt colocar uma variavel
 
@@ -99,6 +99,7 @@ public class Pessoas
             BDSQLServer.COMANDO.setInt    (1, pessoa.getCodigo());
             BDSQLServer.COMANDO.setString (2, pessoa.getNome());
 		    BDSQLServer.COMANDO.setString (3, pessoa.getEmail());
+		    BDSQLServer.COMANDO.setString (4, pessoa.getCpf());
 		    BDSQLServer.COMANDO.setString (5, pessoa.getEndereco());
 		    BDSQLServer.COMANDO.setString (6, pessoa.getSenha());
 		    BDSQLServer.COMANDO.setString (6, pessoa.getTelefone());
@@ -132,22 +133,16 @@ public class Pessoas
         try
         {
             String sql;
-            
-            sql = "DELETE FROM HDOACOES " +
-                    "WHERE CODPESSOA=?";
-            BDSQLServer.COMANDO.prepareStatement(sql);
-            BDSQLServer.COMANDO.setInt(1, codigo);
-            BDSQLServer.COMANDO.executeUpdate();
 
             sql = "DELETE FROM HPESSOAS " +
                   "WHERE CODIGO=?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
+
             BDSQLServer.COMANDO.setInt(1, codigo);
+
             BDSQLServer.COMANDO.executeUpdate();
-            
-            BDSQLServer.COMANDO.commit       ();        
-        }
+            BDSQLServer.COMANDO.commit       ();        }
         catch (SQLException erro)
         {
             throw new Exception("Erro ao excluir pessoa");
@@ -176,17 +171,19 @@ public class Pessoas
             sql = "UPDATE HPESSOAS " +
                   "SET NOME=?, " +
                   "EMAIL=?, " +
+				  "CPF=?, " +
 				  "ENDERECO=?, " +
 				  "SENHA=?, " +
 				  "TELEFONE=?, " +
 				  "CIDADE=?, " +
-				  "UF=? " +
+				  "UF=?" +
                   "WHERE CODIGO = ?";
 
             BDSQLServer.COMANDO.prepareStatement (sql);
 
             BDSQLServer.COMANDO.setString (1, pessoa.getNome());
 		    BDSQLServer.COMANDO.setString (2, pessoa.getEmail());
+		    BDSQLServer.COMANDO.setString (3, pessoa.getCpf());
 		    BDSQLServer.COMANDO.setString (4, pessoa.getEndereco());
 		    BDSQLServer.COMANDO.setString (5, pessoa.getSenha());
 		    BDSQLServer.COMANDO.setString (6, pessoa.getTelefone());
@@ -234,6 +231,7 @@ public class Pessoas
             pessoa = new Pessoa(resultado.getInt   ("CODIGO"),
                                resultado.getString ("NOME"),
                                resultado.getString ("EMAIL"),
+						       resultado.getString ("CPF"),
 						       resultado.getString ("ENDERECO"),
 						       resultado.getString ("SENHA"),
 						       resultado.getString ("TELEFONE"),
@@ -350,7 +348,7 @@ public class Pessoas
             String sql;
 
             sql = "SELECT * " +
-                  "FROM HPESSOAS";
+                  "FROM HPESSOAS ";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
             MeuResultSet resultado = (MeuResultSet)BDSQLServer.COMANDO.executeQuery (); // n é mais para executar update, mas sim uma query (consulta) / ñ é void
@@ -361,6 +359,7 @@ public class Pessoas
             pessoa = new Pessoa(resultado.getInt   ("CODIGO"),
                                resultado.getString ("NOME"), // como q ele sb qual ie string eh?
                                resultado.getString ("EMAIL"),
+						       resultado.getString ("CPF"),
 						       resultado.getString ("ENDERECO"),
 						       resultado.getString ("SENHA"),
 						       resultado.getString ("TELEFONE"),
