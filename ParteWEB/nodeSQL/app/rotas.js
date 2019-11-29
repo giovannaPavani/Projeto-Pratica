@@ -80,7 +80,7 @@ module.exports = (app) => {
 
         conexao.query(`SELECT * FROM HPessoas where email = '${email}'`, (err, result) => { //verifica se o email informado já existe no banco
             if (result.rowsAffected == 0) { //se não existe, cadastra
-                execSQL(`INSERT INTO HPessoas VALUES('${nome}','${email}','','${endereco}','${cidade}','${uf}','${senha}','${telefone}')`, resp);
+                execSQL(`INSERT INTO HPessoas VALUES('${nome}','${email}','${endereco}','${cidade}','${uf}','${senha}','${telefone}')`, resp);
                 resp.render("paginas/login");
             } else
             {
