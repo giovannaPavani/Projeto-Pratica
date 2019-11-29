@@ -116,7 +116,6 @@ module.exports = (app) => {
             else if (resultados.recordset.length != 0 && resultados.recordset[0].senha == senhaLocal) { //verifica de o email existe e se a senha bate com a real
                 sess.email = emailLogado; //se sim, faz a sessao receber as informacoes
                 sess.senha = senhaLocal;
-                emailLogado = sess.email;
                 resp.redirect("/"); //recarrega a pagina inicial
             }
             else {
